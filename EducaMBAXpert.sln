@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B8547E59-6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fiscal", "Fiscal", "{ECE765F6-48E4-4844-BBE4-624F5ED440BC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pagamento", "Pagamento", "{A4155716-B851-4863-900E-F52B293335B2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pagamentos", "Pagamentos", "{A4155716-B851-4863-900E-F52B293335B2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Usuario.Application", "src\EducaMBAXpert.Usuario.Application\EducaMBAXpert.Usuario.Application.csproj", "{E9F27D64-5529-43A6-81BC-3A220CFA96F6}"
 EndProject
@@ -45,11 +45,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Avaliacoes.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Avaliacoes.Domain", "src\EducaMBAXpert.Avaliacoes.Domain\EducaMBAXpert.Avaliacoes.Domain.csproj", "{E76F4612-E5C0-480C-8E7C-3F8B40B1E692}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Pagamento.AntiCorruption", "src\EducaMBAXpert.Pagamentos.AntiCorruption\EducaMBAXpert.Pagamento.AntiCorruption.csproj", "{D20B5CAC-A067-4084-B6E8-C6C0A723F25D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Pagamentos.AntiCorruption", "src\EducaMBAXpert.Pagamentos.AntiCorruption\EducaMBAXpert.Pagamentos.AntiCorruption.csproj", "{D20B5CAC-A067-4084-B6E8-C6C0A723F25D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Pagamento.Business", "src\EducaMBAXpert.Pagamento.Business\EducaMBAXpert.Pagamento.Business.csproj", "{A2BEB25D-0658-4BFE-853C-5D71515E159B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Pagamentos.Business", "src\EducaMBAXpert.Pagamento.Business\EducaMBAXpert.Pagamentos.Business.csproj", "{A2BEB25D-0658-4BFE-853C-5D71515E159B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Pagamento.Data", "src\EducaMBAXpert.Pagamento.Data\EducaMBAXpert.Pagamento.Data.csproj", "{51630BAA-67D1-4E13-8805-84FC15A88FE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Pagamentos.Data", "src\EducaMBAXpert.Pagamento.Data\EducaMBAXpert.Pagamentos.Data.csproj", "{51630BAA-67D1-4E13-8805-84FC15A88FE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.Core", "src\EducaMBAXpert.Core\EducaMBAXpert.Core.csproj", "{79D525CF-95B4-456B-A6D6-5A182DFD7612}"
 EndProject
