@@ -1,4 +1,4 @@
-﻿namespace EducaMBAXpert.Usuario.Data
+﻿namespace EducaMBAXpert.Core
 {
     public class Class1
     {

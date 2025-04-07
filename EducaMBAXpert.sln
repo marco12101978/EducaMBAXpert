@@ -27,39 +27,31 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Usuario.Data"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Usuario.Domain", "src\EducaMBAXpert.Usuario.Domain\EducaMBAXpert.Usuario.Domain.csproj", "{CBBC47B4-9231-4BB4-9D8F-79EF82901734}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.Matriculas.Data", "src\EducaMBAXpert.Matriculas.Data\EducaMBAXpert.Matriculas.Data.csproj", "{50EFFDB2-7C80-41F8-B043-68A1217D79A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Matriculas.Data", "src\EducaMBAXpert.Matriculas.Data\EducaMBAXpert.Matriculas.Data.csproj", "{50EFFDB2-7C80-41F8-B043-68A1217D79A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.Matriculas.Domain", "src\EducaMBAXpert.Matriculas.Domain\EducaMBAXpert.Matriculas.Domain.csproj", "{E05286DC-C7E5-429A-93E4-AADF6416992E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Matriculas.Domain", "src\EducaMBAXpert.Matriculas.Domain\EducaMBAXpert.Matriculas.Domain.csproj", "{E05286DC-C7E5-429A-93E4-AADF6416992E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Matriculas.Application", "src\EducaMBAXpert.Matriculas.Application\EducaMBAXpert.Matriculas.Application.csproj", "{5E7C8554-C69B-448A-9B14-0B1B5D955512}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.CatalagoCursos.Application", "src\EducaMBAXpert.CatalagoCursos.Application\EducaMBAXpert.CatalagoCursos.Application.csproj", "{D136AF99-DFAE-4245-BC99-5153D49DDD02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.CatalagoCursos.Data", "src\EducaMBAXpert.CatalagoCursos.Data\EducaMBAXpert.CatalagoCursos.Data.csproj", "{9BA2867D-4B78-4FF7-9EA9-2FE4440BD629}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.CatalagoCursos.Data", "src\EducaMBAXpert.CatalagoCursos.Data\EducaMBAXpert.CatalagoCursos.Data.csproj", "{9BA2867D-4B78-4FF7-9EA9-2FE4440BD629}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.CatalagoCursos.Domain", "src\EducaMBAXpert.CatalagoCursos.Domain\EducaMBAXpert.CatalagoCursos.Domain.csproj", "{D7057D2B-3763-4149-91D7-280049534C53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.CatalagoCursos.Domain", "src\EducaMBAXpert.CatalagoCursos.Domain\EducaMBAXpert.CatalagoCursos.Domain.csproj", "{D7057D2B-3763-4149-91D7-280049534C53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.Avaliacoes.Data", "src\EducaMBAXpert.Avaliacoes.Data\EducaMBAXpert.Avaliacoes.Data.csproj", "{6A238A91-50A2-433A-AD69-ED128DF59E3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Avaliacoes.Data", "src\EducaMBAXpert.Avaliacoes.Data\EducaMBAXpert.Avaliacoes.Data.csproj", "{6A238A91-50A2-433A-AD69-ED128DF59E3B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Avaliacoes.Application", "src\EducaMBAXpert.Avaliacoes.Application\EducaMBAXpert.Avaliacoes.Application.csproj", "{42957ADA-2C69-44F1-ACD2-59F461876D87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.Avaliacoes.Domain", "src\EducaMBAXpert.Avaliacoes.Domain\EducaMBAXpert.Avaliacoes.Domain.csproj", "{E76F4612-E5C0-480C-8E7C-3F8B40B1E692}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Avaliacoes.Domain", "src\EducaMBAXpert.Avaliacoes.Domain\EducaMBAXpert.Avaliacoes.Domain.csproj", "{E76F4612-E5C0-480C-8E7C-3F8B40B1E692}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.Pagamento.AntiCorruption", "src\EducaMBAXpert.Pagamentos.AntiCorruption\EducaMBAXpert.Pagamento.AntiCorruption.csproj", "{D20B5CAC-A067-4084-B6E8-C6C0A723F25D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Pagamento.AntiCorruption", "src\EducaMBAXpert.Pagamentos.AntiCorruption\EducaMBAXpert.Pagamento.AntiCorruption.csproj", "{D20B5CAC-A067-4084-B6E8-C6C0A723F25D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.Pagamento.Business", "src\EducaMBAXpert.Pagamento.Business\EducaMBAXpert.Pagamento.Business.csproj", "{A2BEB25D-0658-4BFE-853C-5D71515E159B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Pagamento.Business", "src\EducaMBAXpert.Pagamento.Business\EducaMBAXpert.Pagamento.Business.csproj", "{A2BEB25D-0658-4BFE-853C-5D71515E159B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Pagamento.Data", "src\EducaMBAXpert.Pagamento.Data\EducaMBAXpert.Pagamento.Data.csproj", "{51630BAA-67D1-4E13-8805-84FC15A88FE8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Communication", "Communication", "{C934A406-DAC4-4AF5-A7AE-0C83A27E3E4E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{116E53DA-3EFD-446A-82F8-F232B6191463}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DomainObjects", "DomainObjects", "{956398B4-01AE-49A4-A25A-5AD8BAF74242}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{0DF45EB2-12F0-40C2-9A49-62F4CE6D5E03}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messages", "Messages", "{B21C225C-FDC4-4FD8-9925-B55DD97FBAEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.Core", "src\EducaMBAXpert.Core\EducaMBAXpert.Core.csproj", "{79D525CF-95B4-456B-A6D6-5A182DFD7612}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +119,10 @@ Global
 		{51630BAA-67D1-4E13-8805-84FC15A88FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51630BAA-67D1-4E13-8805-84FC15A88FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51630BAA-67D1-4E13-8805-84FC15A88FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79D525CF-95B4-456B-A6D6-5A182DFD7612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79D525CF-95B4-456B-A6D6-5A182DFD7612}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79D525CF-95B4-456B-A6D6-5A182DFD7612}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79D525CF-95B4-456B-A6D6-5A182DFD7612}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,11 +151,7 @@ Global
 		{D20B5CAC-A067-4084-B6E8-C6C0A723F25D} = {A4155716-B851-4863-900E-F52B293335B2}
 		{A2BEB25D-0658-4BFE-853C-5D71515E159B} = {A4155716-B851-4863-900E-F52B293335B2}
 		{51630BAA-67D1-4E13-8805-84FC15A88FE8} = {A4155716-B851-4863-900E-F52B293335B2}
-		{C934A406-DAC4-4AF5-A7AE-0C83A27E3E4E} = {B8547E59-6A31-437F-A8CA-8A24BCB38610}
-		{116E53DA-3EFD-446A-82F8-F232B6191463} = {B8547E59-6A31-437F-A8CA-8A24BCB38610}
-		{956398B4-01AE-49A4-A25A-5AD8BAF74242} = {B8547E59-6A31-437F-A8CA-8A24BCB38610}
-		{0DF45EB2-12F0-40C2-9A49-62F4CE6D5E03} = {B8547E59-6A31-437F-A8CA-8A24BCB38610}
-		{B21C225C-FDC4-4FD8-9925-B55DD97FBAEC} = {B8547E59-6A31-437F-A8CA-8A24BCB38610}
+		{79D525CF-95B4-456B-A6D6-5A182DFD7612} = {B8547E59-6A31-437F-A8CA-8A24BCB38610}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5D59F373-B1A8-432E-91B6-126CFE824F5C}
