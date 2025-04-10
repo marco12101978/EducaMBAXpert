@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EducaMBAXpert.CatalagoCursos.Data\EducaMBAXpert.CatalagoCursos.Data.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.CatalagoCursos.Domain\EducaMBAXpert.CatalagoCursos.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
