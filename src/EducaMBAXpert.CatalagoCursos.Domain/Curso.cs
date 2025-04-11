@@ -2,7 +2,7 @@
 
 namespace EducaMBAXpert.CatalagoCursos.Domain
 {
-    public class Curso : Entity
+    public class Curso : Entity, IAggregateRoot
     {
         public string Titulo { get; private set; }
         public string Descricao { get; private set; }
@@ -28,6 +28,8 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
             Categoria = categoria;
             Nivel = nivel;
             Ativo = true;
+
+            Validar();
         }
 
         public void AdicionarModulo(Modulo modulo)
@@ -37,6 +39,8 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
         }
 
         public void Desativar() => Ativo = false;
+
+        public void Ativar() => Ativo = true;
 
         public void AdicionarTag(string tag)
         {
@@ -58,57 +62,12 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
         {
             return _modulos.SelectMany(m => m.Aulas).Aggregate(TimeSpan.Zero, (total, aula) => total + aula.Duracao);
         }
-    }
 
-
-    public enum CategoriaCurso
-    {
-        Programacao,
-        Design,
-        Marketing,
-        Negocios,
-        Idiomas
-    }
-
-    public enum NivelDificuldade
-    {
-        Iniciante,
-        Intermediario,
-        Avancado
-    }
-
-    public class Modulo
-    {
-        public Guid Id { get; private set; }
-        public string Nome { get; private set; }
-
-        private readonly List<Aula> _aulas = new();
-        public IReadOnlyCollection<Aula> Aulas => _aulas.AsReadOnly();
-
-        public Modulo(string nome)
+        public void Validar()
         {
-            Id = Guid.NewGuid();
-            Nome = nome;
-        }
-
-        public void AdicionarAula(Aula aula)
-        {
-            if (aula == null) throw new ArgumentNullException(nameof(aula));
-            _aulas.Add(aula);
-        }
-    }
-
-    public class Aula
-    {
-        public Guid Id { get; private set; }
-        public string Titulo { get; private set; }
-        public TimeSpan Duracao { get; private set; }
-
-        public Aula(string titulo, TimeSpan duracao)
-        {
-            Id = Guid.NewGuid();
-            Titulo = titulo;
-            Duracao = duracao;
+            Validacoes.ValidarSeVazio(Titulo, "O campo Titulo não pode ser vazio");
+            Validacoes.ValidarSeVazio(Descricao, "O campo Descrição não pode ser vazio");
+            Validacoes.ValidarSeMenorQue(Preco, 0, "O campo Preco não pode ser menor que 0");
         }
     }
 }

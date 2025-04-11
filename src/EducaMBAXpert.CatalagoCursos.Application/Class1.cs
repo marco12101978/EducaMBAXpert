@@ -1,10 +1,10 @@
 ﻿using EducaMBAXpert.CatalagoCursos.Domain;
+using System;
 
 namespace EducaMBAXpert.CatalagoCursos.Application
 {
     internal class Class1
     {
-
         private void TTTT()
         {
             var curso = new Curso("ASP.NET Core Web API",
@@ -26,6 +26,46 @@ namespace EducaMBAXpert.CatalagoCursos.Application
 
             Console.WriteLine($"Duração total do curso: {curso.DuracaoTotal.TotalMinutes} minutos");
         }
+
+
+        //public static void SeedCursos(AppDbContext context)
+        //{
+        //    if (!context.Cursos.Any())
+        //    {
+        //        var curso = new Curso
+        //        {
+        //            Titulo = "Curso de C# com EF Core",
+        //            Descricao = "Aprenda C# e como usar o Entity Framework Core",
+        //            Categoria = "Programação",
+        //            Nivel = "Intermediário",
+        //            DuracaoTotal = TimeSpan.FromHours(5)
+        //        };
+
+        //        var modulo1 = new Modulo
+        //        {
+        //            Nome = "Introdução ao C#",
+        //            Curso = curso
+        //        };
+
+        //        modulo1.Aulas.Add(new Aula { Titulo = "O que é C#", Duracao = TimeSpan.FromMinutes(30) });
+        //        modulo1.Aulas.Add(new Aula { Titulo = "Primeiro Projeto", Duracao = TimeSpan.FromMinutes(45) });
+
+        //        var modulo2 = new Modulo
+        //        {
+        //            Nome = "Trabalhando com EF Core",
+        //            Curso = curso
+        //        };
+
+        //        modulo2.Aulas.Add(new Aula { Titulo = "DbContext e Migrations", Duracao = TimeSpan.FromMinutes(40) });
+        //        modulo2.Aulas.Add(new Aula { Titulo = "Relacionamentos", Duracao = TimeSpan.FromMinutes(50) });
+
+        //        curso.Modulos.Add(modulo1);
+        //        curso.Modulos.Add(modulo2);
+
+        //        context.Cursos.Add(curso);
+        //        context.SaveChanges();
+        //    }
+        //}
 
     }
 }

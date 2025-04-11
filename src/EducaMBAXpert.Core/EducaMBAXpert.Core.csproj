@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Communication\" />
-    <Folder Include="Data\" />
     <Folder Include="Extensions\" />
     <Folder Include="Messages\" />
   </ItemGroup>
