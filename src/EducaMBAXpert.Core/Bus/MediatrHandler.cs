@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using EducaMBAXpert.Core.Messages;
+using MediatR;
 
 namespace EducaMBAXpert.Core.Bus
 {
@@ -11,7 +12,7 @@ namespace EducaMBAXpert.Core.Bus
             _mediator = mediator;
         }
 
-        public async Task PublicarEvento<T>(T evento) where T : EventArgs
+        public async Task PublicarEvento<T>(T evento) where T : Event
         {
             await _mediator.Publish(evento);
         }

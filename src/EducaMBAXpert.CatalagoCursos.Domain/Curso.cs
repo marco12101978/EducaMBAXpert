@@ -1,9 +1,33 @@
-﻿using EducaMBAXpert.Core.DomainObjects;
+﻿using EducaMBAXpert.CatalagoCursos.Domain.Events;
+using EducaMBAXpert.Core.Bus;
+using EducaMBAXpert.Core.DomainObjects;
 
 namespace EducaMBAXpert.CatalagoCursos.Domain
 {
     public class Curso : Entity, IAggregateRoot
     {
+        private readonly IMediatrHandler _bus;
+
+        public Curso(IMediatrHandler bus)
+        {
+            _bus = bus;
+        }
+
+        public Curso(string titulo, string descricao, CategoriaCurso categoria, NivelDificuldade nivel)
+        {
+            Id = Guid.NewGuid();
+            Titulo = titulo;
+            Descricao = descricao;
+            Categoria = categoria;
+            Nivel = nivel;
+            Ativo = true;
+
+            Validar();
+        }
+
+
+
+
         public string Titulo { get; private set; }
         public string Descricao { get; private set; }
         public bool Ativo { get; private set; }
@@ -18,17 +42,10 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
         private readonly List<string> _tags = new();
         public IReadOnlyCollection<string> Tags => _tags.AsReadOnly();
 
-        public Curso(string titulo, string descricao, CategoriaCurso categoria, NivelDificuldade nivel)
-        {
-            Id = Guid.NewGuid();
-            Titulo = titulo;
-            Descricao = descricao;
-            Categoria = categoria;
-            Nivel = nivel;
-            Ativo = true;
 
-            Validar();
-        }
+
+
+
 
         public void AdicionarModulo(Modulo modulo)
         {
@@ -36,9 +53,12 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
             _modulos.Add(modulo);
         }
 
-        public void Desativar()
+        public async Task Desativar()
         {
             Ativo = false;
+
+            await _bus.PublicarEvento(new CursoInativarEvent(Id));
+            
         }
 
         public void Ativar()

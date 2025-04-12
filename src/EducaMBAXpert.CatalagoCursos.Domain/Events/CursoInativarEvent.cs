@@ -1,4 +1,5 @@
-﻿using EducaMBAXpert.Core.DomainObjects;
+﻿
+using EducaMBAXpert.Core.DomainObjects;
 
 namespace EducaMBAXpert.CatalagoCursos.Domain.Events
 {
