@@ -9,7 +9,6 @@ namespace EducaMBAXpert.CatalagoCursos.Application
         {
             var curso = new Curso("ASP.NET Core Web API",
                                     "Aprenda a criar APIs REST com ASP.NET",
-                                    249.90m,
                                     CategoriaCurso.Programacao,
                                     NivelDificuldade.Intermediario
                                 );

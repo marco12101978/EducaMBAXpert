@@ -18,9 +18,6 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Mappings
                 .IsRequired()
                 .HasMaxLength(1000);
 
-            builder.Property(c => c.Preco)
-                .HasColumnType("decimal(10,2)");
-
             builder.HasMany(c => c.Modulos)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
