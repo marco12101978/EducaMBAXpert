@@ -14,6 +14,10 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Mappings
                 .IsRequired()
                 .HasMaxLength(100);
 
+            builder.Property(a => a.Url)
+                .IsRequired()
+                .HasMaxLength(100);
+
             builder.Property(a => a.Duracao)
                 .IsRequired();
 

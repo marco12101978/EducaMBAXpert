@@ -14,8 +14,8 @@ namespace EducaMBAXpert.CatalagoCursos.Application
                                 );
 
             var modulo1 = new Modulo("Fundamentos");
-            modulo1.AdicionarAula(new Aula("Introdução às APIs", TimeSpan.FromMinutes(20)));
-            modulo1.AdicionarAula(new Aula("Controllers e Rotas", TimeSpan.FromMinutes(30)));
+            modulo1.AdicionarAula(new Aula("Introdução às APIs", "https://www.youtube.com/watch?v=H9dHQlWq9do&list=PLIICLSbtN_uFPLnXg7VPq30pMymwCd8hX", TimeSpan.FromMinutes(20)));
+            modulo1.AdicionarAula(new Aula("Controllers e Rotas", "https://www.youtube.com/watch?v=0_V-xHiRbgY&list=PLIICLSbtN_uFPLnXg7VPq30pMymwCd8hX&index=2", TimeSpan.FromMinutes(30)));
 
             curso.AdicionarModulo(modulo1);
 
