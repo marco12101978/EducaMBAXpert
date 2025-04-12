@@ -9,7 +9,10 @@
   <ItemGroup>
     <Folder Include="Communication\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Messages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="mediatr" Version="12.5.0" />
   </ItemGroup>
 
 </Project>

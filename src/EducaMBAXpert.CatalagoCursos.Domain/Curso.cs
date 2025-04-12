@@ -36,9 +36,15 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
             _modulos.Add(modulo);
         }
 
-        public void Desativar() => Ativo = false;
+        public void Desativar()
+        {
+            Ativo = false;
+        }
 
-        public void Ativar() => Ativo = true;
+        public void Ativar()
+        {
+            Ativo = true;
+        }
 
         public void AdicionarTag(string tag)
         {
