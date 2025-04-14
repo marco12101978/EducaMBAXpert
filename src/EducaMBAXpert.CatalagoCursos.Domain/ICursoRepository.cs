@@ -7,7 +7,7 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
         Task<IEnumerable<Curso>> ObterTodos();
         Task<Curso> ObterPorId(Guid id);
 
-        void Adicionar(Curso produto);
-        void Atualizar(Curso produto);
+        void Adicionar(Curso curso);
+        void Atualizar(Curso curso);
     }
 }

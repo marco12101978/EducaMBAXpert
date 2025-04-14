@@ -26,14 +26,14 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Repository
             return await _context.Cursos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public void Adicionar(Curso produto)
+        public void Adicionar(Curso curso)
         {
-            _context.Cursos.Add(produto);
+            _context.Cursos.Add(curso);
         }
 
-        public void Atualizar(Curso produto)
+        public void Atualizar(Curso curso)
         {
-            _context.Cursos.Update(produto);
+            _context.Cursos.Update(curso);
         }
 
         public void Dispose()

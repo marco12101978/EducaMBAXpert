@@ -15,4 +15,8 @@
     <Folder Include="AutoMapper\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="automapper" Version="14.0.0" />
+  </ItemGroup>
+
 </Project>
