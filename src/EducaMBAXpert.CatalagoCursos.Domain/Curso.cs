@@ -6,13 +6,6 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
 {
     public class Curso : Entity, IAggregateRoot
     {
-        private readonly IMediatrHandler _bus;
-
-        public Curso(IMediatrHandler bus)
-        {
-            _bus = bus;
-        }
-
         public Curso(string titulo, string descricao, CategoriaCurso categoria, NivelDificuldade nivel)
         {
             Id = Guid.NewGuid();
@@ -47,12 +40,9 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
             _modulos.Add(modulo);
         }
 
-        public async Task Desativar()
+        public void Inativar()
         {
             Ativo = false;
-
-            await _bus.PublicarEvento(new CursoInativarEvent(Id));
-            
         }
 
         public void Ativar()

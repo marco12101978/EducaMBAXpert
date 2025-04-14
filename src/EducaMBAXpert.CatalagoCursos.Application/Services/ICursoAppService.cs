@@ -11,8 +11,8 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
         void Adicionar(CursoViewModel cursoViewModel);
         void Atualizar(CursoViewModel cursoViewModel);
 
-        bool Inativar(Guid id);
-        bool Ativar(Guid id);
+        Task<bool> Inativar(Guid id);
+        Task<bool> Ativar(Guid id);
 
     }
 }

@@ -1,17 +1,20 @@
 ﻿using AutoMapper;
 using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
 using EducaMBAXpert.CatalagoCursos.Domain;
+using EducaMBAXpert.Core.DomainObjects;
 
 namespace EducaMBAXpert.CatalagoCursos.Application.Services
 {
     public class CursoAppService : ICursoAppService
     {
         private readonly ICursoRepository _cursoRepository;
+        private readonly ICursoService _cursoService; 
         private readonly IMapper _mapper;
 
-        public CursoAppService(ICursoRepository cursoRepository, IMapper mapper)
+        public CursoAppService(ICursoRepository cursoRepository, ICursoService cursoService, IMapper mapper)
         {
             _cursoRepository = cursoRepository;
+            _cursoService = cursoService;
             _mapper = mapper;
         }
 
@@ -43,18 +46,31 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
 
         public async Task<bool> Inativar(Guid id)
         {
+            var _sucess = await _cursoService.Inativar(id);
+            if (!_sucess)
+            {
+                throw new DomainException("Falha ao Inativar Curso");
+            }
+
             return true;
         }
 
         public async Task<bool> Ativar(Guid id)
         {
+            var _sucess = await _cursoService.Ativar(id);
+            if (!_sucess)
+            {
+                throw new DomainException("Falha ao Inativar Curso");
+            }
+
             return true;
         }
 
-
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _cursoRepository?.Dispose();
+            _cursoService?.Dispose();
         }
+
     }
 }

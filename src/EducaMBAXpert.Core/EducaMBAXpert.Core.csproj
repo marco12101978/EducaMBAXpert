@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Communication\" />
-    <Folder Include="Extensions\" />
+    <Compile Remove="Communication\**" />
+    <Compile Remove="Extensions\**" />
+    <EmbeddedResource Remove="Communication\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <None Remove="Communication\**" />
+    <None Remove="Extensions\**" />
   </ItemGroup>
 
   <ItemGroup>
