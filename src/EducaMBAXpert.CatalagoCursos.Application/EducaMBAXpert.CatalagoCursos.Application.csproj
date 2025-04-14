@@ -11,4 +11,8 @@
     <ProjectReference Include="..\EducaMBAXpert.CatalagoCursos.Domain\EducaMBAXpert.CatalagoCursos.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AutoMapper\" />
+  </ItemGroup>
+
 </Project>

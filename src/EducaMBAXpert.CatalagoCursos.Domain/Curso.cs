@@ -26,8 +26,6 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
         }
 
 
-
-
         public string Titulo { get; private set; }
         public string Descricao { get; private set; }
         public bool Ativo { get; private set; }
@@ -41,10 +39,6 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
 
         private readonly List<string> _tags = new();
         public IReadOnlyCollection<string> Tags => _tags.AsReadOnly();
-
-
-
-
 
 
         public void AdicionarModulo(Modulo modulo)

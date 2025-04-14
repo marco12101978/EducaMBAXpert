@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Pagamentos.Bu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Pagamentos.Data", "src\EducaMBAXpert.Pagamento.Data\EducaMBAXpert.Pagamentos.Data.csproj", "{51630BAA-67D1-4E13-8805-84FC15A88FE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.Core", "src\EducaMBAXpert.Core\EducaMBAXpert.Core.csproj", "{79D525CF-95B4-456B-A6D6-5A182DFD7612}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Core", "src\EducaMBAXpert.Core\EducaMBAXpert.Core.csproj", "{79D525CF-95B4-456B-A6D6-5A182DFD7612}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
