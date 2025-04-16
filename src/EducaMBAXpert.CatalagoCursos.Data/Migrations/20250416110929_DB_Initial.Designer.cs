@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducaMBAXpert.CatalagoCursos.Data.Migrations
 {
     [DbContext(typeof(CursoContext))]
-    [Migration("20250415204919_DBInit")]
-    partial class DBInit
+    [Migration("20250416110929_DB_Initial")]
+    partial class DB_Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

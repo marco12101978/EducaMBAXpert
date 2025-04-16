@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducaMBAXpert.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250415204336_DBInit")]
-    partial class DBInit
+    [Migration("20250416110850_DB_Initial")]
+    partial class DB_Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

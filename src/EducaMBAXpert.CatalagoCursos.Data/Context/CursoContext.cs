@@ -2,6 +2,7 @@
 using EducaMBAXpert.Core.Data;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
+using EducaMBAXpert.Core.Messages;
 
 namespace EducaMBAXpert.CatalagoCursos.Data.Context
 {
@@ -21,7 +22,7 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Context
                 e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)");
 
-            //modelBuilder.Ignore<Event>();
+            modelBuilder.Ignore<Event>();
 
             // modelBuilder.ApplyConfigurationsFromAssembly(typeof(CursoContext).Assembly);
 
