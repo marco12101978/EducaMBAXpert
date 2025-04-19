@@ -2,7 +2,7 @@
 using EducaMBAXpert.Core.Bus;
 using EducaMBAXpert.Core.DomainObjects;
 
-namespace EducaMBAXpert.CatalagoCursos.Domain
+namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
 {
     public class Curso : Entity, IAggregateRoot
     {
@@ -40,15 +40,8 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
             _modulos.Add(modulo);
         }
 
-        public void Inativar()
-        {
-            Ativo = false;
-        }
-
-        public void Ativar()
-        {
-            Ativo = true;
-        }
+        public void Inativar() => Ativo = false;
+        public void Ativar() => Ativo = true;
 
         public void AdicionarTag(string tag)
         {

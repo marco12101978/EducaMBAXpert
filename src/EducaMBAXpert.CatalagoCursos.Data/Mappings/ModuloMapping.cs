@@ -1,6 +1,6 @@
-﻿using EducaMBAXpert.CatalagoCursos.Domain;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using EducaMBAXpert.CatalagoCursos.Domain.Entities;
 
 namespace EducaMBAXpert.CatalagoCursos.Data.Mappings
 {

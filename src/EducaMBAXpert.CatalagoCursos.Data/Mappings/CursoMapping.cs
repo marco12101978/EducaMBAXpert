@@ -1,4 +1,4 @@
-﻿using EducaMBAXpert.CatalagoCursos.Domain;
+﻿using EducaMBAXpert.CatalagoCursos.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

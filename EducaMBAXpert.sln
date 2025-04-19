@@ -21,11 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fiscal", "Fiscal", "{ECE765
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pagamentos", "Pagamentos", "{A4155716-B851-4863-900E-F52B293335B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Usuario.Application", "src\EducaMBAXpert.Usuario.Application\EducaMBAXpert.Usuario.Application.csproj", "{E9F27D64-5529-43A6-81BC-3A220CFA96F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Usuarios.Application", "src\EducaMBAXpert.Usuario.Application\EducaMBAXpert.Usuarios.Application.csproj", "{E9F27D64-5529-43A6-81BC-3A220CFA96F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Usuario.Data", "src\EducaMBAXpert.Usuario.Data\EducaMBAXpert.Usuario.Data.csproj", "{D296645B-D862-4339-9F22-487B1F3BE12C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Usuarios.Data", "src\EducaMBAXpert.Usuario.Data\EducaMBAXpert.Usuarios.Data.csproj", "{D296645B-D862-4339-9F22-487B1F3BE12C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Usuario.Domain", "src\EducaMBAXpert.Usuario.Domain\EducaMBAXpert.Usuario.Domain.csproj", "{CBBC47B4-9231-4BB4-9D8F-79EF82901734}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Usuarios.Domain", "src\EducaMBAXpert.Usuario.Domain\EducaMBAXpert.Usuarios.Domain.csproj", "{CBBC47B4-9231-4BB4-9D8F-79EF82901734}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Matriculas.Data", "src\EducaMBAXpert.Matriculas.Data\EducaMBAXpert.Matriculas.Data.csproj", "{50EFFDB2-7C80-41F8-B043-68A1217D79A0}"
 EndProject
@@ -55,7 +55,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Core", "src\E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{29272DC2-525B-433F-8035-1F04D8045B49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.Api", "src\EducaMBAXpert.Api\EducaMBAXpert.Api.csproj", "{B38749F6-7F23-49AB-BACC-2C84773B4BA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Api", "src\EducaMBAXpert.Api\EducaMBAXpert.Api.csproj", "{B38749F6-7F23-49AB-BACC-2C84773B4BA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

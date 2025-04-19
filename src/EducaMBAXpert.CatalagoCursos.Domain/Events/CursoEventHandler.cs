@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using EducaMBAXpert.CatalagoCursos.Domain.Interfaces;
+using MediatR;
 
 namespace EducaMBAXpert.CatalagoCursos.Domain.Events
 {

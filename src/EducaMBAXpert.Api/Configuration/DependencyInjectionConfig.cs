@@ -1,4 +1,6 @@
 ﻿using EducaMBAXpert.Api.Authentication;
+using EducaMBAXpert.Api.Interfaces;
+using EducaMBAXpert.Api.Notificacoes;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -17,7 +19,7 @@ namespace EducaMBAXpert.Api.Configuration
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
             services.AddScoped<IAppIdentityUser, AppIdentityUser>();
-            //services.AddScoped<INotificador, Notificador>();
+            services.AddScoped<INotificador, Notificador>();
 
             //services.AddScoped<MeuDbContext>();
 

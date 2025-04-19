@@ -1,7 +1,8 @@
 ﻿using EducaMBAXpert.CatalagoCursos.Domain.Events;
+using EducaMBAXpert.CatalagoCursos.Domain.Interfaces;
 using EducaMBAXpert.Core.Bus;
 
-namespace EducaMBAXpert.CatalagoCursos.Domain
+namespace EducaMBAXpert.CatalagoCursos.Domain.Services
 {
     public class CursoService : ICursoService
     {
@@ -16,7 +17,7 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
             _cursoRepository = cursoRepository;
         }
 
-        public async Task<bool>Ativar(Guid cursoId)
+        public async Task<bool> Ativar(Guid cursoId)
         {
             var curso = await _cursoRepository.ObterPorId(cursoId);
 

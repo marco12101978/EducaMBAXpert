@@ -1,4 +1,4 @@
-﻿namespace EducaMBAXpert.CatalagoCursos.Domain
+﻿namespace EducaMBAXpert.CatalagoCursos.Domain.Interfaces
 {
     public interface ICursoService : IDisposable
     {

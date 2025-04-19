@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
-using EducaMBAXpert.CatalagoCursos.Domain;
+using EducaMBAXpert.CatalagoCursos.Domain.Entities;
+using EducaMBAXpert.CatalagoCursos.Domain.Interfaces;
 using EducaMBAXpert.Core.DomainObjects;
 
 namespace EducaMBAXpert.CatalagoCursos.Application.Services
@@ -44,16 +45,6 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
             await _cursoRepository.UnitOfWork.Commit();
         }
 
-        public async Task<bool> Inativar(Guid id)
-        {
-            var _sucess = await _cursoService.Inativar(id);
-            if (!_sucess)
-            {
-                throw new DomainException("Falha ao Inativar Curso");
-            }
-
-            return true;
-        }
 
         public async Task<bool> Ativar(Guid id)
         {
@@ -65,6 +56,18 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
 
             return true;
         }
+
+        public async Task<bool> Inativar(Guid id)
+        {
+            var _sucess = await _cursoService.Inativar(id);
+            if (!_sucess)
+            {
+                throw new DomainException("Falha ao Inativar Curso");
+            }
+
+            return true;
+        }
+
 
         public void Dispose()
         {

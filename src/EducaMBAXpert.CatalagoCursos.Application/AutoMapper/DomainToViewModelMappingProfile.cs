@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
-using EducaMBAXpert.CatalagoCursos.Domain;
+using EducaMBAXpert.CatalagoCursos.Domain.Entities;
 
 namespace EducaMBAXpert.CatalagoCursos.Application.AutoMapper
 {
-    internal class DomainToViewModelMappingProfile : Profile
+    public class DomainToViewModelMappingProfile : Profile
     {
         public DomainToViewModelMappingProfile()
         {

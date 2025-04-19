@@ -1,6 +1,4 @@
-﻿using System.Security.AccessControl;
-
-namespace EducaMBAXpert.Core.DomainObjects
+﻿namespace EducaMBAXpert.Core.DomainObjects
 {
     public abstract class Entity
     {

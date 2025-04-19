@@ -1,4 +1,4 @@
-﻿using EducaMBAXpert.CatalagoCursos.Domain;
+﻿using EducaMBAXpert.CatalagoCursos.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace EducaMBAXpert.CatalagoCursos.Application.ViewModels

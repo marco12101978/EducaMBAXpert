@@ -1,6 +1,7 @@
-﻿using EducaMBAXpert.Core.Data;
+﻿using EducaMBAXpert.CatalagoCursos.Domain.Entities;
+using EducaMBAXpert.Core.Data;
 
-namespace EducaMBAXpert.CatalagoCursos.Domain
+namespace EducaMBAXpert.CatalagoCursos.Domain.Interfaces
 {
     public interface ICursoRepository : IRepository<Curso>
     {

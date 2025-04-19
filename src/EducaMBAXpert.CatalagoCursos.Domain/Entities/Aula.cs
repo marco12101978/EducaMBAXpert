@@ -1,6 +1,6 @@
 ﻿using EducaMBAXpert.Core.DomainObjects;
 
-namespace EducaMBAXpert.CatalagoCursos.Domain
+namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
 {
     public class Aula : Entity
     {
@@ -8,7 +8,7 @@ namespace EducaMBAXpert.CatalagoCursos.Domain
         public string Url { get; private set; }
         public TimeSpan Duracao { get; private set; }
 
-        public Aula(string titulo,string url, TimeSpan duracao)
+        public Aula(string titulo, string url, TimeSpan duracao)
         {
             Validacoes.ValidarSeVazio(titulo, "O campo Titulo não pode ser vazio");
             Validacoes.ValidarSeVazio(url, "O campo URL não pode ser vazio");

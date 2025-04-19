@@ -1,4 +1,4 @@
-﻿using EducaMBAXpert.CatalagoCursos.Domain;
+﻿using EducaMBAXpert.CatalagoCursos.Domain.Entities;
 using System;
 
 namespace EducaMBAXpert.CatalagoCursos.Application

@@ -1,5 +1,6 @@
 ﻿using EducaMBAXpert.CatalagoCursos.Data.Context;
-using EducaMBAXpert.CatalagoCursos.Domain;
+using EducaMBAXpert.CatalagoCursos.Domain.Entities;
+using EducaMBAXpert.CatalagoCursos.Domain.Interfaces;
 using EducaMBAXpert.Core.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +14,7 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Repository
         {
             _context = context;
         }
-
+            
         public IUnitOfWork UnitOfWork => _context;
 
         public async Task<IEnumerable<Curso>> ObterTodos()

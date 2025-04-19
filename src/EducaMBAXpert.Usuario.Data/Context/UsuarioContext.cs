@@ -2,17 +2,18 @@
 using EducaMBAXpert.Core.Messages;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
-using EducaMBAXpert.CatalagoCursos.Domain.Entities;
+using EducaMBAXpert.Usuarios.Domain.Entities;
+using EducaMBAXpert.Usuarios.Data.Mappings;
+using Microsoft.EntityFrameworkCore.Design;
 
-namespace EducaMBAXpert.CatalagoCursos.Data.Context
+namespace EducaMBAXpert.Usuarios.Data.Context
 {
-    public class CursoContext : DbContext, IUnitOfWork
+    public class UsuarioContext : DbContext, IUnitOfWork
     {
-        public CursoContext(DbContextOptions<CursoContext> options) : base(options) { }
+        public UsuarioContext(DbContextOptions<UsuarioContext> options) : base(options) { }
 
-        public DbSet<Curso> Cursos { get; set; }
-        public DbSet<Modulo> Modulos { get; set; }
-        public DbSet<Aula> Aulas { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Endereco> Enderecos { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,11 +25,15 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Context
 
             modelBuilder.Ignore<Event>();
 
+            modelBuilder.ApplyConfiguration(new UsuarioMapping());
+            modelBuilder.ApplyConfiguration(new EnderecoMapping());
+
             // modelBuilder.ApplyConfigurationsFromAssembly(typeof(CursoContext).Assembly);
 
             base.OnModelCreating(modelBuilder);
 
         }
+
 
         public async Task<bool> Commit()
         {
@@ -46,6 +51,21 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Context
             }
 
             return await base.SaveChangesAsync() > 0;
+        }
+    }
+
+
+    public class UsuarioContextFactory : IDesignTimeDbContextFactory<UsuarioContext>
+    {
+        public UsuarioContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<UsuarioContext>();
+
+            // ATENÇÃO: substitua pela sua connection string real
+            var connectionString = "Data Source=EducaMBAXpert.db";
+            optionsBuilder.UseSqlite(connectionString);
+
+            return new UsuarioContext(optionsBuilder.Options);
         }
     }
 }

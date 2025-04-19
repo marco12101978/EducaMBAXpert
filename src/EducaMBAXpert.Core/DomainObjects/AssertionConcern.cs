@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using EducaMBAXpert.Core.Messages;
+using System.Text.RegularExpressions;
 
 namespace EducaMBAXpert.Core.DomainObjects
 {
@@ -171,6 +172,24 @@ namespace EducaMBAXpert.Core.DomainObjects
         public static void ValidarSeVerdadeiro(bool boolvalor, string mensagem)
         {
             if (boolvalor)
+            {
+                throw new DomainException(mensagem);
+            }
+        }
+
+
+        public static void ValidarGuid(Guid guid, string mensagem)
+        {
+            if (guid == Guid.Empty)
+            {
+                throw new DomainException(mensagem);
+            }
+        }
+
+        public static void ValidarEmail(string email, string mensagem)
+        {
+            if (string.IsNullOrWhiteSpace(email) || !Regex.IsMatch(email,
+                    @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase))
             {
                 throw new DomainException(mensagem);
             }

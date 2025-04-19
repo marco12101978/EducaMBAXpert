@@ -1,4 +1,4 @@
-﻿namespace EducaMBAXpert.CatalagoCursos.Domain
+﻿namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
 {
     public enum CategoriaCurso
     {

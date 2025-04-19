@@ -1,6 +1,6 @@
 ﻿using EducaMBAXpert.Core.DomainObjects;
 
-namespace EducaMBAXpert.CatalagoCursos.Domain
+namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
 {
     public class Modulo : Entity
     {
