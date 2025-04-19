@@ -1,5 +1,6 @@
 ﻿using EducaMBAXpert.Api.Context;
 using EducaMBAXpert.CatalagoCursos.Data.Context;
+using EducaMBAXpert.Usuarios.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace EducaMBAXpert.Api.Configuration
@@ -15,6 +16,9 @@ namespace EducaMBAXpert.Api.Configuration
                 builder.Services.AddDbContext<CursoContext>(options =>
                     options.UseSqlite(connectionString));
 
+                builder.Services.AddDbContext<UsuarioContext>(options =>
+                    options.UseSqlite(connectionString));
+
                 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlite(connectionString));
 
@@ -24,6 +28,11 @@ namespace EducaMBAXpert.Api.Configuration
             {
 
                 builder.Services.AddDbContext<CursoContext>(options =>
+                {
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                });
+
+                builder.Services.AddDbContext<UsuarioContext>(options =>
                 {
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 });

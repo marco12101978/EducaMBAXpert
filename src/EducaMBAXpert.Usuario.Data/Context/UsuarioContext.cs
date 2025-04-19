@@ -53,19 +53,4 @@ namespace EducaMBAXpert.Usuarios.Data.Context
             return await base.SaveChangesAsync() > 0;
         }
     }
-
-
-    public class UsuarioContextFactory : IDesignTimeDbContextFactory<UsuarioContext>
-    {
-        public UsuarioContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<UsuarioContext>();
-
-            // ATENÇÃO: substitua pela sua connection string real
-            var connectionString = "Data Source=EducaMBAXpert.db";
-            optionsBuilder.UseSqlite(connectionString);
-
-            return new UsuarioContext(optionsBuilder.Options);
-        }
-    }
 }
