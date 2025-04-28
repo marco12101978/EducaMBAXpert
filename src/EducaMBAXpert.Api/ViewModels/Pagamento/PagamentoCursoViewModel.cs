@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EducaMBAXpert.Api.ViewModels.Pedido
+namespace EducaMBAXpert.Api.ViewModels.Pagamento
 {
-    public class PagamentoAnuidade
+    public class PagamentoCursoViewModel
     {
-        [Required(ErrorMessage = "O Id do pedido é obrigatório.")]
-        public Guid PedidoId { get; set; }
+        [Required(ErrorMessage = "O Id do curso é obrigatório.")]
+        public Guid CursoId { get; set; }
 
         [Required(ErrorMessage = "O Id do cliente é obrigatório.")]
         public Guid ClienteId { get; set; }

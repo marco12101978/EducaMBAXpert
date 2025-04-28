@@ -19,12 +19,20 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Repository
 
         public async Task<IEnumerable<Curso>> ObterTodos()
         {
-            return await _context.Cursos.AsNoTracking().ToListAsync();  
+            return await _context.Cursos
+                         .Include(u => u.Modulos)
+                         .ThenInclude(m => m.Aulas)
+                         .AsNoTracking()
+                         .ToListAsync();  
         }
 
         public async Task<Curso> ObterPorId(Guid id)
         {
-            return await _context.Cursos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Cursos
+                         .Include(u => u.Modulos)
+                         .ThenInclude(m => m.Aulas)
+                         .AsNoTracking()
+                         .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public void Adicionar(Curso curso)

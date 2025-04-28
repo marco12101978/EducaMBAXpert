@@ -8,7 +8,7 @@ namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
     {
         public Curso(string titulo, string descricao, CategoriaCurso categoria, NivelDificuldade nivel)
         {
-            Id = Guid.NewGuid();
+
             Titulo = titulo;
             Descricao = descricao;
             Categoria = categoria;

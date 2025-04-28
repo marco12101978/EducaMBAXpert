@@ -24,11 +24,11 @@ namespace EducaMBAXpert.Pagamentos.Business.Services
             _mediatorHandler = mediatorHandler;
         }
 
-        public async Task<Transacao> RealizarPagamentoPedido(PagamentoAnuidade pagamentoAnuidade)
+        public async Task<Transacao> RealizarPagamentoPedido(PagamentoCurso pagamentoAnuidade)
         {
             var pedido = new CobrancaAnuidade
             {
-                Id = pagamentoAnuidade.PedidoId,
+                Id = pagamentoAnuidade.CursoId,
                 Valor = pagamentoAnuidade.Total
             };
 
@@ -39,7 +39,7 @@ namespace EducaMBAXpert.Pagamentos.Business.Services
                 NumeroCartao = pagamentoAnuidade.NumeroCartao,
                 ExpiracaoCartao = pagamentoAnuidade.ExpiracaoCartao,
                 CvvCartao = pagamentoAnuidade.CvvCartao,
-                CobrancaAnuidadeId = pagamentoAnuidade.PedidoId,
+                CobrancaAnuidadeId = pagamentoAnuidade.CursoId,
                 ClienteId = pagamentoAnuidade.ClienteId
             };
 

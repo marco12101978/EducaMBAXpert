@@ -29,15 +29,44 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
            return _mapper.Map<IEnumerable<CursoViewModel>>(await _cursoRepository.ObterTodos());
         }
 
-        public async void Adicionar(CursoViewModel cursoViewModel)
+        public async void Adicionar(CursoCompletoViewModel cursoCompletoViewModel)
         {
-           var _curso = _mapper.Map<Curso>(cursoViewModel);
-           _cursoRepository.Adicionar(_curso);
+            // var _curso = _mapper.Map<Curso>(cursoCompletoViewModel);
 
-           await _cursoRepository.UnitOfWork.Commit();
+            var _curso = new Curso(cursoCompletoViewModel.Titulo,
+                                  cursoCompletoViewModel.Descricao,
+                                  cursoCompletoViewModel.Categoria,
+                                  cursoCompletoViewModel.Nivel);
+
+            if (cursoCompletoViewModel.Ativo)
+                _curso.Ativar();
+            else
+                _curso.Inativar();
+
+            foreach (var moduloVm in cursoCompletoViewModel.Modulos)
+            {
+                var modulo = new Modulo(moduloVm.Nome);
+
+                foreach (var aulaVm in moduloVm.Aulas)
+                {
+                    var aula = new Aula(aulaVm.Titulo, aulaVm.Url, aulaVm.Duracao);
+                    modulo.AdicionarAula(aula);
+                }
+
+                _curso.AdicionarModulo(modulo);
+            }
+
+            foreach (var tag in cursoCompletoViewModel.Tags)
+            {
+                _curso.AdicionarTag(tag);
+            }
+
+            _cursoRepository.Adicionar(_curso);
+
+            await _cursoRepository.UnitOfWork.Commit();
         }
 
-        public async void Atualizar(CursoViewModel cursoViewModel)
+        public async void Atualizar(CursoCompletoViewModel cursoViewModel)
         {
             var _curso = _mapper.Map<Curso>(cursoViewModel);
             _cursoRepository.Atualizar(_curso);

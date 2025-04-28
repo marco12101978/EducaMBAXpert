@@ -2,7 +2,7 @@
 
 namespace EducaMBAXpert.Core.Messages.CommonMessages.IntegrationEvents
 {
-    public class AnuidadePagamentoEvent : IntegrationEvent
+    public class PagamentoCursoEvent : IntegrationEvent
     {
         public Guid PedidoId { get; private set; }
         public Guid ClienteId { get; private set; }
@@ -12,7 +12,7 @@ namespace EducaMBAXpert.Core.Messages.CommonMessages.IntegrationEvents
         public string ExpiracaoCartao { get; private set; }
         public string CvvCartao { get; private set; }
 
-        public AnuidadePagamentoEvent(Guid pedidoId,
+        public PagamentoCursoEvent(Guid pedidoId,
                                        Guid clienteId,
                                        decimal total,
                                        string nomeCartao,

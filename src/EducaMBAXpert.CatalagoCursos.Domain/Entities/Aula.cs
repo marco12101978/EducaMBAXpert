@@ -1,4 +1,5 @@
 ﻿using EducaMBAXpert.Core.DomainObjects;
+using System;
 
 namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
 {
@@ -10,12 +11,18 @@ namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
 
         public Aula(string titulo, string url, TimeSpan duracao)
         {
-            Validacoes.ValidarSeVazio(titulo, "O campo Titulo não pode ser vazio");
-            Validacoes.ValidarSeVazio(url, "O campo URL não pode ser vazio");
-            Validacoes.ValidarSeMenorOuIgualQue(duracao, TimeSpan.Zero, "O Campo Duracao nao pode ser menor ou igual a 0 minutos");
-
             Titulo = titulo;
             Duracao = duracao;
+            Url = url;
+
+            Validar();
+        }
+
+        public void Validar()
+        {
+            Validacoes.ValidarSeVazio(Titulo, "O campo Titulo não pode ser vazio");
+            Validacoes.ValidarSeVazio(Url, "O campo URL não pode ser vazio");
+            Validacoes.ValidarSeMenorOuIgualQue(Duracao, TimeSpan.Zero, "O Campo Duracao nao pode ser menor ou igual a 0 minutos");
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace EducaMBAXpert.Core.DomainObjects.DTO
 {
-    public class PagamentoAnuidade
+    public class PagamentoCurso
     {
-        public Guid PedidoId { get; set; }
+        public Guid CursoId { get; set; }
         public Guid ClienteId { get; set; }
         public decimal Total { get; set; }
         public string NomeCartao { get; set; }

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace EducaMBAXpert.Pagamentos.Business.Events
 {
-    public class PagamentoEventHandler : INotificationHandler<AnuidadePagamentoEvent>
+    public class PagamentoEventHandler : INotificationHandler<PagamentoCursoEvent>
     {
         private readonly IPagamentoService _pagamentoService;
 
@@ -14,11 +14,11 @@ namespace EducaMBAXpert.Pagamentos.Business.Events
             _pagamentoService = pagamentoService;
         }
 
-        public async Task Handle(AnuidadePagamentoEvent message, CancellationToken cancellationToken)
+        public async Task Handle(PagamentoCursoEvent message, CancellationToken cancellationToken)
         {
-            var pagamentoPedido = new PagamentoAnuidade
+            var pagamentoPedido = new PagamentoCurso
             {
-                PedidoId = message.PedidoId,
+                CursoId = message.PedidoId,
                 ClienteId = message.ClienteId,
                 Total = message.Total,
                 NomeCartao = message.NomeCartao,

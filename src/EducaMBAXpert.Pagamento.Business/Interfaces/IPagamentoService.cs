@@ -5,6 +5,6 @@ namespace EducaMBAXpert.Pagamentos.Business.Interfaces
 {
     public interface IPagamentoService
     {
-        Task<Transacao> RealizarPagamentoPedido(PagamentoAnuidade pagamentoPedido);
+        Task<Transacao> RealizarPagamentoPedido(PagamentoCurso pagamentoPedido);
     }
 }

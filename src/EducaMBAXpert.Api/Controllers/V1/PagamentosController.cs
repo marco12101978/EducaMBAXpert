@@ -1,8 +1,5 @@
-﻿using Azure.Core;
-using EducaMBAXpert.Api.Authentication;
-using EducaMBAXpert.Api.Interfaces;
-using EducaMBAXpert.Api.Notificacoes;
-using EducaMBAXpert.Api.ViewModels.Pedido;
+﻿using EducaMBAXpert.Api.Authentication;
+using EducaMBAXpert.Api.ViewModels.Pagamento;
 using EducaMBAXpert.Core.Messages.CommonMessages.IntegrationEvents;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Pagamentos.Application.Services;
@@ -37,13 +34,16 @@ namespace EducaMBAXpert.Api.Controllers.V1
             _usuarioAppService = usuarioAppService;
         }
 
-        [HttpPost("anuidade")]
-        [SwaggerOperation(Summary = "Pagamento Anuidade", Description = "Executa o pagamento da anuidade.")]
+        [HttpPost("pagamento")]
+        [SwaggerOperation(Summary = "Pagamento", Description = "Executa o pagamento do curso.")]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Anuidade([FromBody] PagamentoAnuidade pedido)
+        public async Task<IActionResult> Pagamento([FromBody] PagamentoCursoViewModel pedido)
         {
+            if (!ModelState.IsValid)
+                return CustomResponse(HttpStatusCode.BadRequest);
+
             var usuario = await _usuarioAppService.ObterPorId(pedido.ClienteId);
 
             if (usuario == null)
@@ -52,7 +52,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 
-            var pedidoEvent = new AnuidadePagamentoEvent(pedido.PedidoId,
+            var pedidoEvent = new PagamentoCursoEvent(pedido.CursoId,
                                                           pedido.ClienteId,
                                                           pedido.Total,
                                                           pedido.NomeCartao,
@@ -69,7 +69,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
         [Authorize(Roles = "Admin")]
         [HttpGet("obter_todos")]
-        [SwaggerOperation(Summary = "Obtém todos os usuários", Description = "Retorna uma lista com todos os usuários.")]
+        [SwaggerOperation(Summary = "Obtém todos os pagamentos", Description = "Retorna uma lista com todos os pagamentos.")]
         [ProducesResponseType(typeof(IEnumerable<UsuarioViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -82,7 +82,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
         [Authorize(Roles = "Admin")]
         [HttpGet("obter{id:guid}")]
-        [SwaggerOperation(Summary = "Obtém um pagamento por ID", Description = "Retorna os dados de um usuário específico.")]
+        [SwaggerOperation(Summary = "Obtém um pagamento por ID", Description = "Retorna os dados de um pagamento específico.")]
         [ProducesResponseType(typeof(UsuarioViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -9,6 +9,8 @@ namespace EducaMBAXpert.CatalagoCursos.Application.AutoMapper
         public DomainToViewModelMappingProfile()
         {
             CreateMap<Curso, CursoViewModel>();
+            CreateMap<Modulo, ModuloViewModel>();
+            CreateMap<Aula, AulaViewModel>();
         }
     }
 }
