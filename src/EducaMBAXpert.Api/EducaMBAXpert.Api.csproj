@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="V1\**" />
+    <Content Remove="V1\**" />
+    <EmbeddedResource Remove="V1\**" />
+    <None Remove="V1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="automapper" Version="14.0.0" />
+    <PackageReference Include="IdentityModel" Version="7.0.0" />
+    <PackageReference Include="mediatr" Version="12.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="7.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EducaMBAXpert.CatalagoCursos.Application\EducaMBAXpert.CatalagoCursos.Application.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.CatalagoCursos.Data\EducaMBAXpert.CatalagoCursos.Data.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Core\EducaMBAXpert.Core.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Pagamento.Data\EducaMBAXpert.Pagamentos.Data.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Pagamentos.AntiCorruption\EducaMBAXpert.Pagamentos.AntiCorruption.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Pagamentos.Application\EducaMBAXpert.Pagamentos.Application.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Usuario.Application\EducaMBAXpert.Usuarios.Application.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Usuario.Data\EducaMBAXpert.Usuarios.Data.csproj" />
+  </ItemGroup>
+
+</Project>

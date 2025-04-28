@@ -1,0 +1,10 @@
+Add-Migration DB_Initial -Context ApplicationDbContext
+Add-Migration DB_Initial -Context CursoContext
+Add-Migration DB_Initial -Context UsuarioContext
+Add-Migration DB_Initial -Context PagamentoContext
+
+
+Update-Database -Context ApplicationDbContext
+Update-Database -Context CursoContext
+Update-Database -Context UsuarioContext
+Update-Database -Context PagamentoContext

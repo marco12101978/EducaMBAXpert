@@ -1,0 +1,8 @@
+
+
+Get-Package | Where-Object { $_.Id -like "Microsoft.EntityFrameworkCore*" }
+
+
+Add-Migration DBInit -Context ApplicationDbContext
+
+
