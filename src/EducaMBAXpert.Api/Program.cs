@@ -20,7 +20,6 @@ namespace EducaMBAXpert.Api
                 .AddDependencyInjectionConfig()
                 .AddMediatRConfig();
 
-
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
