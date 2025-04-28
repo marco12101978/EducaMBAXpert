@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducaMBAXpert.Usuarios.Data.Migrations
 {
     [DbContext(typeof(UsuarioContext))]
-    [Migration("20250426174245_DB_Initial")]
+    [Migration("20250428182811_DB_Initial")]
     partial class DB_Initial
     {
         /// <inheritdoc />
@@ -68,6 +68,31 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
                     b.ToTable("Enderecos", (string)null);
                 });
 
+            modelBuilder.Entity("EducaMBAXpert.Usuarios.Domain.Entities.Matricula", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("CursoId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataMatricula")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Matriculas");
+                });
+
             modelBuilder.Entity("EducaMBAXpert.Usuarios.Domain.Entities.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
@@ -103,9 +128,22 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("EducaMBAXpert.Usuarios.Domain.Entities.Matricula", b =>
+                {
+                    b.HasOne("EducaMBAXpert.Usuarios.Domain.Entities.Usuario", "Usuario")
+                        .WithMany("Matriculas")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("EducaMBAXpert.Usuarios.Domain.Entities.Usuario", b =>
                 {
                     b.Navigation("Enderecos");
+
+                    b.Navigation("Matriculas");
                 });
 #pragma warning restore 612, 618
         }

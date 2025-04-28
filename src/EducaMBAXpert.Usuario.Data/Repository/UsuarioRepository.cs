@@ -19,12 +19,27 @@ namespace EducaMBAXpert.Usuarios.Data.Repository
 
         public async Task<IEnumerable<Usuario>> ObterTodos()
         {
-            return await _context.Usuarios.Include(u => u.Enderecos).AsNoTracking().ToListAsync();
+            return await _context.Usuarios
+                 .Include(u => u.Enderecos)
+                 .Include(u => u.Matriculas) 
+                 .AsNoTracking()
+                 .ToListAsync();
         }
 
-        public async Task<Usuario> ObterPorId(Guid id)
+        public async Task<Usuario?> ObterPorId(Guid id)
         {
-            return await _context.Usuarios.Include(u => u.Enderecos).AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Usuarios
+                .Include(u => u.Enderecos)
+                .Include(u => u.Matriculas) 
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<Matricula?> ObterMatriculaPorId(Guid matriculaId)
+        {
+            return await _context.Matriculas
+                 .AsNoTracking()
+                 .FirstOrDefaultAsync(m => m.Id == matriculaId);
         }
 
         public void Adicionar(Usuario usuario)
@@ -37,9 +52,14 @@ namespace EducaMBAXpert.Usuarios.Data.Repository
            _context.Usuarios.Update(usuario);
         }
 
-        public async void AdicionarEndereco(Endereco endereco)
+        public void AdicionarEndereco(Endereco endereco)
         {
             _context.Enderecos.Add(endereco);
+        }
+
+        public async void AdicionarMatricula(Matricula matricula)
+        {
+            await _context.Matriculas.AddAsync(matricula);
         }
 
 
@@ -47,6 +67,8 @@ namespace EducaMBAXpert.Usuarios.Data.Repository
         {
             _context?.Dispose();
         }
+
+
 
 
     }

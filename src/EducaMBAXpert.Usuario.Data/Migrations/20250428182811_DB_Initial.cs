@@ -50,9 +50,35 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Matriculas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CursoId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    DataMatricula = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Ativo = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Matriculas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Matriculas_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Enderecos_UsuarioId",
                 table: "Enderecos",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matriculas_UsuarioId",
+                table: "Matriculas",
                 column: "UsuarioId");
         }
 
@@ -61,6 +87,9 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Enderecos");
+
+            migrationBuilder.DropTable(
+                name: "Matriculas");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");

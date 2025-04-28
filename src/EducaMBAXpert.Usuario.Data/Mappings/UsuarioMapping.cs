@@ -27,6 +27,11 @@ namespace EducaMBAXpert.Usuarios.Data.Mappings
                    .HasForeignKey(e => e.UsuarioId)
                    .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasMany(u => u.Matriculas)
+                    .WithOne(m => m.Usuario) // Matrícula conhece o Usuario
+                    .HasForeignKey(m => m.UsuarioId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
             builder.ToTable("Usuarios");
         }
     }

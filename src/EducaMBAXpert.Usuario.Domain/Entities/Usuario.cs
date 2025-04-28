@@ -10,9 +10,8 @@ namespace EducaMBAXpert.Usuarios.Domain.Entities
         public string Email { get; private set; }
         public bool Ativo { get; private set; }
 
-        //private readonly List<Endereco> _enderecos = new();
-        //public IReadOnlyCollection<Endereco> Enderecos => _enderecos.AsReadOnly();
         public List<Endereco> Enderecos { get; private set; } = new List<Endereco>();
+        public List<Matricula> Matriculas { get; private set; } = new List<Matricula>();
 
         public Usuario(Guid id, string nome, string email)
         {
