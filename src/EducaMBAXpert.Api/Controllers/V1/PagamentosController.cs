@@ -57,16 +57,16 @@ namespace EducaMBAXpert.Api.Controllers.V1
             }
 
 
-            var curso = await _cursoAppService.ObterPorId(pagamento.CursoId);
+            var matricula = await _usuarioAppService.ObterMatriculaPorId(pagamento.MatriculaId);
 
-            if (curso == null)
+            if (matricula == null)
             {
-                NotificarErro("Curso não encontrado.");
+                NotificarErro("Matricula no Curso não encontrada.");
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 
 
-            var pedidoEvent = new PagamentoCursoEvent(pagamento.CursoId,
+            var pedidoEvent = new PagamentoCursoEvent(pagamento.MatriculaId,
                                                       pagamento.ClienteId,
                                                       pagamento.Total,
                                                       pagamento.NomeCartao,

@@ -19,12 +19,12 @@ namespace EducaMBAXpert.Api.Controllers.V1
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/catalogo_curso")]
     [Authorize(Roles = "Admin")]
-    public class CatalogoCursoController : MainController
+    public class CursosController : MainController
     {
         private readonly ICursoAppService _cursoAppService;
         private readonly IUsuarioAppService _usuarioAppService;
 
-        public CatalogoCursoController(ICursoAppService cursoAppService,
+        public CursosController(ICursoAppService cursoAppService,
                                        IUsuarioAppService usuarioAppService,
                                        IMediator mediator,
                                        NotificationContext notificationContext,
@@ -34,12 +34,12 @@ namespace EducaMBAXpert.Api.Controllers.V1
             _usuarioAppService = usuarioAppService;
         }
 
-        [HttpPost("registrar")]
+        [HttpPost("novo")]
         [SwaggerOperation(Summary = "Registra um novo Curso", Description = "Cria um novo Curso com os dados fornecidos.")]
         [ProducesResponseType(typeof(CursoViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Registrar([FromBody] CursoInputModel curso)
+        public async Task<ActionResult> NovoCursoCompleto([FromBody] CursoInputModel curso)
         {
             if (!ModelState.IsValid)
                 return CustomResponse(HttpStatusCode.BadRequest);

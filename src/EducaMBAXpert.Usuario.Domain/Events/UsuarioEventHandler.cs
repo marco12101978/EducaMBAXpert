@@ -15,7 +15,13 @@ namespace EducaMBAXpert.Usuarios.Domain.Events
 
         public async Task Handle(PagamentoRealizadoEvent mensagem, CancellationToken cancellationToken)
         {
-            var usuario = await _usuarioRepository.ObterPorId(mensagem.AggregateID);
+            Entities.Matricula matricula = await _usuarioRepository.ObterMatriculaPorId(mensagem.AggregateID);
+
+            matricula.Ativar();
+
+            _usuarioRepository.AtualizarMatricula(matricula);
+
+            await _usuarioRepository.UnitOfWork.Commit();
         }
     }
 

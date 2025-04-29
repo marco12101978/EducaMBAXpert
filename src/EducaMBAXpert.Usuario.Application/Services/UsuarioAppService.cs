@@ -82,10 +82,22 @@ namespace EducaMBAXpert.Usuarios.Application.Services
 
         public async Task AdicionarMatriculaCurso(MatriculaInputModel matriculaInputModel)
         {
-            Matricula _matricula = new Matricula(matriculaInputModel.UsuarioId, matriculaInputModel.CursoId,DateTime.Now,false);
+            var _matricula = _mapper.Map<Matricula>(matriculaInputModel);
+
             _usuarioRepository.AdicionarMatricula(_matricula);
 
             await _usuarioRepository.UnitOfWork.Commit();
+        }
+
+
+        public async Task<MatriculaViewModel> ObterMatriculaPorId(Guid id)
+        {
+            return _mapper.Map<MatriculaViewModel>(await _usuarioRepository.ObterMatriculaPorId(id));
+        }
+
+        public async Task<IEnumerable<MatriculaViewModel>> ObterTodasMatriculasPorUsuarioId(Guid id,bool ativas)
+        {
+            return _mapper.Map<IEnumerable<MatriculaViewModel>>(await _usuarioRepository.ObterTodasMatriculasPorUsuarioId(id, ativas));
         }
 
 

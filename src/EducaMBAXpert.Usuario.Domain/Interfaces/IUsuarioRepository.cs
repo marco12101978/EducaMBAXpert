@@ -12,8 +12,10 @@ namespace EducaMBAXpert.Usuarios.Domain.Interfaces
         void Adicionar(Entities.Usuario usuario);
         void Atualizar(Entities.Usuario usuario);
         void AdicionarEndereco(Endereco endereco);
-        void AdicionarMatricula(Matricula matricula);
 
+        void AdicionarMatricula(Matricula matricula);
+        void AtualizarMatricula(Matricula matricula);
+        Task<IEnumerable<Matricula>> ObterTodasMatriculasPorUsuarioId(Guid id, bool ativas);
 
     }
 }

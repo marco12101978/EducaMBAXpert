@@ -12,8 +12,13 @@ namespace EducaMBAXpert.Usuarios.Application.Services
         Task Atualizar(UsuarioViewModel usuarioViewModel);
 
         Task AdicionarEndereco(EnderecoViewModel enderecoViewModel);
+
+
         Task AdicionarMatriculaCurso(MatriculaInputModel matriculaInputModel);
 
+        Task<MatriculaViewModel> ObterMatriculaPorId(Guid id);
+
+        Task<IEnumerable<MatriculaViewModel>> ObterTodasMatriculasPorUsuarioId(Guid id,bool ativas);
 
         Task<bool> Inativar(Guid id);
         Task<bool> Ativar(Guid id);

@@ -12,6 +12,8 @@ namespace EducaMBAXpert.Usuarios.Application.AutoMapper
                  .ForMember(dest => dest.Enderecos, opt => opt.MapFrom(src => src.Enderecos));
 
             CreateMap<Endereco, EnderecoViewModel>();
+
+            CreateMap<Matricula, MatriculaViewModel>();
         }
 
     }

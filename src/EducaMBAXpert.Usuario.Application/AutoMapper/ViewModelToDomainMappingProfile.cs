@@ -15,6 +15,9 @@ namespace EducaMBAXpert.Usuarios.Application.AutoMapper
                 .ConstructUsing(e =>
                     new Endereco(e.Rua, e.Numero, e.Complemento, e.Bairro, e.Cidade, e.Estado, e.Cep, e.UsuarioId)
                 );
+
+            CreateMap<MatriculaInputModel, Matricula>()
+                .ConstructUsing(m => new Matricula(m.UsuarioId, m.CursoId));
         }
     }
 }
