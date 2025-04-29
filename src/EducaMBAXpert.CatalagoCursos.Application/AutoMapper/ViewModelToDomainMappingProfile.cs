@@ -12,7 +12,7 @@ namespace EducaMBAXpert.CatalagoCursos.Application.AutoMapper
             CreateMap<ModuloViewModel, Modulo>();
             CreateMap<AulaViewModel, Aula>();
 
-            CreateMap<CursoCompletoViewModel, Curso>()
+            CreateMap<CursoInputModel, Curso>()
             .ConstructUsing(vm =>
                 new Curso(vm.Titulo, vm.Descricao, vm.Categoria, vm.Nivel))
             .AfterMap((vm, curso) =>

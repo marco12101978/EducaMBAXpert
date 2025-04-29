@@ -8,8 +8,8 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
         Task<IEnumerable<CursoViewModel>> ObterTodos();
         Task<CursoViewModel> ObterPorId(Guid id);
 
-        void Adicionar(CursoCompletoViewModel cursoViewModel);
-        void Atualizar(CursoCompletoViewModel cursoViewModel);
+        void Adicionar(CursoInputModel cursoViewModel);
+        void Atualizar(CursoInputModel cursoViewModel);
 
         Task<bool> Inativar(Guid id);
         Task<bool> Ativar(Guid id);

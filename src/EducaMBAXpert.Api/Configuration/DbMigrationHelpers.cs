@@ -1,12 +1,16 @@
 ﻿using EducaMBAXpert.Api.Context;
+using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
 using EducaMBAXpert.CatalagoCursos.Data.Context;
+using EducaMBAXpert.CatalagoCursos.Domain.Entities;
 using EducaMBAXpert.Pagamentos.Data.Context;
 using EducaMBAXpert.Usuarios.Application.ViewModels;
 using EducaMBAXpert.Usuarios.Data.Context;
 using EducaMBAXpert.Usuarios.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Reflection.Metadata;
+using System.Text.Json.Serialization;
 
 namespace EducaMBAXpert.Api.Configuration
 {
@@ -43,13 +47,14 @@ namespace EducaMBAXpert.Api.Configuration
                 await contextPagamento.Database.MigrateAsync();
                 await contextUsuario.Database.MigrateAsync();
 
-                await EnsureSeedProducts(serviceProvider,contextId, contextUsuario);
+                await EnsureSeedProducts(serviceProvider,contextId, contextUsuario, contextCurso);
             }
         }
 
         private static async Task EnsureSeedProducts(IServiceProvider serviceProvider,
                                                      ApplicationDbContext contextId,
-                                                     UsuarioContext contextUsuario)
+                                                     UsuarioContext contextUsuario,
+                                                     CursoContext cursoContext)
         {
             if (contextId.Users.Any())
                 return;
@@ -115,6 +120,36 @@ namespace EducaMBAXpert.Api.Configuration
 
             await contextUsuario.SaveChangesAsync();
 
+
+            #endregion
+
+            #region Curso
+
+            Curso curso ;
+            Modulo modulo;
+            Aula aula;
+
+            #region Curso 1
+            curso = new Curso("Explorando novas linguagens de programação", "Uma abordagem moderna para desenvolvimento de software, incluindo práticas de programação e metodologias ágeis.",CategoriaCurso.Negocios,NivelDificuldade.Avancado);
+            curso.Ativar();
+
+            modulo = new Modulo("Fundamentos Básicos");
+
+            aula = new Aula("Introdução à programação", "https://example.com/video1", TimeSpan.Parse("00:45:00"));
+            modulo.AdicionarAula(aula);
+
+            aula = new Aula("Conceitos de algoritmos", "https://example.com/video2", TimeSpan.Parse("00:30:00"));
+            modulo.AdicionarAula(aula);
+
+            curso.AdicionarModulo(modulo);
+
+            curso.AdicionarTag("programação");
+            curso.AdicionarTag("desenvolvimento");
+
+            await cursoContext.Cursos.AddAsync(curso);
+            await cursoContext.SaveChangesAsync();
+
+            #endregion 
 
             #endregion
         }

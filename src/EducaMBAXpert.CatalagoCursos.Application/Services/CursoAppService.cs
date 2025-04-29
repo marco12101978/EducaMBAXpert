@@ -29,7 +29,7 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
            return _mapper.Map<IEnumerable<CursoViewModel>>(await _cursoRepository.ObterTodos());
         }
 
-        public async void Adicionar(CursoCompletoViewModel cursoCompletoViewModel)
+        public async void Adicionar(CursoInputModel cursoCompletoViewModel)
         {
             // var _curso = _mapper.Map<Curso>(cursoCompletoViewModel);
 
@@ -66,7 +66,7 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
             await _cursoRepository.UnitOfWork.Commit();
         }
 
-        public async void Atualizar(CursoCompletoViewModel cursoViewModel)
+        public async void Atualizar(CursoInputModel cursoViewModel)
         {
             var _curso = _mapper.Map<Curso>(cursoViewModel);
             _cursoRepository.Atualizar(_curso);

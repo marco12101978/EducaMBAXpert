@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EducaMBAXpert.CatalagoCursos.Application.ViewModels
 {
-    public class CursoCompletoViewModel
+    public class CursoInputModel
     {
         [Required(ErrorMessage = "O título é obrigatório.")]
         [StringLength(100, ErrorMessage = "O título deve ter no máximo 100 caracteres.")]
@@ -23,7 +23,7 @@ namespace EducaMBAXpert.CatalagoCursos.Application.ViewModels
         public NivelDificuldade Nivel { get; set; }
 
         [Display(Name = "Módulos do Curso")]
-        public IEnumerable<ModuloCompletoViewModel> Modulos { get; set; }
+        public IEnumerable<ModuloInputModel> Modulos { get; set; }
 
         public IEnumerable<string> Tags { get; set; } 
     }

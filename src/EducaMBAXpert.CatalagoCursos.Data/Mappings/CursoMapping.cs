@@ -1,4 +1,5 @@
 ﻿using EducaMBAXpert.CatalagoCursos.Domain.Entities;
+using EducaMBAXpert.CatalagoCursos.Domain.Entities.EducaMBAXpert.CatalagoCursos.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,11 +24,15 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Mappings
                 .OnDelete(DeleteBehavior.Cascade);
 
 
-            // Mapeando Tags como uma tabela separada (se for guardar em banco)
-            builder.OwnsMany<string>("_tags", b =>
+            builder.OwnsMany<Tag>("_tags", b =>
             {
                 b.WithOwner().HasForeignKey("CursoId");
-                b.Property<string>("Tag").HasColumnName("Tag").IsRequired().HasMaxLength(50);
+
+                b.Property(t => t.Valor)
+                 .HasColumnName("Tag")
+                 .IsRequired()
+                 .HasMaxLength(50);
+
                 b.ToTable("CursoTags");
                 b.HasKey("CursoId", "Tag");
             });

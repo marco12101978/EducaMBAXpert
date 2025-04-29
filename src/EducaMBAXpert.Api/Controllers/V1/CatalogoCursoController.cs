@@ -39,7 +39,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(typeof(CursoViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Registrar([FromBody] CursoCompletoViewModel curso)
+        public async Task<ActionResult> Registrar([FromBody] CursoInputModel curso)
         {
             if (!ModelState.IsValid)
                 return CustomResponse(HttpStatusCode.BadRequest);

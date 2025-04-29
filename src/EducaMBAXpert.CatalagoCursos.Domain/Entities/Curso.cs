@@ -1,4 +1,5 @@
-﻿using EducaMBAXpert.CatalagoCursos.Domain.Events;
+﻿using EducaMBAXpert.CatalagoCursos.Domain.Entities.EducaMBAXpert.CatalagoCursos.Domain.Entities;
+using EducaMBAXpert.CatalagoCursos.Domain.Events;
 using EducaMBAXpert.Core.Bus;
 using EducaMBAXpert.Core.DomainObjects;
 
@@ -30,8 +31,8 @@ namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
         private readonly List<Modulo> _modulos = new();
         public IReadOnlyCollection<Modulo> Modulos => _modulos.AsReadOnly();
 
-        private readonly List<string> _tags = new();
-        public IReadOnlyCollection<string> Tags => _tags.AsReadOnly();
+        private readonly List<Tag> _tags = new();
+        public IReadOnlyCollection<Tag> Tags => _tags.AsReadOnly();
 
 
         public void AdicionarModulo(Modulo modulo)
@@ -48,15 +49,19 @@ namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
             if (!string.IsNullOrWhiteSpace(tag))
             {
                 var tagNormalizada = tag.Trim().ToLower();
-                if (!_tags.Contains(tagNormalizada))
-                    _tags.Add(tagNormalizada);
+                if (!_tags.Any(t => t.Valor == tagNormalizada))
+                    _tags.Add(new Tag(tagNormalizada));
             }
         }
 
         public void RemoverTag(string tag)
         {
             var tagNormalizada = tag.Trim().ToLower();
-            _tags.Remove(tagNormalizada);
+            var tagParaRemover = _tags.FirstOrDefault(t => t.Valor == tagNormalizada);
+            if (tagParaRemover != null)
+            {
+                _tags.Remove(tagParaRemover);
+            }
         }
 
         private TimeSpan CalcularDuracaoTotal()

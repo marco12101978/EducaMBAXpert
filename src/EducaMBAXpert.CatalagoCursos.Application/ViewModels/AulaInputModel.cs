@@ -2,7 +2,7 @@
 
 namespace EducaMBAXpert.CatalagoCursos.Application.ViewModels
 {
-    public class AulaCompletoViewModel
+    public class AulaInputModel
     {
         [Required(ErrorMessage = "O título da aula é obrigatório.")]
         [StringLength(100, ErrorMessage = "O título deve ter no máximo 100 caracteres.")]
