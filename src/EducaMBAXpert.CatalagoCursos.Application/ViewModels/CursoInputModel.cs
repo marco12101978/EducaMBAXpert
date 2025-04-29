@@ -13,6 +13,10 @@ namespace EducaMBAXpert.CatalagoCursos.Application.ViewModels
         [StringLength(1000, ErrorMessage = "A descrição deve ter no máximo 1000 caracteres.")]
         public string Descricao { get; set; }
 
+        [Required(ErrorMessage = "O Valor é obrigatória.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "O valor deve ser maior que zero.")]
+        public Decimal Valor { get; set; }
+
         [Display(Name = "Curso Ativo")]
         public bool Ativo { get; set; }
 
@@ -24,7 +28,5 @@ namespace EducaMBAXpert.CatalagoCursos.Application.ViewModels
 
         [Display(Name = "Módulos do Curso")]
         public IEnumerable<ModuloInputModel> Modulos { get; set; }
-
-        public IEnumerable<string> Tags { get; set; } 
     }
 }

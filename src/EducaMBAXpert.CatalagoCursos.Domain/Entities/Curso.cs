@@ -1,13 +1,11 @@
 ﻿using EducaMBAXpert.CatalagoCursos.Domain.Entities.EducaMBAXpert.CatalagoCursos.Domain.Entities;
-using EducaMBAXpert.CatalagoCursos.Domain.Events;
-using EducaMBAXpert.Core.Bus;
 using EducaMBAXpert.Core.DomainObjects;
 
 namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
 {
     public class Curso : Entity, IAggregateRoot
     {
-        public Curso(string titulo, string descricao, CategoriaCurso categoria, NivelDificuldade nivel)
+        public Curso(string titulo, string descricao,decimal valor, CategoriaCurso categoria, NivelDificuldade nivel)
         {
 
             Titulo = titulo;
@@ -15,6 +13,7 @@ namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
             Categoria = categoria;
             Nivel = nivel;
             Ativo = true;
+            Valor = valor;
 
             Validar();
         }
@@ -22,6 +21,8 @@ namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
 
         public string Titulo { get; private set; }
         public string Descricao { get; private set; }
+        public decimal Valor { get; private set; }
+
         public bool Ativo { get; private set; }
 
         public CategoriaCurso Categoria { get; private set; }
@@ -30,10 +31,6 @@ namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
 
         private readonly List<Modulo> _modulos = new();
         public IReadOnlyCollection<Modulo> Modulos => _modulos.AsReadOnly();
-
-        private readonly List<Tag> _tags = new();
-        public IReadOnlyCollection<Tag> Tags => _tags.AsReadOnly();
-
 
         public void AdicionarModulo(Modulo modulo)
         {
@@ -44,24 +41,9 @@ namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
         public void Inativar() => Ativo = false;
         public void Ativar() => Ativo = true;
 
-        public void AdicionarTag(string tag)
+        public void AjustarPreco(decimal valor)
         {
-            if (!string.IsNullOrWhiteSpace(tag))
-            {
-                var tagNormalizada = tag.Trim().ToLower();
-                if (!_tags.Any(t => t.Valor == tagNormalizada))
-                    _tags.Add(new Tag(tagNormalizada));
-            }
-        }
-
-        public void RemoverTag(string tag)
-        {
-            var tagNormalizada = tag.Trim().ToLower();
-            var tagParaRemover = _tags.FirstOrDefault(t => t.Valor == tagNormalizada);
-            if (tagParaRemover != null)
-            {
-                _tags.Remove(tagParaRemover);
-            }
+            Valor = valor;
         }
 
         private TimeSpan CalcularDuracaoTotal()

@@ -24,19 +24,6 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Mappings
                 .OnDelete(DeleteBehavior.Cascade);
 
 
-            builder.OwnsMany<Tag>("_tags", b =>
-            {
-                b.WithOwner().HasForeignKey("CursoId");
-
-                b.Property(t => t.Valor)
-                 .HasColumnName("Tag")
-                 .IsRequired()
-                 .HasMaxLength(50);
-
-                b.ToTable("CursoTags");
-                b.HasKey("CursoId", "Tag");
-            });
-
             builder.ToTable("Cursos");
         }
     }

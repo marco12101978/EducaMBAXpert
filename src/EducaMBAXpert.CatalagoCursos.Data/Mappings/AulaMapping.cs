@@ -8,7 +8,7 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Aula> builder)
         {
-            builder.HasKey(a => a);
+            builder.HasKey(a => a.Id);
 
             builder.Property(a => a.Titulo)
                 .IsRequired()

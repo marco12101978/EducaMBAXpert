@@ -35,6 +35,7 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
 
             var _curso = new Curso(cursoCompletoViewModel.Titulo,
                                   cursoCompletoViewModel.Descricao,
+                                  cursoCompletoViewModel.Valor,
                                   cursoCompletoViewModel.Categoria,
                                   cursoCompletoViewModel.Nivel);
 
@@ -54,11 +55,6 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
                 }
 
                 _curso.AdicionarModulo(modulo);
-            }
-
-            foreach (var tag in cursoCompletoViewModel.Tags)
-            {
-                _curso.AdicionarTag(tag);
             }
 
             _cursoRepository.Adicionar(_curso);

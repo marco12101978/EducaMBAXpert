@@ -24,7 +24,7 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Context
 
             modelBuilder.Ignore<Event>();
 
-            // modelBuilder.ApplyConfigurationsFromAssembly(typeof(CursoContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CursoContext).Assembly);
 
             base.OnModelCreating(modelBuilder);
 

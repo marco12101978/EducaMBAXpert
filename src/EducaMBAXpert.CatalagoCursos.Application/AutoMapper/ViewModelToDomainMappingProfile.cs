@@ -14,17 +14,9 @@ namespace EducaMBAXpert.CatalagoCursos.Application.AutoMapper
 
             CreateMap<CursoInputModel, Curso>()
             .ConstructUsing(vm =>
-                new Curso(vm.Titulo, vm.Descricao, vm.Categoria, vm.Nivel))
+                new Curso(vm.Titulo, vm.Descricao,vm.Valor, vm.Categoria, vm.Nivel))
             .AfterMap((vm, curso) =>
             {
-                if (vm.Tags != null)
-                {
-                    foreach (var tag in vm.Tags)
-                    {
-                        curso.AdicionarTag(tag);
-                    }
-                }
-
                 if (vm.Modulos != null)
                 {
                     foreach (var moduloVm in vm.Modulos)
