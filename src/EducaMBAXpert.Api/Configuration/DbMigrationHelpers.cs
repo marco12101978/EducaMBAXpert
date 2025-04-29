@@ -143,8 +143,8 @@ namespace EducaMBAXpert.Api.Configuration
 
             curso.AdicionarModulo(modulo);
 
-
             await cursoContext.Cursos.AddAsync(curso);
+            await cursoContext.SaveChangesAsync();
 
 
             #endregion
@@ -154,15 +154,14 @@ namespace EducaMBAXpert.Api.Configuration
             curso.Ativar();
 
             modulo = new Modulo("Introdução ao ML");
-
             aula = new Aula("História do Machine Learning", "https://example.com/ml1", TimeSpan.Parse("00:35:00"));
             modulo.AdicionarAula(aula);
 
 
             curso.AdicionarModulo(modulo);
 
-
             await cursoContext.Cursos.AddAsync(curso);
+            await cursoContext.SaveChangesAsync();
 
 
             #endregion
@@ -182,6 +181,7 @@ namespace EducaMBAXpert.Api.Configuration
             curso.AdicionarModulo(modulo);
 
             await cursoContext.Cursos.AddAsync(curso);
+            await cursoContext.SaveChangesAsync();
 
             #endregion
 
@@ -200,6 +200,7 @@ namespace EducaMBAXpert.Api.Configuration
             curso.AdicionarModulo(modulo);
 
             await cursoContext.Cursos.AddAsync(curso);
+            await cursoContext.SaveChangesAsync();
 
             #endregion
 
@@ -221,6 +222,7 @@ namespace EducaMBAXpert.Api.Configuration
             curso.AdicionarModulo(modulo);
 
             await cursoContext.Cursos.AddAsync(curso);
+            await cursoContext.SaveChangesAsync();
 
             #endregion
 
@@ -259,11 +261,12 @@ namespace EducaMBAXpert.Api.Configuration
 
 
             await cursoContext.Cursos.AddAsync(curso);
+            await cursoContext.SaveChangesAsync();
 
             #endregion
 
 
-            await cursoContext.SaveChangesAsync();
+
 
             #endregion
         }

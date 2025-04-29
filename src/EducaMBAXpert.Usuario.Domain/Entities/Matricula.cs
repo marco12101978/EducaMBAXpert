@@ -1,14 +1,14 @@
 ﻿using EducaMBAXpert.Core.DomainObjects;
 using System.Runtime.ConstrainedExecution;
 using System.Security.Cryptography;
+using System.Text.Json.Serialization;
 
 namespace EducaMBAXpert.Usuarios.Domain.Entities
 {
     public class Matricula : Entity
     {
-        public Matricula(Guid id, Guid usuarioId, Guid cursoId, DateTime dataMatricula, bool ativo)
+        public Matricula(Guid usuarioId, Guid cursoId, DateTime dataMatricula, bool ativo)
         {
-            Id = id;
             UsuarioId = usuarioId;
             CursoId = cursoId;
             DataMatricula = dataMatricula;
@@ -20,6 +20,7 @@ namespace EducaMBAXpert.Usuarios.Domain.Entities
         public DateTime DataMatricula { get; private set; }
         public bool Ativo { get; private set; }
 
+        [JsonIgnore]
         public Usuario Usuario { get; set; }
 
 

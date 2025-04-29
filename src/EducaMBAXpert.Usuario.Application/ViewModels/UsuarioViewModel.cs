@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EducaMBAXpert.Usuarios.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace EducaMBAXpert.Usuarios.Application.ViewModels
 {
@@ -27,5 +28,7 @@ namespace EducaMBAXpert.Usuarios.Application.ViewModels
         public bool Ativo { get; set; }
 
         public List<EnderecoViewModel> Enderecos { get; set; } = new();
+
+        public List<Matricula> Matriculas { get; set; } = [];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace EducaMBAXpert.Api.ViewModels.Pagamento
 {
-    public class PagamentoCursoViewModel
+    public class PagamentoCursoInputModel
     {
         [Required(ErrorMessage = "O Id do curso é obrigatório.")]
         public Guid CursoId { get; set; }

@@ -62,7 +62,6 @@ namespace EducaMBAXpert.Usuarios.Data.Repository
             await _context.Matriculas.AddAsync(matricula);
         }
 
-
         public void Dispose()
         {
             _context?.Dispose();

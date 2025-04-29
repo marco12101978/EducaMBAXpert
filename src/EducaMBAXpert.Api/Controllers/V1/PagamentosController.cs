@@ -1,5 +1,6 @@
 ﻿using EducaMBAXpert.Api.Authentication;
 using EducaMBAXpert.Api.ViewModels.Pagamento;
+using EducaMBAXpert.CatalagoCursos.Application.Services;
 using EducaMBAXpert.Core.Messages.CommonMessages.IntegrationEvents;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Pagamentos.Application.Services;
@@ -22,16 +23,19 @@ namespace EducaMBAXpert.Api.Controllers.V1
         private readonly IMediator _mediator;
         private readonly IPagamentoAppService _pagamentoAppService;
         private readonly IUsuarioAppService _usuarioAppService;
+        private readonly ICursoAppService _cursoAppService;
 
         public PagamentosController(IMediator mediator,
                                     IPagamentoAppService pagamentoAppService,
                                     IUsuarioAppService usuarioAppService,
+                                    ICursoAppService cursoAppService,
                                     IAppIdentityUser appIdentityUser,
                                     NotificationContext _notificationContext ) : base(mediator, _notificationContext, appIdentityUser)
         {
             _mediator = mediator;
             _pagamentoAppService = pagamentoAppService;
             _usuarioAppService = usuarioAppService;
+            _cursoAppService = cursoAppService;
         }
 
         [HttpPost("pagamento")]
@@ -39,12 +43,12 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Pagamento([FromBody] PagamentoCursoViewModel pedido)
+        public async Task<IActionResult> Pagamento([FromBody] PagamentoCursoInputModel pagamento)
         {
             if (!ModelState.IsValid)
                 return CustomResponse(HttpStatusCode.BadRequest);
 
-            var usuario = await _usuarioAppService.ObterPorId(pedido.ClienteId);
+            var usuario = await _usuarioAppService.ObterPorId(pagamento.ClienteId);
 
             if (usuario == null)
             {
@@ -52,13 +56,23 @@ namespace EducaMBAXpert.Api.Controllers.V1
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 
-            var pedidoEvent = new PagamentoCursoEvent(pedido.CursoId,
-                                                          pedido.ClienteId,
-                                                          pedido.Total,
-                                                          pedido.NomeCartao,
-                                                          pedido.NumeroCartao,
-                                                          pedido.ExpiracaoCartao,
-                                                          pedido.CvvCartao);
+
+            var curso = await _cursoAppService.ObterPorId(pagamento.CursoId);
+
+            if (curso == null)
+            {
+                NotificarErro("Curso não encontrado.");
+                return CustomResponse(HttpStatusCode.NotFound);
+            }
+
+
+            var pedidoEvent = new PagamentoCursoEvent(pagamento.CursoId,
+                                                      pagamento.ClienteId,
+                                                      pagamento.Total,
+                                                      pagamento.NomeCartao,
+                                                      pagamento.NumeroCartao,
+                                                      pagamento.ExpiracaoCartao,
+                                                      pagamento.CvvCartao);
 
 
 

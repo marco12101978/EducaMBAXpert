@@ -80,6 +80,14 @@ namespace EducaMBAXpert.Usuarios.Application.Services
             await _usuarioRepository.UnitOfWork.Commit();
         }
 
+        public async Task AdicionarMatriculaCurso(MatriculaInputModel matriculaInputModel)
+        {
+            Matricula _matricula = new Matricula(matriculaInputModel.UsuarioId, matriculaInputModel.CursoId,DateTime.Now,false);
+            _usuarioRepository.AdicionarMatricula(_matricula);
+
+            await _usuarioRepository.UnitOfWork.Commit();
+        }
+
 
         public void Dispose()
         {
