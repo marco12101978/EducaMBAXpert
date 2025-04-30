@@ -3,7 +3,6 @@ using EducaMBAXpert.CatalagoCursos.Application.Services;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Usuarios.Application.Services;
 using EducaMBAXpert.Usuarios.Application.ViewModels;
-using EducaMBAXpert.Usuarios.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
