@@ -5,6 +5,7 @@ using EducaMBAXpert.CatalagoCursos.Application.Services;
 using EducaMBAXpert.CatalagoCursos.Data.Repository;
 using EducaMBAXpert.CatalagoCursos.Domain.Interfaces;
 using EducaMBAXpert.CatalagoCursos.Domain.Services;
+using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Bus;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Pagamentos.AntiCorruption;
@@ -51,6 +52,12 @@ namespace EducaMBAXpert.Api.Configuration
             services.AddScoped<ICursoRepository, CursoRepository>();
             services.AddScoped<ICursoService, CursoService>();
             services.AddScoped<ICursoAppService, CursoAppService>();
+
+            services.AddScoped<ICursoConsultaService, CursoConsultaService>();
+
+            services.AddScoped<IMatriculaRepository, MatriculaRepository>();
+            services.AddScoped<ICertificadoAppService, CertificadoAppService>();
+            //services.AddScoped<MatriculaAppService>();
 
             services.AddScoped<IPagamentoAppService, PagamentoAppService>();
             services.AddScoped<IPagamentoRepository, PagamentoRepository>();

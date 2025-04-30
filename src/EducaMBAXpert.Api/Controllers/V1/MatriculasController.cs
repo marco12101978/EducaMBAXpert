@@ -3,6 +3,7 @@ using EducaMBAXpert.CatalagoCursos.Application.Services;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Usuarios.Application.Services;
 using EducaMBAXpert.Usuarios.Application.ViewModels;
+using EducaMBAXpert.Usuarios.Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,17 +20,21 @@ namespace EducaMBAXpert.Api.Controllers.V1
     {
         private readonly IUsuarioAppService _usuarioAppService;
         private readonly ICursoAppService _cursoAppService;
+        private readonly IMatriculaAppService _matriculaAppService;
+
         public MatriculasController(IMediator mediator,
                                         IUsuarioAppService usuarioAppService,
+                                        IMatriculaAppService matriculaAppService,
                                         ICursoAppService cursoAppService,
                                         NotificationContext notificationContext,
                                         IAppIdentityUser user) : base(mediator, notificationContext, user)
         {
             _usuarioAppService = usuarioAppService;
             _cursoAppService = cursoAppService;
+            _matriculaAppService = matriculaAppService;
         }
 
-        [HttpPost("matricular{idUsuario:guid}")]
+        [HttpPost("matricular/{idUsuario:guid}")]
         [SwaggerOperation(Summary = "Matricula", Description = "Executa o matricula no curso.")]
         [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -64,7 +69,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("obter-matriculas-ativas-usuario{idUsuario:guid}")]
+        [HttpGet("obter-matriculas-ativas-usuario/{idUsuario:guid}")]
         [SwaggerOperation(Summary = "Obtém Matriculas por ID cliente", Description = "Retorna as Matriculas por Usuario específico.")]
         [ProducesResponseType(typeof(UsuarioViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -78,7 +83,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("obter-matriculas-nao-ativas-usuario{idUsuario:guid}")]
+        [HttpGet("obter-matriculas-nao-ativas-usuario/{idUsuario:guid}")]
         [SwaggerOperation(Summary = "Obtém Matriculas por ID cliente", Description = "Retorna as Matriculas por Usuario específico.")]
         [ProducesResponseType(typeof(UsuarioViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -90,6 +95,30 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
             return CustomResponse(HttpStatusCode.OK, matriculas);
         }
+
+
+        [HttpPost("matricula/{matriculaId}/aula/{aulaId}/concluir")]
+        public async Task<IActionResult> ConcluirAula(Guid matriculaId, Guid aulaId)
+        {
+            await _matriculaAppService.ConcluirAula(matriculaId, aulaId);
+            return Ok("Aula marcada como concluída.");
+        }
+
+
+        [HttpGet("matricula/{matriculaId}/certificado")]
+        public async Task<IActionResult> VerificarCertificado(Guid matriculaId)
+        {
+            var podeEmitir = await _matriculaAppService.PodeEmitirCertificado(matriculaId);
+            return Ok(new { podeEmitir });
+        }
+
+        [HttpGet("{matriculaId}/certificado/download")]
+        public async Task<IActionResult> BaixarCertificado(Guid matriculaId)
+        {
+            var pdf = await _matriculaAppService.GerarCertificadoPDF(matriculaId);
+            return File(pdf, "application/pdf", "Certificado.pdf");
+        }
+
 
     }
 }

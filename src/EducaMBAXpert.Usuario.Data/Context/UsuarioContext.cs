@@ -27,6 +27,8 @@ namespace EducaMBAXpert.Usuarios.Data.Context
 
             modelBuilder.ApplyConfiguration(new UsuarioMapping());
             modelBuilder.ApplyConfiguration(new EnderecoMapping());
+            modelBuilder.ApplyConfiguration(new MatriculasMapping());
+            modelBuilder.ApplyConfiguration(new AulaConcluidaMapping());
 
             // modelBuilder.ApplyConfigurationsFromAssembly(typeof(CursoContext).Assembly);
 

@@ -22,10 +22,15 @@ namespace EducaMBAXpert.Usuarios.Data.Mappings
             builder.Property(m => m.Ativo)
                 .IsRequired();
 
-            builder.HasOne(m => m.Usuario)
-                            .WithMany(u => u.Matriculas)
-                            .HasForeignKey(m => m.UsuarioId)
-                            .OnDelete(DeleteBehavior.Cascade);
+            //builder.HasOne(m => m.Usuario)
+            //               .WithMany(u => u.Matriculas)
+            //               .HasForeignKey(m => m.UsuarioId)
+            //               .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(m => m.AulasConcluidas)
+                   .WithOne(a => a.Matricula)
+                   .HasForeignKey(a => a.MatriculaId)
+                   .OnDelete(DeleteBehavior.Cascade);builder.HasKey(m => m.Id);
 
             builder.ToTable("Matriculas");
         }

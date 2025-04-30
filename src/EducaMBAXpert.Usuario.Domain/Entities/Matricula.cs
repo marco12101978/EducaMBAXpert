@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace EducaMBAXpert.Usuarios.Domain.Entities
 {
-    public class Matricula : Entity
+    public class Matricula : Entity , IAggregateRoot
     {
         public Matricula(Guid usuarioId, Guid cursoId)
         {
@@ -33,6 +33,27 @@ namespace EducaMBAXpert.Usuarios.Domain.Entities
         {
             Ativo = true;
         }
+
+        public void Desativar()
+        {
+            Ativo = false;
+        }
+
+
+        private readonly List<AulaConcluida> _aulasConcluidas = new();
+        public IReadOnlyCollection<AulaConcluida> AulasConcluidas => _aulasConcluidas;
+
+        public void MarcarAulaComoConcluida(Guid aulaId)
+        {
+            if (_aulasConcluidas.Any(a => a.AulaId == aulaId)) return;
+            _aulasConcluidas.Add(new AulaConcluida(this.Id, aulaId));
+        }
+
+        public bool PodeEmitirCertificado(int totalAulasCurso)
+        {
+            return _aulasConcluidas.Select(a => a.AulaId).Distinct().Count() == totalAulasCurso;
+        }
+
 
         [JsonIgnore]
         public Usuario Usuario { get; set; }

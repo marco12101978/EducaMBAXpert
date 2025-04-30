@@ -71,6 +71,31 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "AulasConcluidas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    MatriculaId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AulaId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    DataConclusao = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AulasConcluidas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AulasConcluidas_Matriculas_MatriculaId",
+                        column: x => x.MatriculaId,
+                        principalTable: "Matriculas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AulasConcluidas_MatriculaId",
+                table: "AulasConcluidas",
+                column: "MatriculaId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Enderecos_UsuarioId",
                 table: "Enderecos",
@@ -85,6 +110,9 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AulasConcluidas");
+
             migrationBuilder.DropTable(
                 name: "Enderecos");
 

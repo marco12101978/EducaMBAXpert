@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducaMBAXpert.Pagamentos.Data.Migrations
 {
     [DbContext(typeof(PagamentoContext))]
-    [Migration("20250429182634_DB_Initial")]
+    [Migration("20250430172231_DB_Initial")]
     partial class DB_Initial
     {
         /// <inheritdoc />

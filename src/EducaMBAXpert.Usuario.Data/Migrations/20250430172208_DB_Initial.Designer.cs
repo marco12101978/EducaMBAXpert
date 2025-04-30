@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducaMBAXpert.Usuarios.Data.Migrations
 {
     [DbContext(typeof(UsuarioContext))]
-    [Migration("20250429182622_DB_Initial")]
+    [Migration("20250430172208_DB_Initial")]
     partial class DB_Initial
     {
         /// <inheritdoc />
@@ -19,6 +19,28 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
+
+            modelBuilder.Entity("EducaMBAXpert.Usuarios.Domain.Entities.AulaConcluida", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("AulaId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataConclusao")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("MatriculaId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatriculaId");
+
+                    b.ToTable("AulasConcluidas", (string)null);
+                });
 
             modelBuilder.Entity("EducaMBAXpert.Usuarios.Domain.Entities.Endereco", b =>
                 {
@@ -90,7 +112,7 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Matriculas");
+                    b.ToTable("Matriculas", (string)null);
                 });
 
             modelBuilder.Entity("EducaMBAXpert.Usuarios.Domain.Entities.Usuario", b =>
@@ -117,6 +139,17 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
                     b.ToTable("Usuarios", (string)null);
                 });
 
+            modelBuilder.Entity("EducaMBAXpert.Usuarios.Domain.Entities.AulaConcluida", b =>
+                {
+                    b.HasOne("EducaMBAXpert.Usuarios.Domain.Entities.Matricula", "Matricula")
+                        .WithMany("AulasConcluidas")
+                        .HasForeignKey("MatriculaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Matricula");
+                });
+
             modelBuilder.Entity("EducaMBAXpert.Usuarios.Domain.Entities.Endereco", b =>
                 {
                     b.HasOne("EducaMBAXpert.Usuarios.Domain.Entities.Usuario", "Usuario")
@@ -137,6 +170,11 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("EducaMBAXpert.Usuarios.Domain.Entities.Matricula", b =>
+                {
+                    b.Navigation("AulasConcluidas");
                 });
 
             modelBuilder.Entity("EducaMBAXpert.Usuarios.Domain.Entities.Usuario", b =>

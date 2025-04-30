@@ -11,6 +11,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\EducaMBAXpert.Contracts\EducaMBAXpert.Contracts.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.Core\EducaMBAXpert.Core.csproj" />
   </ItemGroup>
 
