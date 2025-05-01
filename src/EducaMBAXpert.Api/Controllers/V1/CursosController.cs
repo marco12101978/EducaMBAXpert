@@ -1,9 +1,9 @@
 ﻿using EducaMBAXpert.Api.Authentication;
 using EducaMBAXpert.Api.ViewModels.User;
-using EducaMBAXpert.CatalagoCursos.Application.Services;
+using EducaMBAXpert.CatalagoCursos.Application.Interfaces;
 using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
-using EducaMBAXpert.Usuarios.Application.Services;
+using EducaMBAXpert.Usuarios.Application.Interfaces;
 using EducaMBAXpert.Usuarios.Application.ViewModels;
 using EducaMBAXpert.Usuarios.Domain.Entities;
 using MediatR;
@@ -21,16 +21,19 @@ namespace EducaMBAXpert.Api.Controllers.V1
     [Authorize(Roles = "Admin")]
     public class CursosController : MainController
     {
-        private readonly ICursoAppService _cursoAppService;
+        private readonly ICursoConsultaAppService _cursoConsultaAppService;
+        private readonly ICursoComandoAppService _cursoComandoAppService;
         private readonly IUsuarioAppService _usuarioAppService;
 
-        public CursosController(ICursoAppService cursoAppService,
-                                       IUsuarioAppService usuarioAppService,
-                                       IMediator mediator,
-                                       NotificationContext notificationContext,
-                                       IAppIdentityUser user) : base(mediator, notificationContext, user)
+        public CursosController(ICursoConsultaAppService cursoConsultaAppService,
+                                ICursoComandoAppService cursoComandoAppService,
+                                IUsuarioAppService usuarioAppService,
+                                IMediator mediator,
+                                NotificationContext notificationContext,
+                                IAppIdentityUser user) : base(mediator, notificationContext, user)
         {
-            _cursoAppService = cursoAppService;
+            _cursoConsultaAppService = cursoConsultaAppService;
+            _cursoComandoAppService = cursoComandoAppService;
             _usuarioAppService = usuarioAppService;
         }
 
@@ -44,7 +47,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
             if (!ModelState.IsValid)
                 return CustomResponse(HttpStatusCode.BadRequest);
             
-            _cursoAppService.Adicionar(curso);
+            var sucess = await _cursoComandoAppService.Adicionar(curso);
 
 
             return CustomResponse(HttpStatusCode.OK,curso);
@@ -59,7 +62,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> ObterTodos()
         {
-            var cursos = await _cursoAppService.ObterTodos();
+            var cursos = await _cursoConsultaAppService.ObterTodos();
             return CustomResponse(HttpStatusCode.OK, cursos);
         }
 
@@ -72,10 +75,9 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> ObterPorId(Guid id)
         {
-            var curso = await _cursoAppService.ObterPorId(id);
+            var curso = await _cursoConsultaAppService.ObterPorId(id);
             if (curso == null)
             {
-                NotificarErro("Curso não encontrado.");
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 

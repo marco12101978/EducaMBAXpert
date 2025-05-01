@@ -1,10 +1,10 @@
 ﻿using EducaMBAXpert.Api.Authentication;
 using EducaMBAXpert.Api.ViewModels.Pagamento;
-using EducaMBAXpert.CatalagoCursos.Application.Services;
+using EducaMBAXpert.CatalagoCursos.Application.Interfaces;
 using EducaMBAXpert.Core.Messages.CommonMessages.IntegrationEvents;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
-using EducaMBAXpert.Pagamentos.Application.Services;
-using EducaMBAXpert.Usuarios.Application.Services;
+using EducaMBAXpert.Pagamentos.Application.Interfaces;
+using EducaMBAXpert.Usuarios.Application.Interfaces;
 using EducaMBAXpert.Usuarios.Application.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -23,19 +23,16 @@ namespace EducaMBAXpert.Api.Controllers.V1
         private readonly IMediator _mediator;
         private readonly IPagamentoAppService _pagamentoAppService;
         private readonly IUsuarioAppService _usuarioAppService;
-        private readonly ICursoAppService _cursoAppService;
 
         public PagamentosController(IMediator mediator,
                                     IPagamentoAppService pagamentoAppService,
                                     IUsuarioAppService usuarioAppService,
-                                    ICursoAppService cursoAppService,
                                     IAppIdentityUser appIdentityUser,
                                     NotificationContext _notificationContext ) : base(mediator, _notificationContext, appIdentityUser)
         {
             _mediator = mediator;
             _pagamentoAppService = pagamentoAppService;
             _usuarioAppService = usuarioAppService;
-            _cursoAppService = cursoAppService;
         }
 
         [HttpPost("pagamento")]

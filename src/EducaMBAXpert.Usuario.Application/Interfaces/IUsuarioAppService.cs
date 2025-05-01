@@ -1,7 +1,7 @@
 ﻿using EducaMBAXpert.Usuarios.Application.ViewModels;
 using EducaMBAXpert.Usuarios.Domain.Entities;
 
-namespace EducaMBAXpert.Usuarios.Application.Services
+namespace EducaMBAXpert.Usuarios.Application.Interfaces
 {
     public interface IUsuarioAppService : IDisposable
     {
@@ -18,7 +18,7 @@ namespace EducaMBAXpert.Usuarios.Application.Services
 
         Task<MatriculaViewModel> ObterMatriculaPorId(Guid id);
 
-        Task<IEnumerable<MatriculaViewModel>> ObterTodasMatriculasPorUsuarioId(Guid id,bool ativas);
+        Task<IEnumerable<MatriculaViewModel>> ObterTodasMatriculasPorUsuarioId(Guid id, bool ativas);
 
         Task<bool> Inativar(Guid id);
         Task<bool> Ativar(Guid id);

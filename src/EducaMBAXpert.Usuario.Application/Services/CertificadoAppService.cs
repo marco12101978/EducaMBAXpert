@@ -1,4 +1,5 @@
 ﻿using EducaMBAXpert.Contracts.Cursos;
+using EducaMBAXpert.Usuarios.Application.Interfaces;
 
 namespace EducaMBAXpert.Usuarios.Application.Services
 {

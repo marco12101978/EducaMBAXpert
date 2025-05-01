@@ -1,13 +1,13 @@
 ﻿using EducaMBAXpert.Usuarios.Application.ViewModels;
 
-namespace EducaMBAXpert.Usuarios.Application.Services
+namespace EducaMBAXpert.Usuarios.Application.Interfaces
 {
     public interface IMatriculaAppService
     {
         Task ConcluirAula(Guid matriculaId, Guid aulaId);
         Task<bool> PodeEmitirCertificado(Guid matriculaId);
         Task<byte[]> GerarCertificadoPDF(Guid matriculaId);
-        Task<MatriculaViewModel> ObterMatricula (Guid matriculaId);
+        Task<MatriculaViewModel> ObterMatricula(Guid matriculaId);
 
     }
 }

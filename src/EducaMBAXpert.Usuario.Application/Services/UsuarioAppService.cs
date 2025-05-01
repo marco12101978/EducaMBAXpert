@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EducaMBAXpert.Core.DomainObjects;
+using EducaMBAXpert.Usuarios.Application.Interfaces;
 using EducaMBAXpert.Usuarios.Application.ViewModels;
 using EducaMBAXpert.Usuarios.Domain.Entities;
 using EducaMBAXpert.Usuarios.Domain.Interfaces;

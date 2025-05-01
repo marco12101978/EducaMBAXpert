@@ -1,6 +1,7 @@
 ﻿using EducaMBAXpert.Api.Authentication;
 using EducaMBAXpert.Api.Interfaces;
 using EducaMBAXpert.Api.Notificacoes;
+using EducaMBAXpert.CatalagoCursos.Application.Interfaces;
 using EducaMBAXpert.CatalagoCursos.Application.Services;
 using EducaMBAXpert.CatalagoCursos.Data.Repository;
 using EducaMBAXpert.CatalagoCursos.Domain.Interfaces;
@@ -10,11 +11,14 @@ using EducaMBAXpert.Contracts.Certificados;
 using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Bus;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
-using EducaMBAXpert.Pagamentos.AntiCorruption;
+using EducaMBAXpert.Pagamentos.AntiCorruption.Interfaces;
+using EducaMBAXpert.Pagamentos.AntiCorruption.Services;
+using EducaMBAXpert.Pagamentos.Application.Interfaces;
 using EducaMBAXpert.Pagamentos.Application.Services;
 using EducaMBAXpert.Pagamentos.Business.Interfaces;
 using EducaMBAXpert.Pagamentos.Business.Services;
 using EducaMBAXpert.Pagamentos.Data.Repository;
+using EducaMBAXpert.Usuarios.Application.Interfaces;
 using EducaMBAXpert.Usuarios.Application.Services;
 using EducaMBAXpert.Usuarios.Data.Repository;
 using EducaMBAXpert.Usuarios.Domain.Interfaces;
@@ -53,7 +57,8 @@ namespace EducaMBAXpert.Api.Configuration
 
             services.AddScoped<ICursoRepository, CursoRepository>();
             services.AddScoped<ICursoService, CursoService>();
-            services.AddScoped<ICursoAppService, CursoAppService>();
+            services.AddScoped<ICursoConsultaAppService, CursoAppService>();
+            services.AddScoped<ICursoComandoAppService, CursoAppService>();
 
             services.AddScoped<ICursoConsultaService, CursoConsultaService>();
 
@@ -68,7 +73,7 @@ namespace EducaMBAXpert.Api.Configuration
             services.AddScoped<IPagamentoService, PagamentoService>();
             services.AddScoped<IPagamentoCartaoCreditoFacade, PagamentoCartaoCreditoFacade>();
             services.AddScoped<IPayPalGateway, PayPalGateway>();
-            services.AddScoped<Pagamentos.AntiCorruption.IConfigurationManager, Pagamentos.AntiCorruption.ConfigurationManager>();
+            services.AddScoped<Pagamentos.AntiCorruption.Interfaces.IConfigurationManager, Pagamentos.AntiCorruption.Services.ConfigurationManager>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

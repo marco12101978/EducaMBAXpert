@@ -1,6 +1,6 @@
 ﻿using EducaMBAXpert.Pagamentos.Application.ViewModels;
 
-namespace EducaMBAXpert.Pagamentos.Application.Services
+namespace EducaMBAXpert.Pagamentos.Application.Interfaces
 {
     public interface IPagamentoAppService : IDisposable
     {

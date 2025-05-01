@@ -1,5 +1,6 @@
 ﻿using EducaMBAXpert.CatalagoCursos.Domain.Interfaces;
 using EducaMBAXpert.Contracts.Cursos;
+using EducaMBAXpert.Core.DomainObjects;
 
 namespace EducaMBAXpert.CatalagoCursos.Application.Services
 {
@@ -12,25 +13,42 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
             _cursoRepository = cursoRepository;
         }
 
-        public async Task<bool> ExiteAulaNoCurso(Guid cursoId,Guid aulaId)
+        public async Task<Result<bool>> ExisteAulaNoCurso(Guid cursoId,Guid aulaId)
         {
             var curso = await _cursoRepository.ObterPorId(cursoId);
 
-            return curso.Modulos.SelectMany(m => m.Aulas)
-                                .Any(a => a.Id == aulaId);
+            if (curso == null)
+                return CursoNaoEncontrado<bool>();
+
+            var exists = curso.Modulos.SelectMany(m => m.Aulas)
+                                      .Any(a => a.Id == aulaId);
+
+            return Result<bool>.Ok(exists);
 
         }
 
-        public async Task<string> ObterNomeCurso(Guid cursoId)
+        public async Task<Result<string>> ObterNomeCurso(Guid cursoId)
         {
             var curso = await _cursoRepository.ObterPorId(cursoId);
-            return curso?.Titulo ?? "Curso não encontrado";
+            if (curso == null)
+                return CursoNaoEncontrado<string>();
+
+            return Result<string>.Ok(curso.Titulo);
         }
 
-        public async Task<int> ObterTotalAulasPorCurso(Guid cursoId)
+        public async Task<Result<int>> ObterTotalAulasPorCurso(Guid cursoId)
         {
             var curso = await _cursoRepository.ObterPorId(cursoId);
-            return curso?.Modulos.SelectMany(m => m.Aulas).Count() ?? 0;
+            if (curso == null)
+                return CursoNaoEncontrado<int>();
+
+            var total = curso.Modulos.SelectMany(m => m.Aulas).Count();
+            return Result<int>.Ok(total);
+        }
+
+        private Result<T> CursoNaoEncontrado<T>()
+        {
+            return Result<T>.Fail("Curso não encontrado.");
         }
     }
 }

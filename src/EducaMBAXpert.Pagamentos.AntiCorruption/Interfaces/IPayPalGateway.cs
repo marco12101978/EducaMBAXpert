@@ -1,4 +1,4 @@
-﻿namespace EducaMBAXpert.Pagamentos.AntiCorruption
+﻿namespace EducaMBAXpert.Pagamentos.AntiCorruption.Interfaces
 {
     public interface IPayPalGateway
     {

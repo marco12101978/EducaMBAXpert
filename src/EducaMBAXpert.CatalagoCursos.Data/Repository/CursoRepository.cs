@@ -26,7 +26,7 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Repository
                          .ToListAsync();  
         }
 
-        public async Task<Curso> ObterPorId(Guid id)
+        public async Task<Curso?> ObterPorId(Guid id)
         {
             return await _context.Cursos
                          .Include(u => u.Modulos)

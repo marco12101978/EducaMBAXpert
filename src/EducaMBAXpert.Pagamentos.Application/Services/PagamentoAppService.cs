@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EducaMBAXpert.Pagamentos.Application.Interfaces;
 using EducaMBAXpert.Pagamentos.Application.ViewModels;
 using EducaMBAXpert.Pagamentos.Business.Interfaces;
 

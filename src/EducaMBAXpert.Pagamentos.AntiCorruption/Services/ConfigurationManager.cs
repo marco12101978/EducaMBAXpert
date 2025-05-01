@@ -1,4 +1,6 @@
-﻿namespace EducaMBAXpert.Pagamentos.AntiCorruption
+﻿using EducaMBAXpert.Pagamentos.AntiCorruption.Interfaces;
+
+namespace EducaMBAXpert.Pagamentos.AntiCorruption.Services
 {
     public class ConfigurationManager : IConfigurationManager
     {

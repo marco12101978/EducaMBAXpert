@@ -1,4 +1,4 @@
-﻿namespace EducaMBAXpert.Usuarios.Application.Services
+﻿namespace EducaMBAXpert.Usuarios.Application.Interfaces
 {
     public interface ICertificadoAppService
     {

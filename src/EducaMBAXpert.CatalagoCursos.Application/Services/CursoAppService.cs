@@ -1,51 +1,84 @@
 ﻿using AutoMapper;
+using EducaMBAXpert.CatalagoCursos.Application.Interfaces;
 using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
 using EducaMBAXpert.CatalagoCursos.Domain.Entities;
 using EducaMBAXpert.CatalagoCursos.Domain.Interfaces;
+using EducaMBAXpert.Core.Bus;
 using EducaMBAXpert.Core.DomainObjects;
+using EducaMBAXpert.Core.Messages;
+using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 
 namespace EducaMBAXpert.CatalagoCursos.Application.Services
 {
-    public class CursoAppService : ICursoAppService
+    public class CursoAppService : ICursoComandoAppService, ICursoConsultaAppService
     {
         private readonly ICursoRepository _cursoRepository;
-        private readonly ICursoService _cursoService; 
+        private readonly ICursoService _cursoService;
         private readonly IMapper _mapper;
+        private readonly IMediatrHandler _mediatrHandler;
 
-        public CursoAppService(ICursoRepository cursoRepository, ICursoService cursoService, IMapper mapper)
+        public CursoAppService(ICursoRepository cursoRepository,
+                               ICursoService cursoService,
+                               IMapper mapper,
+                               IMediatrHandler mediatrHandler)
         {
             _cursoRepository = cursoRepository;
             _cursoService = cursoService;
             _mapper = mapper;
+            _mediatrHandler = mediatrHandler;
         }
 
-        public async Task<CursoViewModel> ObterPorId(Guid id)
+        public async Task<CursoViewModel?> ObterPorId(Guid id)
         {
-            return _mapper.Map<CursoViewModel>(await _cursoRepository.ObterPorId(id));
+            Curso? curso = await _cursoRepository.ObterPorId(id);
+            if (curso == null)
+            {
+                await NotificarErro("ObterPorId", $"Curso com ID {id} não encontrado.");
+                return null;
+            }
+
+            return _mapper.Map<CursoViewModel>(curso);
         }
 
         public async Task<IEnumerable<CursoViewModel>> ObterTodos()
         {
-           return _mapper.Map<IEnumerable<CursoViewModel>>(await _cursoRepository.ObterTodos());
+            var cursos = await _cursoRepository.ObterTodos();
+            return _mapper.Map<IEnumerable<CursoViewModel>>(cursos);
         }
 
-        public async void Adicionar(CursoInputModel cursoCompletoViewModel)
+
+        public async Task<Result> Adicionar(CursoInputModel inputModel)
         {
-            // var _curso = _mapper.Map<Curso>(cursoCompletoViewModel);
-
-            var _curso = new Curso(cursoCompletoViewModel.Titulo,
-                                  cursoCompletoViewModel.Descricao,
-                                  cursoCompletoViewModel.Valor,
-                                  cursoCompletoViewModel.Categoria,
-                                  cursoCompletoViewModel.Nivel);
-
-            if (cursoCompletoViewModel.Ativo)
-                _curso.Ativar();
-            else
-                _curso.Inativar();
-
-            foreach (var moduloVm in cursoCompletoViewModel.Modulos)
+            if (inputModel == null)
             {
+                var message = $"O parâmetro {nameof(inputModel)} não pode ser nulo.";
+                return await NotificarErro("CursoAppService.Adicionar", message);
+            }
+
+            var curso = new Curso(inputModel.Titulo,
+                                   inputModel.Descricao,
+                                   inputModel.Valor,
+                                   inputModel.Categoria,
+                                   inputModel.Nivel);
+
+            if (inputModel.Ativo)
+                curso.Ativar();
+            else
+                curso.Inativar();
+
+
+            if (inputModel.Modulos == null || !inputModel.Modulos.Any())
+            {
+                var message = "O curso precisa ter pelo menos um módulo.";
+                return await NotificarErro("CursoAppService.Adicionar", message);
+            }
+
+
+            foreach (var moduloVm in inputModel.Modulos)
+            {
+                if (moduloVm.Aulas == null || !moduloVm.Aulas.Any())
+                    continue;
+
                 var modulo = new Modulo(moduloVm.Nome);
 
                 foreach (var aulaVm in moduloVm.Aulas)
@@ -54,43 +87,54 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
                     modulo.AdicionarAula(aula);
                 }
 
-                _curso.AdicionarModulo(modulo);
+                curso.AdicionarModulo(modulo);
             }
 
-            _cursoRepository.Adicionar(_curso);
+            _cursoRepository.Adicionar(curso);
 
             await _cursoRepository.UnitOfWork.Commit();
+
+            return Result.Ok();
         }
 
-        public async void Atualizar(CursoInputModel cursoViewModel)
+        public async Task<Result> Atualizar(CursoInputModel inputModel)
         {
-            var _curso = _mapper.Map<Curso>(cursoViewModel);
-            _cursoRepository.Atualizar(_curso);
+            if (inputModel == null)
+            {
+                var message = $"O parâmetro {nameof(inputModel)} não pode ser nulo.";
+                return await NotificarErro("CursoAppService.Atualizar", message);
+            }
+
+            var curso = _mapper.Map<Curso>(inputModel);
+            _cursoRepository.Atualizar(curso);
 
             await _cursoRepository.UnitOfWork.Commit();
+            return Result.Ok();
         }
 
 
-        public async Task<bool> Ativar(Guid id)
+        public async Task<Result> Ativar(Guid id)
         {
-            var _sucess = await _cursoService.Ativar(id);
-            if (!_sucess)
+            var success = await _cursoService.Ativar(id);
+            if (!success)
             {
-                throw new DomainException("Falha ao Inativar Curso");
+                var message = $"Falha ao ativar curso com ID {id}.";
+                return await NotificarErro("CursoAppService.Ativar", message);
             }
 
-            return true;
+            return Result.Ok();
         }
 
-        public async Task<bool> Inativar(Guid id)
+        public async Task<Result> Inativar(Guid id)
         {
-            var _sucess = await _cursoService.Inativar(id);
-            if (!_sucess)
+            var success = await _cursoService.Inativar(id);
+            if (!success)
             {
-                throw new DomainException("Falha ao Inativar Curso");
+                var message = $"Falha ao inativar curso com ID {id}.";
+                return await NotificarErro("CursoAppService.Inativar", message);
             }
 
-            return true;
+            return Result.Ok();
         }
 
 
@@ -99,6 +143,14 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
             _cursoRepository?.Dispose();
             _cursoService?.Dispose();
         }
+
+
+        private async Task<Result> NotificarErro(string contexto, string mensagem)
+        {
+            await _mediatrHandler.PublicarNotificacao(new DomainNotification(contexto, mensagem));
+            return Result.Fail(mensagem);
+        }
+
 
     }
 }

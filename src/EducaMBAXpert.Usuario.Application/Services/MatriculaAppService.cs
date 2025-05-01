@@ -2,7 +2,9 @@
 using EducaMBAXpert.Contracts.Certificados;
 using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Bus;
+using EducaMBAXpert.Core.DomainObjects;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
+using EducaMBAXpert.Usuarios.Application.Interfaces;
 using EducaMBAXpert.Usuarios.Application.ViewModels;
 using EducaMBAXpert.Usuarios.Domain.Entities;
 using EducaMBAXpert.Usuarios.Domain.Interfaces;
@@ -71,7 +73,7 @@ namespace EducaMBAXpert.Usuarios.Application.Services
 
 
             var totalAulas = await _cursoConsultaService.ObterTotalAulasPorCurso(matricula.CursoId);
-            return matricula.PodeEmitirCertificado(totalAulas);
+            return matricula.PodeEmitirCertificado(totalAulas.Data);
         }
 
         public async Task<byte[]> GerarCertificadoPDF(Guid matriculaId)
@@ -86,17 +88,17 @@ namespace EducaMBAXpert.Usuarios.Application.Services
             }
 
             var totalAulas = await _cursoConsultaService.ObterTotalAulasPorCurso(matricula.CursoId);
-            if (!matricula.PodeEmitirCertificado(totalAulas))
+            if (!matricula.PodeEmitirCertificado(totalAulas.Data))
             {
                 await _mediatrHandler.PublicarNotificacao(new DomainNotification("GerarCertificadoPDF",
                                                                                  "Aluno ainda não concluiu todas as aulas."));
                 return null;
             }
 
-            var aluno = await _usuarioRepository.ObterPorId(matricula.UsuarioId);
-            var curso = await _cursoConsultaService.ObterNomeCurso(matricula.CursoId);
+            Usuario aluno = await _usuarioRepository.ObterPorId(matricula.UsuarioId);
+            Result<string> curso = await _cursoConsultaService.ObterNomeCurso(matricula.CursoId);
 
-            return _certificadoService.GerarCertificado(aluno.Nome, curso, DateTime.Now);
+            return _certificadoService.GerarCertificado(aluno.Nome, curso.Data, DateTime.Now);
         }
 
         public async Task<MatriculaViewModel> ObterMatricula(Guid matriculaId)

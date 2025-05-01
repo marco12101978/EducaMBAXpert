@@ -1,9 +1,10 @@
-﻿using EducaMBAXpert.Pagamentos.Business.Entities;
+﻿using EducaMBAXpert.Pagamentos.AntiCorruption.Interfaces;
+using EducaMBAXpert.Pagamentos.Business.Entities;
 using EducaMBAXpert.Pagamentos.Business.Enum;
 using EducaMBAXpert.Pagamentos.Business.Interfaces;
 using EducaMBAXpert.Pagamentos.Business.Models;
 
-namespace EducaMBAXpert.Pagamentos.AntiCorruption
+namespace EducaMBAXpert.Pagamentos.AntiCorruption.Services
 {
     public class PagamentoCartaoCreditoFacade : IPagamentoCartaoCreditoFacade
     {

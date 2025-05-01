@@ -1,8 +1,8 @@
 ﻿using EducaMBAXpert.Api.Authentication;
-using EducaMBAXpert.CatalagoCursos.Application.Services;
+using EducaMBAXpert.CatalagoCursos.Application.Interfaces;
 using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
-using EducaMBAXpert.Usuarios.Application.Services;
+using EducaMBAXpert.Usuarios.Application.Interfaces;
 using EducaMBAXpert.Usuarios.Application.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -19,22 +19,22 @@ namespace EducaMBAXpert.Api.Controllers.V1
     public class MatriculasController : MainController
     {
         private readonly IUsuarioAppService _usuarioAppService;
-        private readonly ICursoAppService _cursoAppService;
         private readonly IMatriculaAppService _matriculaAppService;
         private readonly ICursoConsultaService _cursoConsultaService;
+        private readonly ICursoConsultaAppService _cursoConsultaAppService;
 
         public MatriculasController(IMediator mediator,
                                         IUsuarioAppService usuarioAppService,
                                         IMatriculaAppService matriculaAppService,
-                                        ICursoAppService cursoAppService,
                                         ICursoConsultaService cursoConsultaService,
+                                        ICursoConsultaAppService cursoConsultaAppService,
                                         NotificationContext notificationContext,
                                         IAppIdentityUser user) : base(mediator, notificationContext, user)
         {
             _usuarioAppService = usuarioAppService;
-            _cursoAppService = cursoAppService;
             _matriculaAppService = matriculaAppService;
             _cursoConsultaService = cursoConsultaService;
+            _cursoConsultaAppService = cursoConsultaAppService;
         }
 
         [HttpPost("matricular/{idUsuario:guid}")]
@@ -47,6 +47,9 @@ namespace EducaMBAXpert.Api.Controllers.V1
             if (!ModelState.IsValid)
                 return CustomResponse(HttpStatusCode.BadRequest);
 
+            if (matricula.UsuarioId != idUsuario)
+                return CustomResponse(HttpStatusCode.BadRequest);
+
             var usuario = await _usuarioAppService.ObterPorId(idUsuario);
 
             if (usuario == null)
@@ -55,15 +58,10 @@ namespace EducaMBAXpert.Api.Controllers.V1
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 
-            var curso = _cursoAppService.ObterPorId(matricula.CursoId);
+            var curso = _cursoConsultaAppService.ObterPorId(matricula.CursoId);
 
             if (curso == null)
-            {
-                NotificarErro("Curso não encontrado.");
                 return CustomResponse(HttpStatusCode.NotFound);
-            }
-
-            matricula.UsuarioId = idUsuario;
 
             await _usuarioAppService.AdicionarMatriculaCurso(matricula);
 
@@ -105,7 +103,8 @@ namespace EducaMBAXpert.Api.Controllers.V1
         {
             var _matriculas = await _matriculaAppService.ObterMatricula(matriculaId);
 
-            if (!await _cursoConsultaService.ExiteAulaNoCurso(_matriculas.CursoId, aulaId))
+            var result = await _cursoConsultaService.ExisteAulaNoCurso(_matriculas.CursoId, aulaId);
+            if (!result.Data)
             {
                 NotificarErro("Aula não encontrada no Curso.");
                 return CustomResponse(HttpStatusCode.NotFound);

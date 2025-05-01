@@ -2,7 +2,7 @@
 using EducaMBAXpert.Api.Interfaces;
 using EducaMBAXpert.Api.ViewModels.User;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
-using EducaMBAXpert.Usuarios.Application.Services;
+using EducaMBAXpert.Usuarios.Application.Interfaces;
 using EducaMBAXpert.Usuarios.Application.ViewModels;
 using EducaMBAXpert.Usuarios.Domain.Entities;
 using MediatR;
