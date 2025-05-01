@@ -21,8 +21,6 @@ namespace EducaMBAXpert.Certificados.Services
                     page.Margin(50);
                     page.PageColor(Colors.White);
 
-                    page.Background().Image("Assets/certificado-background.jpg", ImageScaling.FitWidth);
-
                     page.Content()
                         .Column(coluna =>
                         {
@@ -41,6 +39,10 @@ namespace EducaMBAXpert.Certificados.Services
                         });
                 });
             });
+
+
+
+
 
             using var memoryStream = new System.IO.MemoryStream();
             documento.GeneratePdf(memoryStream);

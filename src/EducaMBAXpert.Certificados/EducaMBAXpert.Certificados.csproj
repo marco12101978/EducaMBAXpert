@@ -14,10 +14,4 @@
     <ProjectReference Include="..\EducaMBAXpert.Contracts\EducaMBAXpert.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="Assets\certificado-background.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
 </Project>
