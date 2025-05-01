@@ -12,6 +12,15 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
             _cursoRepository = cursoRepository;
         }
 
+        public async Task<bool> ExiteAulaNoCurso(Guid cursoId,Guid aulaId)
+        {
+            var curso = await _cursoRepository.ObterPorId(cursoId);
+
+            return curso.Modulos.SelectMany(m => m.Aulas)
+                                .Any(a => a.Id == aulaId);
+
+        }
+
         public async Task<string> ObterNomeCurso(Guid cursoId)
         {
             var curso = await _cursoRepository.ObterPorId(cursoId);

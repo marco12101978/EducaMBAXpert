@@ -4,6 +4,11 @@ namespace EducaMBAXpert.Usuarios.Application.Services
 {
     internal class CursoConsultaAppService : ICursoConsultaService
     {
+        public Task<bool> ExiteAulaNoCurso(Guid cursoId, Guid aulaId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<string> ObterNomeCurso(Guid cursoId)
         {
             throw new NotImplementedException();

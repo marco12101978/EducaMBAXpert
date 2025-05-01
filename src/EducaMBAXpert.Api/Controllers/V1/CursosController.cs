@@ -75,7 +75,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
             var usuario = await _cursoAppService.ObterPorId(id);
             if (usuario == null)
             {
-                NotificarErro("Pagamento não encontrado.");
+                NotificarErro("Curso não encontrado.");
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 

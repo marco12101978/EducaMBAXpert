@@ -1,5 +1,6 @@
 ﻿using EducaMBAXpert.Api.Authentication;
 using EducaMBAXpert.CatalagoCursos.Application.Services;
+using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Usuarios.Application.Services;
 using EducaMBAXpert.Usuarios.Application.ViewModels;
@@ -21,17 +22,20 @@ namespace EducaMBAXpert.Api.Controllers.V1
         private readonly IUsuarioAppService _usuarioAppService;
         private readonly ICursoAppService _cursoAppService;
         private readonly IMatriculaAppService _matriculaAppService;
+        private readonly ICursoConsultaService _cursoConsultaService;
 
         public MatriculasController(IMediator mediator,
                                         IUsuarioAppService usuarioAppService,
                                         IMatriculaAppService matriculaAppService,
                                         ICursoAppService cursoAppService,
+                                        ICursoConsultaService cursoConsultaService,
                                         NotificationContext notificationContext,
                                         IAppIdentityUser user) : base(mediator, notificationContext, user)
         {
             _usuarioAppService = usuarioAppService;
             _cursoAppService = cursoAppService;
             _matriculaAppService = matriculaAppService;
+            _cursoConsultaService = cursoConsultaService;
         }
 
         [HttpPost("matricular/{idUsuario:guid}")]
@@ -100,8 +104,13 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [HttpPost("matricula/{matriculaId}/aula/{aulaId}/concluir")]
         public async Task<IActionResult> ConcluirAula(Guid matriculaId, Guid aulaId)
         {
+            var _matriculas = await _matriculaAppService.ObterMatricula(matriculaId);
+
+            var _exite = await _cursoConsultaService.ExiteAulaNoCurso(_matriculas.CursoId, aulaId);
+
             await _matriculaAppService.ConcluirAula(matriculaId, aulaId);
-            return Ok("Aula marcada como concluída.");
+
+            return CustomResponse(HttpStatusCode.OK);
         }
 
 
@@ -109,13 +118,19 @@ namespace EducaMBAXpert.Api.Controllers.V1
         public async Task<IActionResult> VerificarCertificado(Guid matriculaId)
         {
             var podeEmitir = await _matriculaAppService.PodeEmitirCertificado(matriculaId);
-            return Ok(new { podeEmitir });
+            return CustomResponse(HttpStatusCode.OK, new { podeEmitir });
         }
 
         [HttpGet("{matriculaId}/certificado/download")]
         public async Task<IActionResult> BaixarCertificado(Guid matriculaId)
         {
             var pdf = await _matriculaAppService.GerarCertificadoPDF(matriculaId);
+
+            if (pdf == null)
+            {
+                return CustomResponse(HttpStatusCode.BadRequest);
+            }
+
             return File(pdf, "application/pdf", "Certificado.pdf");
         }
 
