@@ -4,7 +4,6 @@ using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Usuarios.Application.Services;
 using EducaMBAXpert.Usuarios.Application.ViewModels;
-using EducaMBAXpert.Usuarios.Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -106,7 +105,11 @@ namespace EducaMBAXpert.Api.Controllers.V1
         {
             var _matriculas = await _matriculaAppService.ObterMatricula(matriculaId);
 
-            var _exite = await _cursoConsultaService.ExiteAulaNoCurso(_matriculas.CursoId, aulaId);
+            if (!await _cursoConsultaService.ExiteAulaNoCurso(_matriculas.CursoId, aulaId))
+            {
+                NotificarErro("Aula não encontrada no Curso.");
+                return CustomResponse(HttpStatusCode.NotFound);
+            }
 
             await _matriculaAppService.ConcluirAula(matriculaId, aulaId);
 

@@ -59,8 +59,8 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> ObterTodos()
         {
-            var usuarios = await _cursoAppService.ObterTodos();
-            return CustomResponse(HttpStatusCode.OK, usuarios);
+            var cursos = await _cursoAppService.ObterTodos();
+            return CustomResponse(HttpStatusCode.OK, cursos);
         }
 
 
@@ -72,14 +72,14 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> ObterPorId(Guid id)
         {
-            var usuario = await _cursoAppService.ObterPorId(id);
-            if (usuario == null)
+            var curso = await _cursoAppService.ObterPorId(id);
+            if (curso == null)
             {
                 NotificarErro("Curso não encontrado.");
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 
-            return CustomResponse(HttpStatusCode.OK, usuario);
+            return CustomResponse(HttpStatusCode.OK, curso);
         }
 
     }
