@@ -47,9 +47,7 @@ src/
 ├── EducaMBAXpert.Api/                 # API principal
 ├── EducaMBAXpert.Core/                # Biblioteca de utilitários e base
 ├── EducaMBAXpert.Usuarios/            # Aplicação, Domínio e Dados de Usuários
-├── EducaMBAXpert.Matriculas/          # Aplicação, Domínio e Dados de Matrículas
 ├── EducaMBAXpert.CatalogoCursos/      # Aplicação, Domínio e Dados de Cursos
-├── EducaMBAXpert.Avaliacoes/          # Aplicação, Domínio e Dados de Avaliações
 ├── EducaMBAXpert.Pagamentos/          # Aplicação, Anti-corruption layer, Business e Dados de Pagamentos
 └── README.md                          # Documento de apoio
 ```
