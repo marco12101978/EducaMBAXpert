@@ -111,8 +111,15 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
             if (result.Succeeded)
             {
-                //return Ok(await GerarJwt(loginUser.Email));
-                return CustomResponse(HttpStatusCode.OK, await GerarJwt(loginUser.Email));
+                var jwtResult = await GerarJwt(loginUser.Email);
+                var user = await _userManager.FindByEmailAsync(loginUser.Email);
+
+                var response = new
+                {
+                    UserId = user?.Id,
+                    Token = jwtResult
+                };
+                return CustomResponse(HttpStatusCode.OK, response);
             }
 
             NotificarErro("Usuário ou senha incorretos");

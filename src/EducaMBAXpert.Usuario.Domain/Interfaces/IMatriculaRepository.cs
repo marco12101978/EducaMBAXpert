@@ -7,6 +7,9 @@ namespace EducaMBAXpert.Usuarios.Domain.Interfaces
     {
         Task<Matricula> ObterPorIdAsync(Guid id);
         Task Atualizar(Matricula matricula);
+
+        Task<bool> AulaJaConcluida(Guid matriculaId, Guid aulaId);
+        Task AdicionarAulaConcluida(AulaConcluida aulaConcluida);
     }
 }
 

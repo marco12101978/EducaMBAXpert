@@ -1,5 +1,6 @@
 ﻿using EducaMBAXpert.Contracts.Certificados;
 using EducaMBAXpert.Contracts.Cursos;
+using EducaMBAXpert.Usuarios.Domain.Entities;
 using EducaMBAXpert.Usuarios.Domain.Interfaces;
 
 namespace EducaMBAXpert.Usuarios.Application.Services
@@ -24,11 +25,25 @@ namespace EducaMBAXpert.Usuarios.Application.Services
 
         public async Task ConcluirAula(Guid matriculaId, Guid aulaId)
         {
-            var matricula = await _matriculaRepository.ObterPorIdAsync(matriculaId)
-                             ?? throw new Exception("Matrícula não encontrada.");
 
-            matricula.MarcarAulaComoConcluida(aulaId);
-            await _matriculaRepository.Atualizar(matricula);
+            //var matricula = await _matriculaRepository.ObterPorIdAsync(matriculaId)
+            //                 ?? throw new Exception("Matrícula não encontrada.");
+
+            //matricula.MarcarAulaComoConcluida(aulaId);
+            //await _matriculaRepository.Atualizar(matricula);
+
+            //await _matriculaRepository.UnitOfWork.Commit();
+
+            var matricula = await _matriculaRepository.ObterPorIdAsync(matriculaId)
+                     ?? throw new Exception("Matrícula não encontrada.");
+
+            var aulaJaConcluida = await _matriculaRepository.AulaJaConcluida(matriculaId, aulaId);
+
+            if (!aulaJaConcluida)
+            {
+                var novaAula = new AulaConcluida(matriculaId, aulaId);
+                await _matriculaRepository.AdicionarAulaConcluida(novaAula);
+            }
 
             await _matriculaRepository.UnitOfWork.Commit();
 

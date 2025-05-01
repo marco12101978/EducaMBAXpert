@@ -71,11 +71,6 @@ namespace EducaMBAXpert.Usuarios.Data.Repository
 
         public async Task<IEnumerable<Matricula>> ObterTodasMatriculasPorUsuarioId(Guid Usuarioid,bool ativas)
         {
-            var mat = await _context.Matriculas
-                .AsNoTracking()
-                .Where(m => m.UsuarioId == Usuarioid && m.Ativo == ativas)
-                .ToListAsync();
-
             return await _context.Matriculas
                 .AsNoTracking()
                 .Where(m => m.UsuarioId == Usuarioid && m.Ativo == ativas)

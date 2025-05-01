@@ -15,6 +15,7 @@ namespace EducaMBAXpert.Usuarios.Data.Context
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<Matricula> Matriculas { get; set; }
+        public DbSet<AulaConcluida> AulasConcluidas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
