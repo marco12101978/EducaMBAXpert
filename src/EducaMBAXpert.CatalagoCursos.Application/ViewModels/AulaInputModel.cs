@@ -4,16 +4,16 @@ namespace EducaMBAXpert.CatalagoCursos.Application.ViewModels
 {
     public class AulaInputModel
     {
-        [Required(ErrorMessage = "O título da aula é obrigatório.")]
+        [Required(ErrorMessage = "O campo Título é obrigatório.")]
         [StringLength(100, ErrorMessage = "O título deve ter no máximo 100 caracteres.")]
-        public string Titulo { get; set; }
+        public string Titulo { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "A URL da aula é obrigatória.")]
-        [Url(ErrorMessage = "A URL da aula não é válida.")]
-        public string Url { get; set; }
+        [Required(ErrorMessage = "O campo URL é obrigatório.")]
+        [Url(ErrorMessage = "A URL fornecida não é válida.")]
+        public string Url { get; set; } = string.Empty;
 
         [Display(Name = "Duração da Aula")]
-        [Required(ErrorMessage = "A duração da aula é obrigatória.")]
+        [Required(ErrorMessage = "O campo Duração é obrigatório.")]
         public TimeSpan Duracao { get; set; }
     }
 }

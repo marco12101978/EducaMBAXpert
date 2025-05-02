@@ -10,15 +10,14 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
 
         public CursoConsultaService(ICursoRepository cursoRepository)
         {
-            _cursoRepository = cursoRepository;
+            _cursoRepository = cursoRepository ?? throw new ArgumentNullException(nameof(cursoRepository));
         }
 
         public async Task<Result<bool>> ExisteAulaNoCurso(Guid cursoId,Guid aulaId)
         {
             var curso = await _cursoRepository.ObterPorId(cursoId);
-
             if (curso == null)
-                return CursoNaoEncontrado<bool>();
+                return CursoNaoEncontrado<bool>(cursoId);
 
             var exists = curso.Modulos.SelectMany(m => m.Aulas)
                                       .Any(a => a.Id == aulaId);
@@ -31,7 +30,7 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
         {
             var curso = await _cursoRepository.ObterPorId(cursoId);
             if (curso == null)
-                return CursoNaoEncontrado<string>();
+                return CursoNaoEncontrado<string>(cursoId);
 
             return Result<string>.Ok(curso.Titulo);
         }
@@ -40,15 +39,17 @@ namespace EducaMBAXpert.CatalagoCursos.Application.Services
         {
             var curso = await _cursoRepository.ObterPorId(cursoId);
             if (curso == null)
-                return CursoNaoEncontrado<int>();
+                return CursoNaoEncontrado<int>(cursoId);
 
-            var total = curso.Modulos.SelectMany(m => m.Aulas).Count();
+            var total = curso.Modulos?.Sum(m => m.Aulas?.Count ?? 0) ?? 0;
+
             return Result<int>.Ok(total);
         }
 
-        private Result<T> CursoNaoEncontrado<T>()
+        private Result<T> CursoNaoEncontrado<T>(Guid cursoId)
         {
-            return Result<T>.Fail("Curso não encontrado.");
+            var message = $"Curso com ID {cursoId} não encontrado.";
+            return Result<T>.Fail(message);
         }
     }
 }

@@ -103,6 +103,13 @@ namespace EducaMBAXpert.Api.Controllers.V1
         {
             var _matriculas = await _matriculaAppService.ObterMatricula(matriculaId);
 
+            if (_matriculas == null)
+            {
+                NotificarErro("Matricula não encontrada .");
+                return CustomResponse(HttpStatusCode.NotFound);
+            }
+
+
             var result = await _cursoConsultaService.ExisteAulaNoCurso(_matriculas.CursoId, aulaId);
             if (!result.Data)
             {
