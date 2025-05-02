@@ -16,8 +16,8 @@ namespace EducaMBAXpert.Pagamentos.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CobrancaAnuidadeId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ClienteId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CobrancaCursoId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UsuarioId = table.Column<Guid>(type: "TEXT", nullable: false),
                     Status = table.Column<string>(type: "varchar(100)", nullable: false),
                     Valor = table.Column<decimal>(type: "TEXT", nullable: false),
                     NomeCartao = table.Column<string>(type: "varchar(250)", nullable: false),
@@ -35,7 +35,7 @@ namespace EducaMBAXpert.Pagamentos.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CobrancaAnuidadeId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CobrancaCursoId = table.Column<Guid>(type: "TEXT", nullable: false),
                     PagamentoId = table.Column<Guid>(type: "TEXT", nullable: false),
                     Total = table.Column<decimal>(type: "TEXT", nullable: false),
                     StatusTransacao = table.Column<int>(type: "INTEGER", nullable: false)

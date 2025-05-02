@@ -17,7 +17,7 @@ namespace EducaMBAXpert.Pagamentos.AntiCorruption.Services
             _configManager = configManager;
         }
 
-        public Transacao RealizarPagamento(CobrancaAnuidade cobrancaAnuidade, Pagamento pagamento)
+        public Transacao RealizarPagamento(CobrancaCurso cobrancaCurso, Pagamento pagamento)
         {
             var apiKey = _configManager.GetValue("apiKey");
             var encriptionKey = _configManager.GetValue("encriptionKey");
@@ -25,12 +25,12 @@ namespace EducaMBAXpert.Pagamentos.AntiCorruption.Services
             var serviceKey = _payPalGateway.GetPayPalServiceKey(apiKey, encriptionKey);
             var cardHashKey = _payPalGateway.GetCardHashKey(serviceKey, pagamento.NumeroCartao);
 
-            var pagamentoResult = _payPalGateway.CommitTransaction(cardHashKey, cobrancaAnuidade.Id.ToString(), pagamento.Valor);
+            var pagamentoResult = _payPalGateway.CommitTransaction(cardHashKey, cobrancaCurso.Id.ToString(), pagamento.Valor);
 
             var transacao = new Transacao
             {
-                CobrancaAnuidadeId = cobrancaAnuidade.Id,
-                Total = cobrancaAnuidade.Valor,
+                CobrancaCursoId = cobrancaCurso.Id,
+                Total = cobrancaCurso.Valor,
                 PagamentoId = pagamento.Id
             };
 

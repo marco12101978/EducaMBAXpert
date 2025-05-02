@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducaMBAXpert.Usuarios.Data.Migrations
 {
     [DbContext(typeof(UsuarioContext))]
-    [Migration("20250430172208_DB_Initial")]
+    [Migration("20250502122248_DB_Initial")]
     partial class DB_Initial
     {
         /// <inheritdoc />

@@ -10,6 +10,6 @@ namespace EducaMBAXpert.Pagamentos.Business.Interfaces
 {
     public interface IPagamentoCartaoCreditoFacade
     {
-        Transacao RealizarPagamento(CobrancaAnuidade pedido, Pagamento pagamento);
+        Transacao RealizarPagamento(CobrancaCurso cobrancaCurso, Pagamento pagamento);
     }
 }

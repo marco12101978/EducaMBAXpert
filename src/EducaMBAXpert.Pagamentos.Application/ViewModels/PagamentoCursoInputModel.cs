@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EducaMBAXpert.Api.ViewModels.Pagamento
+namespace EducaMBAXpert.Pagamentos.Application.ViewModels
 {
     public class PagamentoCursoInputModel
     {
@@ -8,7 +8,7 @@ namespace EducaMBAXpert.Api.ViewModels.Pagamento
         public Guid MatriculaId { get; set; }
 
         [Required(ErrorMessage = "O Id do cliente é obrigatório.")]
-        public Guid ClienteId { get; set; }
+        public Guid UsuarioId { get; set; }
 
         [Required(ErrorMessage = "O valor total é obrigatório.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "O valor total deve ser maior que zero.")]

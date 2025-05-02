@@ -1,9 +1,8 @@
 ﻿using EducaMBAXpert.Api.Authentication;
-using EducaMBAXpert.Api.ViewModels.Pagamento;
-using EducaMBAXpert.CatalagoCursos.Application.Interfaces;
 using EducaMBAXpert.Core.Messages.CommonMessages.IntegrationEvents;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Pagamentos.Application.Interfaces;
+using EducaMBAXpert.Pagamentos.Application.ViewModels;
 using EducaMBAXpert.Usuarios.Application.Interfaces;
 using EducaMBAXpert.Usuarios.Application.ViewModels;
 using MediatR;
@@ -45,7 +44,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
             if (!ModelState.IsValid)
                 return CustomResponse(HttpStatusCode.BadRequest);
 
-            var usuario = await _usuarioAppService.ObterPorId(pagamento.ClienteId);
+            var usuario = await _usuarioAppService.ObterPorId(pagamento.UsuarioId);
 
             if (usuario == null)
             {
@@ -64,7 +63,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
 
             var pedidoEvent = new PagamentoCursoEvent(pagamento.MatriculaId,
-                                                      pagamento.ClienteId,
+                                                      pagamento.UsuarioId,
                                                       pagamento.Total,
                                                       pagamento.NomeCartao,
                                                       pagamento.NumeroCartao,

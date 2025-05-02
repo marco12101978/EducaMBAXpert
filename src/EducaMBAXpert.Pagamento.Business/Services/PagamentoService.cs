@@ -26,7 +26,7 @@ namespace EducaMBAXpert.Pagamentos.Business.Services
 
         public async Task<Transacao> RealizarPagamentoPedido(PagamentoCurso pagamentoAnuidade)
         {
-            var pedido = new CobrancaAnuidade
+            var pedido = new CobrancaCurso
             {
                 Id = pagamentoAnuidade.CursoId,
                 Valor = pagamentoAnuidade.Total
@@ -39,8 +39,8 @@ namespace EducaMBAXpert.Pagamentos.Business.Services
                 NumeroCartao = pagamentoAnuidade.NumeroCartao,
                 ExpiracaoCartao = pagamentoAnuidade.ExpiracaoCartao,
                 CvvCartao = pagamentoAnuidade.CvvCartao,
-                CobrancaAnuidadeId = pagamentoAnuidade.CursoId,
-                ClienteId = pagamentoAnuidade.ClienteId
+                CobrancaCursoId = pagamentoAnuidade.CursoId,
+                UsuarioId = pagamentoAnuidade.ClienteId
             };
 
             var transacao = _pagamentoCartaoCreditoFacade.RealizarPagamento(pedido, pagamento);
