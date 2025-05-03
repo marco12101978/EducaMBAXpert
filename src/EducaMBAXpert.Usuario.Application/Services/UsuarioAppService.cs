@@ -35,7 +35,7 @@ namespace EducaMBAXpert.Usuarios.Application.Services
         }
 
 
-        public async Task Adicionar(UsuarioViewModel usuarioViewModel)
+        public async Task Adicionar(UsuarioInputModel usuarioViewModel)
         {
             var _usuario = _mapper.Map<Usuario>(usuarioViewModel);
             _usuarioRepository.Adicionar(_usuario);
@@ -43,7 +43,7 @@ namespace EducaMBAXpert.Usuarios.Application.Services
             await _usuarioRepository.UnitOfWork.Commit();
         }
 
-        public async Task Atualizar(UsuarioViewModel usuarioViewModel)
+        public async Task Atualizar(UsuarioInputModel usuarioViewModel)
         {
             var _usuario = _mapper.Map<Usuario>(usuarioViewModel);
             _usuarioRepository.Atualizar(_usuario);
@@ -73,7 +73,7 @@ namespace EducaMBAXpert.Usuarios.Application.Services
             return true;
         }
 
-        public async Task AdicionarEndereco(EnderecoViewModel enderecoViewModel)
+        public async Task AdicionarEndereco(EnderecoInputModel enderecoViewModel)
         {
             var _endereco = _mapper.Map<Endereco>(enderecoViewModel);
             _usuarioRepository.AdicionarEndereco(_endereco);

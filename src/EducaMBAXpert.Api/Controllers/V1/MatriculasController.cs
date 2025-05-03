@@ -64,7 +64,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 
-            var curso = _cursoConsultaAppService.ObterPorId(matricula.CursoId);
+            var curso = await _cursoConsultaAppService.ObterPorId(matricula.CursoId);
 
             if (curso == null)
                 return CustomResponse(HttpStatusCode.NotFound);

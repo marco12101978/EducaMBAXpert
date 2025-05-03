@@ -89,7 +89,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
                 await _signInManager.SignInAsync(user, false);
 
-                var usuario = new UsuarioViewModel(id: Guid.Parse(user.Id) ,nome: registerUser.Nome, email: user.Email , ativo:true);
+                var usuario = new UsuarioInputModel(id: Guid.Parse(user.Id) ,nome: registerUser.Nome, email: user.Email , ativo:true);
                 await _usuarioComandoAppService.Adicionar(usuario);
 
                 return CustomResponse(HttpStatusCode.OK,(await GerarJwt(user.Email)));
@@ -137,7 +137,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> AdicionarEndereco(Guid id, [FromBody] EnderecoViewModel endereco)
+        public async Task<ActionResult> AdicionarEndereco(Guid id, [FromBody] EnderecoInputModel endereco)
         {
             var usuario = await ObterUsuario(id);
             if (usuario == null)

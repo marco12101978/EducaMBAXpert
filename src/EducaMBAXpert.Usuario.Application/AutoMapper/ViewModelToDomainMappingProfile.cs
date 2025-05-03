@@ -8,10 +8,10 @@ namespace EducaMBAXpert.Usuarios.Application.AutoMapper
     {
         public ViewModelToDomainMappingProfile()
         {
-            CreateMap<UsuarioViewModel, Usuario>()
+            CreateMap<UsuarioInputModel, Usuario>()
                 .ConstructUsing(u => new Usuario(u.Id, u.Nome, u.Email));
 
-            CreateMap<EnderecoViewModel, Endereco>()
+            CreateMap<EnderecoInputModel, Endereco>()
                 .ConstructUsing(e =>
                     new Endereco(e.Rua, e.Numero, e.Complemento, e.Bairro, e.Cidade, e.Estado, e.Cep, e.UsuarioId)
                 );
