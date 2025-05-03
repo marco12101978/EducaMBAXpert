@@ -1,5 +1,6 @@
 
 using EducaMBAXpert.Api.Configuration;
+using EducaMBAXpert.Api.Configuration.Middleware;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace EducaMBAXpert.Api
@@ -21,6 +22,8 @@ namespace EducaMBAXpert.Api
                 .AddMediatRConfig();
 
             var app = builder.Build();
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             if (app.Environment.IsDevelopment())
             {

@@ -37,6 +37,10 @@ namespace EducaMBAXpert.Api.Configuration
                         new string[] {}
                     }
                 });
+
+                c.OperationFilter<Global500ResponseOperationFilter>();
+
+                c.EnableAnnotations();
             });
 
             return builder;
@@ -149,6 +153,20 @@ namespace EducaMBAXpert.Api.Configuration
             }
 
             await _next.Invoke(context);
+        }
+    }
+
+    public class Global500ResponseOperationFilter : IOperationFilter
+    {
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        {
+            if (!operation.Responses.ContainsKey("500"))
+            {
+                operation.Responses.Add("500", new OpenApiResponse
+                {
+                    Description = "Erro interno no servidor."
+                });
+            }
         }
     }
 }

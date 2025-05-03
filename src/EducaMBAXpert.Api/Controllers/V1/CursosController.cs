@@ -35,51 +35,46 @@ namespace EducaMBAXpert.Api.Controllers.V1
         }
 
         [HttpPost("novo")]
-        [SwaggerOperation(Summary = "Registra um novo Curso", Description = "Cria um novo Curso com os dados fornecidos.")]
+        [SwaggerOperation(Summary = "Registra um novo curso", Description = "Cria um novo curso com os dados fornecidos.")]
         [ProducesResponseType(typeof(CursoViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> NovoCursoCompleto([FromBody] CursoInputModel curso)
+        public async Task<IActionResult> NovoCursoCompleto([FromBody] CursoInputModel curso)
         {
             if (!ModelState.IsValid)
                 return CustomResponse(HttpStatusCode.BadRequest);
             
-            var sucess = await _cursoComandoAppService.Adicionar(curso);
-
-
+            await _cursoComandoAppService.Adicionar(curso);
             return CustomResponse(HttpStatusCode.OK,curso);
         }
 
 
         [HttpGet("obter_todos")]
         [SwaggerOperation(Summary = "Obtém todos os cursos", Description = "Retorna uma lista com todos os cursos.")]
-        [ProducesResponseType(typeof(IEnumerable<UsuarioViewModel>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> ObterTodos()
+        [ProducesResponseType(typeof(IEnumerable<CursoViewModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ObterTodos()
         {
             var cursos = await _cursoConsultaAppService.ObterTodos();
             return CustomResponse(HttpStatusCode.OK, cursos);
         }
 
-
-        [HttpGet("obter{id:guid}")]
+        [HttpGet("obter/{id:guid}")]
         [SwaggerOperation(Summary = "Obtém um curso por ID", Description = "Retorna os dados de um curso específico.")]
-        [ProducesResponseType(typeof(UsuarioViewModel), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(CursoViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> ObterPorId(Guid id)
+        public async Task<IActionResult> ObterPorId(Guid id)
         {
             var curso = await _cursoConsultaAppService.ObterPorId(id);
             if (curso == null)
-            {
-                return CustomResponse(HttpStatusCode.NotFound);
-            }
+                return NotFoundResponse("Curso não encontrado.");
 
             return CustomResponse(HttpStatusCode.OK, curso);
         }
 
+
+        private IActionResult NotFoundResponse(string message)
+        {
+            NotificarErro(message);
+            return CustomResponse(HttpStatusCode.NotFound);
+        }
     }
 }
