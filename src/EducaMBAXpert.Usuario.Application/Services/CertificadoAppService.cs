@@ -3,7 +3,7 @@ using EducaMBAXpert.Usuarios.Application.Interfaces;
 
 namespace EducaMBAXpert.Usuarios.Application.Services
 {
-    public class CertificadoAppService : ICertificadoAppService
+    public class CertificadoAppService : ICertificadoConsultaAppService
     {
         private readonly ICursoConsultaService _cursoConsulta;
 

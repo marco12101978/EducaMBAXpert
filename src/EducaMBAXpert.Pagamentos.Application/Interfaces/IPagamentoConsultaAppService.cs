@@ -2,7 +2,7 @@
 
 namespace EducaMBAXpert.Pagamentos.Application.Interfaces
 {
-    public interface IPagamentoAppService : IDisposable
+    public interface IPagamentoConsultaAppService
     {
         Task<IEnumerable<PagamentoViewModel>> ObterTodos();
         Task<PagamentoViewModel> ObterPorId(Guid id);

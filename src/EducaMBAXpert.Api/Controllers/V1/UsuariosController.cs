@@ -29,7 +29,8 @@ namespace EducaMBAXpert.Api.Controllers.V1
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JwtSettings _jwtSettings;
-        private readonly IUsuarioAppService _usuarioAppService;
+        private readonly IUsuarioConsultaAppService _usuarioConsultaAppService;
+        private readonly IUsuarioComandoAppService _usuarioComandoAppService;
         private readonly IMediator _mediator;
 
 
@@ -40,13 +41,15 @@ namespace EducaMBAXpert.Api.Controllers.V1
                                   IAppIdentityUser appIdentityUser,
                                   NotificationContext _notificationContext ,
                                   IMediator mediator,
-                                  IUsuarioAppService usuarioAppService) : base(mediator, _notificationContext, appIdentityUser)
+                                  IUsuarioConsultaAppService usuarioConsultaAppService,
+                                  IUsuarioComandoAppService usuarioComandoAppService) : base(mediator, _notificationContext, appIdentityUser)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
             _jwtSettings = jwtSettings.Value;
-            _usuarioAppService = usuarioAppService;
+            _usuarioConsultaAppService = usuarioConsultaAppService;
+            _usuarioComandoAppService = usuarioComandoAppService;   
             _mediator = mediator;
         }
 
@@ -87,7 +90,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
                 await _signInManager.SignInAsync(user, false);
 
                 var usuario = new UsuarioViewModel(id: Guid.Parse(user.Id) ,nome: registerUser.Nome, email: user.Email , ativo:true);
-                await _usuarioAppService.Adicionar(usuario);
+                await _usuarioComandoAppService.Adicionar(usuario);
 
                 return CustomResponse(HttpStatusCode.OK,(await GerarJwt(user.Email)));
             }
@@ -145,7 +148,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
             endereco.UsuarioId = id;
 
-            await _usuarioAppService.AdicionarEndereco(endereco);
+            await _usuarioComandoAppService.AdicionarEndereco(endereco);
             return CustomResponse(HttpStatusCode.OK);
         }
 
@@ -157,7 +160,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> ObterTodos()
         {
-            var usuarios = await _usuarioAppService.ObterTodos();
+            var usuarios = await _usuarioConsultaAppService.ObterTodos();
             return CustomResponse(HttpStatusCode.OK, usuarios);
         }
 
@@ -170,7 +173,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> ObterPorId(Guid id)
         {
-            var usuario = await _usuarioAppService.ObterPorId(id);
+            var usuario = await _usuarioConsultaAppService.ObterPorId(id);
             if (usuario == null)
             {
                 NotificarErro("Usuário não encontrado.");
@@ -195,7 +198,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 
-            var resultado = await _usuarioAppService.Inativar(id);
+            var resultado = await _usuarioComandoAppService.Inativar(id);
             if (!resultado)
             {
                 NotificarErro("Não foi possível inativar o usuário.");
@@ -220,7 +223,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 
-            var resultado = await _usuarioAppService.Ativar(id);
+            var resultado = await _usuarioComandoAppService.Ativar(id);
             if (!resultado)
             {
                 NotificarErro("Não foi possível ativar o usuário.");
@@ -268,7 +271,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
         private async Task<UsuarioViewModel?> ObterUsuario(Guid id)
         {
-            UsuarioViewModel usuario = await _usuarioAppService.ObterPorId(id);
+            UsuarioViewModel usuario = await _usuarioConsultaAppService.ObterPorId(id);
             if (usuario == null)
             {
                 return null;

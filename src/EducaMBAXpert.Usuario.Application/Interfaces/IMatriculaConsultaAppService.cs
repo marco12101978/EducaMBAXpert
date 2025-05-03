@@ -2,12 +2,12 @@
 
 namespace EducaMBAXpert.Usuarios.Application.Interfaces
 {
-    public interface IMatriculaAppService
+    public interface IMatriculaConsultaAppService
     {
-        Task ConcluirAula(Guid matriculaId, Guid aulaId);
         Task<bool> PodeEmitirCertificado(Guid matriculaId);
         Task<byte[]> GerarCertificadoPDF(Guid matriculaId);
         Task<MatriculaViewModel> ObterMatricula(Guid matriculaId);
+
 
     }
 }

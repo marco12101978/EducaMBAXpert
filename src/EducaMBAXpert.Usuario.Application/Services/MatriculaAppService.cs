@@ -12,7 +12,7 @@ using MediatR;
 
 namespace EducaMBAXpert.Usuarios.Application.Services
 {
-    public class MatriculaAppService : IMatriculaAppService
+    public class MatriculaAppService : IMatriculaComandoAppService , IMatriculaConsultaAppService
     {
         private readonly IMatriculaRepository _matriculaRepository;
         private readonly ICursoConsultaService _cursoConsultaService;

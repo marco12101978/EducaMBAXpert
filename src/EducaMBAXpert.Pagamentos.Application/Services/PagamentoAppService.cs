@@ -5,7 +5,7 @@ using EducaMBAXpert.Pagamentos.Business.Interfaces;
 
 namespace EducaMBAXpert.Pagamentos.Application.Services
 {
-    public class PagamentoAppService : IPagamentoAppService
+    public class PagamentoAppService : IPagamentoConsultaAppService , IPagamentoComandoAppService
     {
 
         private readonly IPagamentoRepository _pagamentoRepository;

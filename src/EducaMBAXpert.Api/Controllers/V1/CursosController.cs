@@ -23,18 +23,15 @@ namespace EducaMBAXpert.Api.Controllers.V1
     {
         private readonly ICursoConsultaAppService _cursoConsultaAppService;
         private readonly ICursoComandoAppService _cursoComandoAppService;
-        private readonly IUsuarioAppService _usuarioAppService;
 
         public CursosController(ICursoConsultaAppService cursoConsultaAppService,
                                 ICursoComandoAppService cursoComandoAppService,
-                                IUsuarioAppService usuarioAppService,
                                 IMediator mediator,
                                 NotificationContext notificationContext,
                                 IAppIdentityUser user) : base(mediator, notificationContext, user)
         {
             _cursoConsultaAppService = cursoConsultaAppService;
             _cursoComandoAppService = cursoComandoAppService;
-            _usuarioAppService = usuarioAppService;
         }
 
         [HttpPost("novo")]

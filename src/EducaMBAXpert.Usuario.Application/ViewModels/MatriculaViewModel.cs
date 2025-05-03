@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace EducaMBAXpert.Usuarios.Application.ViewModels
+﻿namespace EducaMBAXpert.Usuarios.Application.ViewModels
 {
     public class MatriculaViewModel
     {

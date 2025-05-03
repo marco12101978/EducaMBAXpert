@@ -53,7 +53,8 @@ namespace EducaMBAXpert.Api.Configuration
 
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IUsuarioService, UsuarioService>();
-            services.AddScoped<IUsuarioAppService, UsuarioAppService>();
+            services.AddScoped<IUsuarioComandoAppService, UsuarioAppService>();
+            services.AddScoped<IUsuarioConsultaAppService, UsuarioAppService>();
 
             services.AddScoped<ICursoRepository, CursoRepository>();
             services.AddScoped<ICursoService, CursoService>();
@@ -63,12 +64,14 @@ namespace EducaMBAXpert.Api.Configuration
             services.AddScoped<ICursoConsultaService, CursoConsultaService>();
 
             services.AddScoped<IMatriculaRepository, MatriculaRepository>();
-            services.AddScoped<IMatriculaAppService, MatriculaAppService>();
+            services.AddScoped<IMatriculaConsultaAppService, MatriculaAppService>();
+            services.AddScoped<IMatriculaComandoAppService, MatriculaAppService>();
 
-            services.AddScoped<ICertificadoAppService, CertificadoAppService>();
+            services.AddScoped<ICertificadoConsultaAppService, CertificadoAppService>();
             services.AddScoped<ICertificadoService, CertificadoService>();
 
-            services.AddScoped<IPagamentoAppService, PagamentoAppService>();
+            services.AddScoped<IPagamentoConsultaAppService, PagamentoAppService>();
+            services.AddScoped<IPagamentoComandoAppService, PagamentoAppService>();
             services.AddScoped<IPagamentoRepository, PagamentoRepository>();
             services.AddScoped<IPagamentoService, PagamentoService>();
             services.AddScoped<IPagamentoCartaoCreditoFacade, PagamentoCartaoCreditoFacade>();

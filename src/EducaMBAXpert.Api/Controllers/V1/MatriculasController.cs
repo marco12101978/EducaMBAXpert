@@ -18,21 +18,27 @@ namespace EducaMBAXpert.Api.Controllers.V1
     [Authorize]
     public class MatriculasController : MainController
     {
-        private readonly IUsuarioAppService _usuarioAppService;
-        private readonly IMatriculaAppService _matriculaAppService;
+        private readonly IUsuarioComandoAppService _usuarioComandoAppService;
+        private readonly IUsuarioConsultaAppService _usuarioConsultaAppService;
+        private readonly IMatriculaConsultaAppService _matriculaConsultaAppService;
+        private readonly IMatriculaComandoAppService _matriculaComandoAppService;
         private readonly ICursoConsultaService _cursoConsultaService;
         private readonly ICursoConsultaAppService _cursoConsultaAppService;
 
         public MatriculasController(IMediator mediator,
-                                        IUsuarioAppService usuarioAppService,
-                                        IMatriculaAppService matriculaAppService,
+                                        IUsuarioConsultaAppService usuarioConsultaAppService,
+                                        IUsuarioComandoAppService usuarioComandoAppService,
+                                        IMatriculaConsultaAppService matriculaConsultaAppService,
+                                        IMatriculaComandoAppService matriculaComandoAppService,
                                         ICursoConsultaService cursoConsultaService,
                                         ICursoConsultaAppService cursoConsultaAppService,
                                         NotificationContext notificationContext,
                                         IAppIdentityUser user) : base(mediator, notificationContext, user)
         {
-            _usuarioAppService = usuarioAppService;
-            _matriculaAppService = matriculaAppService;
+            _usuarioConsultaAppService = usuarioConsultaAppService;
+            _usuarioComandoAppService = usuarioComandoAppService;
+            _matriculaConsultaAppService = matriculaConsultaAppService;
+            _matriculaComandoAppService = matriculaComandoAppService;
             _cursoConsultaService = cursoConsultaService;
             _cursoConsultaAppService = cursoConsultaAppService;
         }
@@ -50,7 +56,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
             if (matricula.UsuarioId != idUsuario)
                 return CustomResponse(HttpStatusCode.BadRequest);
 
-            var usuario = await _usuarioAppService.ObterPorId(idUsuario);
+            var usuario = await _usuarioConsultaAppService.ObterPorId(idUsuario);
 
             if (usuario == null)
             {
@@ -63,7 +69,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
             if (curso == null)
                 return CustomResponse(HttpStatusCode.NotFound);
 
-            await _usuarioAppService.AdicionarMatriculaCurso(matricula);
+            await _usuarioComandoAppService.AdicionarMatriculaCurso(matricula);
 
             return CustomResponse(HttpStatusCode.OK);
         }
@@ -78,7 +84,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> ObterAtivasPorIdUsuario(Guid idUsuario)
         {
-            var matriculas = await _usuarioAppService.ObterTodasMatriculasPorUsuarioId(idUsuario,true);
+            var matriculas = await _usuarioConsultaAppService.ObterTodasMatriculasPorUsuarioId(idUsuario,true);
 
             return CustomResponse(HttpStatusCode.OK, matriculas);
         }
@@ -92,7 +98,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> ObterNaoAtivasPorIdUsuario(Guid idUsuario)
         {
-            var matriculas = await _usuarioAppService.ObterTodasMatriculasPorUsuarioId(idUsuario, false);
+            var matriculas = await _usuarioConsultaAppService.ObterTodasMatriculasPorUsuarioId(idUsuario, false);
 
             return CustomResponse(HttpStatusCode.OK, matriculas);
         }
@@ -101,7 +107,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [HttpPost("matricula/{matriculaId}/aula/{aulaId}/concluir")]
         public async Task<IActionResult> ConcluirAula(Guid matriculaId, Guid aulaId)
         {
-            var _matriculas = await _matriculaAppService.ObterMatricula(matriculaId);
+            var _matriculas = await _matriculaConsultaAppService.ObterMatricula(matriculaId);
 
             if (_matriculas == null)
             {
@@ -117,7 +123,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 
-            await _matriculaAppService.ConcluirAula(matriculaId, aulaId);
+            await _matriculaComandoAppService.ConcluirAula(matriculaId, aulaId);
 
             return CustomResponse(HttpStatusCode.OK);
         }
@@ -126,14 +132,14 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [HttpGet("matricula/{matriculaId}/certificado")]
         public async Task<IActionResult> VerificarCertificado(Guid matriculaId)
         {
-            var podeEmitir = await _matriculaAppService.PodeEmitirCertificado(matriculaId);
+            var podeEmitir = await _matriculaConsultaAppService.PodeEmitirCertificado(matriculaId);
             return CustomResponse(HttpStatusCode.OK, new { podeEmitir });
         }
 
         [HttpGet("{matriculaId}/certificado/download")]
         public async Task<IActionResult> BaixarCertificado(Guid matriculaId)
         {
-            var pdf = await _matriculaAppService.GerarCertificadoPDF(matriculaId);
+            var pdf = await _matriculaConsultaAppService.GerarCertificadoPDF(matriculaId);
 
             if (pdf == null)
             {

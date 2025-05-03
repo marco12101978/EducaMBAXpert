@@ -20,18 +20,21 @@ namespace EducaMBAXpert.Api.Controllers.V1
     public class PagamentosController : MainController
     {
         private readonly IMediator _mediator;
-        private readonly IPagamentoAppService _pagamentoAppService;
-        private readonly IUsuarioAppService _usuarioAppService;
+        private readonly IPagamentoConsultaAppService _pagamentoConsultaAppService;
+        private readonly IPagamentoComandoAppService _pagamentoComandoAppService;
+        private readonly IUsuarioConsultaAppService _usuarioConsultaAppService;
 
         public PagamentosController(IMediator mediator,
-                                    IPagamentoAppService pagamentoAppService,
-                                    IUsuarioAppService usuarioAppService,
+                                    IPagamentoConsultaAppService pagamentoConsultaAppService,
+                                    IPagamentoComandoAppService pagamentoComandoAppService,
+                                    IUsuarioConsultaAppService usuarioConsultaAppService,
                                     IAppIdentityUser appIdentityUser,
                                     NotificationContext _notificationContext ) : base(mediator, _notificationContext, appIdentityUser)
         {
             _mediator = mediator;
-            _pagamentoAppService = pagamentoAppService;
-            _usuarioAppService = usuarioAppService;
+            _pagamentoConsultaAppService = pagamentoConsultaAppService;
+            _pagamentoComandoAppService = pagamentoComandoAppService;
+            _usuarioConsultaAppService = usuarioConsultaAppService;
         }
 
         [HttpPost("pagamento")]
@@ -44,7 +47,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
             if (!ModelState.IsValid)
                 return CustomResponse(HttpStatusCode.BadRequest);
 
-            var usuario = await _usuarioAppService.ObterPorId(pagamento.UsuarioId);
+            var usuario = await _usuarioConsultaAppService.ObterPorId(pagamento.UsuarioId);
 
             if (usuario == null)
             {
@@ -53,7 +56,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
             }
 
 
-            var matricula = await _usuarioAppService.ObterMatriculaPorId(pagamento.MatriculaId);
+            var matricula = await _usuarioConsultaAppService.ObterMatriculaPorUsuarioId(pagamento.MatriculaId);
 
             if (matricula == null)
             {
@@ -86,7 +89,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> ObterTodos()
         {
-            var usuarios = await _pagamentoAppService.ObterTodos();
+            var usuarios = await _pagamentoConsultaAppService.ObterTodos();
             return CustomResponse(HttpStatusCode.OK, usuarios);
         }
 
@@ -99,7 +102,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> ObterPorId(Guid id)
         {
-            var usuario = await _pagamentoAppService.ObterPorId(id);
+            var usuario = await _pagamentoConsultaAppService.ObterPorId(id);
             if (usuario == null)
             {
                 NotificarErro("Pagamento não encontrado.");

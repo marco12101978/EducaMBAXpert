@@ -1,4 +1,5 @@
 ﻿using EducaMBAXpert.Core.Messages;
+using System.Text.Json.Serialization;
 
 namespace EducaMBAXpert.Core.DomainObjects
 {
@@ -61,6 +62,8 @@ namespace EducaMBAXpert.Core.DomainObjects
         }
 
         private List<Event> _notificacoes;
+
+        [JsonIgnore]
         public IReadOnlyCollection<Event> Notificacoes => _notificacoes?.AsReadOnly();
 
         public void AdicionarEvento(Event evento)

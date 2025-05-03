@@ -7,7 +7,7 @@ using EducaMBAXpert.Usuarios.Domain.Interfaces;
 
 namespace EducaMBAXpert.Usuarios.Application.Services
 {
-    public class UsuarioAppService : IUsuarioAppService
+    public class UsuarioAppService : IUsuarioComandoAppService , IUsuarioConsultaAppService
     {
 
         private readonly IUsuarioRepository _usuarioRepository;
@@ -91,7 +91,7 @@ namespace EducaMBAXpert.Usuarios.Application.Services
         }
 
 
-        public async Task<MatriculaViewModel> ObterMatriculaPorId(Guid id)
+        public async Task<MatriculaViewModel> ObterMatriculaPorUsuarioId(Guid id)
         {
             return _mapper.Map<MatriculaViewModel>(await _usuarioRepository.ObterMatriculaPorId(id));
         }
