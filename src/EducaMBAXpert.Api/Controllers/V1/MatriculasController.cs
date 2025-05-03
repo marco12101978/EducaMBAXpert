@@ -95,6 +95,9 @@ namespace EducaMBAXpert.Api.Controllers.V1
             if (_matriculas == null)
                 return NotFoundResponse("Matrícula não encontrada.");
 
+            if (_matriculas.Ativo == false)
+                return NotFoundResponse("Matrícula não ativa.");
+
             var aulaExiste = await _cursoConsultaService.ExisteAulaNoCurso(_matriculas.CursoId, aulaId);
             if (!aulaExiste.Data)
                 return NotFoundResponse("Aula não encontrada no curso.");
