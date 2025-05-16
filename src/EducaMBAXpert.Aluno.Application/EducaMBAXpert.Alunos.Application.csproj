@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EducaMBAXpert.Usuario.Data\EducaMBAXpert.Alunos.Data.csproj" />
-    <ProjectReference Include="..\EducaMBAXpert.Usuario.Domain\EducaMBAXpert.Alunos.Domain.csproj" />
+    <PackageReference Include="automapper" Version="14.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="automapper" Version="14.0.0" />
+    <ProjectReference Include="..\EducaMBAXpert.Aluno.Data\EducaMBAXpert.Alunos.Data.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Aluno.Domain\EducaMBAXpert.Alunos.Domain.csproj" />
   </ItemGroup>
 
 </Project>

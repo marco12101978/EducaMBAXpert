@@ -33,6 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EducaMBAXpert.Aluno.Application\EducaMBAXpert.Alunos.Application.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Aluno.Data\EducaMBAXpert.Alunos.Data.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.CatalagoCursos.Application\EducaMBAXpert.CatalagoCursos.Application.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.CatalagoCursos.Data\EducaMBAXpert.CatalagoCursos.Data.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.Certificados\EducaMBAXpert.Certificados.csproj" />
@@ -41,8 +43,6 @@
     <ProjectReference Include="..\EducaMBAXpert.Pagamento.Data\EducaMBAXpert.Pagamentos.Data.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.Pagamentos.AntiCorruption\EducaMBAXpert.Pagamentos.AntiCorruption.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.Pagamentos.Application\EducaMBAXpert.Pagamentos.Application.csproj" />
-    <ProjectReference Include="..\EducaMBAXpert.Usuario.Application\EducaMBAXpert.Alunos.Application.csproj" />
-    <ProjectReference Include="..\EducaMBAXpert.Usuario.Data\EducaMBAXpert.Alunos.Data.csproj" />
   </ItemGroup>
 
 </Project>
