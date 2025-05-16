@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
-using EducaMBAXpert.Contracts.Certificados;
-using EducaMBAXpert.Contracts.Cursos;
-using EducaMBAXpert.Core.Bus;
-using EducaMBAXpert.Core.DomainObjects;
-using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Alunos.Application.Interfaces;
 using EducaMBAXpert.Alunos.Application.ViewModels;
 using EducaMBAXpert.Alunos.Domain.Entities;
 using EducaMBAXpert.Alunos.Domain.Interfaces;
-using MediatR;
+using EducaMBAXpert.Contracts.Cursos;
+using EducaMBAXpert.Core.Bus;
+using EducaMBAXpert.Core.DomainObjects;
+using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 
 namespace EducaMBAXpert.Alunos.Application.Services
 {

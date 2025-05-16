@@ -1,9 +1,9 @@
-﻿using EducaMBAXpert.Contracts.Certificados;
+﻿using EducaMBAXpert.Alunos.Application.Interfaces;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-namespace EducaMBAXpert.Certificados.Services
+namespace EducaMBAXpert.Alunos.Application.Services
 {
     public class CertificadoService : ICertificadoService
     {

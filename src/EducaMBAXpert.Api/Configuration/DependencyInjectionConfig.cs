@@ -6,8 +6,6 @@ using EducaMBAXpert.CatalagoCursos.Application.Services;
 using EducaMBAXpert.CatalagoCursos.Data.Repository;
 using EducaMBAXpert.CatalagoCursos.Domain.Interfaces;
 using EducaMBAXpert.CatalagoCursos.Domain.Services;
-using EducaMBAXpert.Certificados.Services;
-using EducaMBAXpert.Contracts.Certificados;
 using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Bus;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
