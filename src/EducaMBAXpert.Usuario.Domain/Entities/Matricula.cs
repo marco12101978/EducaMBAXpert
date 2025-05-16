@@ -1,22 +1,22 @@
 ﻿using EducaMBAXpert.Core.DomainObjects;
 using System.Text.Json.Serialization;
 
-namespace EducaMBAXpert.Usuarios.Domain.Entities
+namespace EducaMBAXpert.Alunos.Domain.Entities
 {
     public class Matricula : Entity , IAggregateRoot
     {
-        public Matricula(Guid usuarioId, Guid cursoId)
+        public Matricula(Guid alunoId, Guid cursoId)
         {
-            UsuarioId = usuarioId;
+            AlunoId = alunoId;
             CursoId = cursoId;
             DataMatricula = DateTime.Now;
             Ativo = false;
 
             Validar();
         }
-        public Matricula(Guid usuarioId, Guid cursoId, DateTime dataMatricula, bool ativo)
+        public Matricula(Guid alunoId, Guid cursoId, DateTime dataMatricula, bool ativo)
         {
-            UsuarioId = usuarioId;
+            AlunoId = alunoId;
             CursoId = cursoId;
             DataMatricula = dataMatricula;
             Ativo = ativo;
@@ -24,7 +24,7 @@ namespace EducaMBAXpert.Usuarios.Domain.Entities
             Validar();
         }
 
-        public Guid UsuarioId { get; private set; }
+        public Guid AlunoId { get; private set; }
         public Guid CursoId { get; private set; }
         public DateTime DataMatricula { get; private set; }
         public bool Ativo { get; private set; }
@@ -56,12 +56,12 @@ namespace EducaMBAXpert.Usuarios.Domain.Entities
 
 
         [JsonIgnore]
-        public Usuario Usuario { get; set; }
+        public Aluno Aluno { get; set; }
 
 
         private void Validar()
         {
-            Validacoes.ValidarGuid(UsuarioId, "ID do Usuário inválido.");
+            Validacoes.ValidarGuid(AlunoId, "ID do Aluno inválido.");
             Validacoes.ValidarGuid(CursoId, "ID do Curso inválido.");
         }
 

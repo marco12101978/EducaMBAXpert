@@ -1,6 +1,6 @@
-﻿using EducaMBAXpert.Usuarios.Application.ViewModels;
+﻿using EducaMBAXpert.Alunos.Application.ViewModels;
 
-namespace EducaMBAXpert.Usuarios.Application.Interfaces
+namespace EducaMBAXpert.Alunos.Application.Interfaces
 {
     public interface IMatriculaConsultaAppService
     {

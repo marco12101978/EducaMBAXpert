@@ -40,7 +40,7 @@ namespace EducaMBAXpert.Pagamentos.Business.Services
                 ExpiracaoCartao = pagamentoAnuidade.ExpiracaoCartao,
                 CvvCartao = pagamentoAnuidade.CvvCartao,
                 CobrancaCursoId = pagamentoAnuidade.CursoId,
-                UsuarioId = pagamentoAnuidade.ClienteId
+                AlunoId = pagamentoAnuidade.ClienteId
             };
 
             var transacao = _pagamentoCartaoCreditoFacade.RealizarPagamento(pedido, pagamento);

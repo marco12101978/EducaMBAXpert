@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using EducaMBAXpert.Usuarios.Application.ViewModels;
-using EducaMBAXpert.Usuarios.Domain.Entities;
+using EducaMBAXpert.Alunos.Application.ViewModels;
+using EducaMBAXpert.Alunos.Domain.Entities;
 
-namespace EducaMBAXpert.Usuarios.Application.AutoMapper
+namespace EducaMBAXpert.Alunos.Application.AutoMapper
 {
     public class DomainToViewModelMappingProfile : Profile
     {
         public DomainToViewModelMappingProfile()
         {
-            CreateMap<Usuario, UsuarioViewModel>()
+            CreateMap<Aluno, AlunoViewModel>()
                  .ForMember(dest => dest.Enderecos, opt => opt.MapFrom(src => src.Enderecos));
 
             CreateMap<Endereco, EnderecoViewModel>();

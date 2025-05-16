@@ -1,8 +1,8 @@
-﻿using EducaMBAXpert.Usuarios.Domain.Entities;
+﻿using EducaMBAXpert.Alunos.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EducaMBAXpert.Usuarios.Data.Mappings
+namespace EducaMBAXpert.Alunos.Data.Mappings
 {
     public class AulaConcluidaMapping : IEntityTypeConfiguration<AulaConcluida>
     {

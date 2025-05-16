@@ -1,7 +1,7 @@
 ﻿using EducaMBAXpert.Core.Data;
-using EducaMBAXpert.Usuarios.Domain.Entities;
+using EducaMBAXpert.Alunos.Domain.Entities;
 
-namespace EducaMBAXpert.Usuarios.Domain.Interfaces
+namespace EducaMBAXpert.Alunos.Domain.Interfaces
 {
     public interface IMatriculaRepository : IRepository<Entities.Matricula>
     {

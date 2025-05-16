@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EducaMBAXpert.Usuarios.Data.Mappings
+namespace EducaMBAXpert.Alunos.Data.Mappings
 {
     public class EnderecoMapping : IEntityTypeConfiguration<Domain.Entities.Endereco>
     {
@@ -25,7 +25,7 @@ namespace EducaMBAXpert.Usuarios.Data.Mappings
                    .IsRequired()
                    .HasMaxLength(20);
 
-            builder.Property(e => e.UsuarioId)
+            builder.Property(e => e.AlunoId)
                    .IsRequired();
 
             builder.ToTable("Enderecos");

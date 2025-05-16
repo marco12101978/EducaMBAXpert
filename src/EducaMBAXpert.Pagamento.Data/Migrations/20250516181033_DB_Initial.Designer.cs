@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducaMBAXpert.Pagamentos.Data.Migrations
 {
     [DbContext(typeof(PagamentoContext))]
-    [Migration("20250502122300_DB_Initial")]
+    [Migration("20250516181033_DB_Initial")]
     partial class DB_Initial
     {
         /// <inheritdoc />
@@ -24,6 +24,9 @@ namespace EducaMBAXpert.Pagamentos.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("AlunoId")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("CobrancaCursoId")
@@ -48,9 +51,6 @@ namespace EducaMBAXpert.Pagamentos.Data.Migrations
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
-
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Valor")
                         .HasColumnType("TEXT");

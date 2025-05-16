@@ -1,18 +1,18 @@
 ﻿using EducaMBAXpert.Core.Data;
-using EducaMBAXpert.Usuarios.Data.Context;
-using EducaMBAXpert.Usuarios.Domain.Entities;
-using EducaMBAXpert.Usuarios.Domain.Interfaces;
+using EducaMBAXpert.Alunos.Data.Context;
+using EducaMBAXpert.Alunos.Domain.Entities;
+using EducaMBAXpert.Alunos.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace EducaMBAXpert.Usuarios.Data.Repository
+namespace EducaMBAXpert.Alunos.Data.Repository
 {
     public class MatriculaRepository : IMatriculaRepository
     {
-        private readonly UsuarioContext _context;
+        private readonly AlunoContext _context;
         
         public IUnitOfWork UnitOfWork => _context;
 
-        public MatriculaRepository(UsuarioContext context)
+        public MatriculaRepository(AlunoContext context)
         {
             _context = context;
         }

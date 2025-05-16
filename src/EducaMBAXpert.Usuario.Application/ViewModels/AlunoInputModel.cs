@@ -1,11 +1,11 @@
-﻿using EducaMBAXpert.Usuarios.Domain.Entities;
+﻿using EducaMBAXpert.Alunos.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace EducaMBAXpert.Usuarios.Application.ViewModels
+namespace EducaMBAXpert.Alunos.Application.ViewModels
 {
-    public class UsuarioInputModel
+    public class AlunoInputModel
     {
-        public UsuarioInputModel(Guid id, string nome, string email, bool ativo)
+        public AlunoInputModel(Guid id, string nome, string email, bool ativo)
         {
             Id = id;
             Nome = nome;

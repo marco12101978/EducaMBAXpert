@@ -1,6 +1,6 @@
 ﻿using EducaMBAXpert.Core.DomainObjects;
 
-namespace EducaMBAXpert.Usuarios.Domain.Entities
+namespace EducaMBAXpert.Alunos.Domain.Entities
 {
     public class Endereco : Entity
     {
@@ -11,10 +11,10 @@ namespace EducaMBAXpert.Usuarios.Domain.Entities
         public string Cidade { get; private set; }
         public string Estado { get; private set; }
         public string Cep { get; private set; }
-        public Guid UsuarioId { get; private set; }
-        public Usuario Usuario { get; private set; }
+        public Guid AlunoId { get; private set; }
+        public Aluno Aluno { get; private set; }
 
-        public Endereco(string rua, string numero, string complemento, string bairro, string cidade, string estado, string cep, Guid usuarioId)
+        public Endereco(string rua, string numero, string complemento, string bairro, string cidade, string estado, string cep, Guid alunoId)
         {
             Rua = rua;
             Numero = numero;
@@ -23,7 +23,7 @@ namespace EducaMBAXpert.Usuarios.Domain.Entities
             Cidade = cidade;
             Estado = estado;
             Cep = cep;
-            UsuarioId = usuarioId;
+            AlunoId = alunoId;
             Validar();
         }
 

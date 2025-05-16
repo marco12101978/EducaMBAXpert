@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EducaMBAXpert.Usuarios.Application.ViewModels
+namespace EducaMBAXpert.Alunos.Application.ViewModels
 {
     public class EnderecoViewModel
     {
@@ -16,6 +16,6 @@ namespace EducaMBAXpert.Usuarios.Application.ViewModels
         public string Cep { get; set; }
 
         // Relacionamento
-        public Guid UsuarioId { get; set; }
+        public Guid AlunoId { get; set; }
     }
 }

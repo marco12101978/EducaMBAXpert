@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EducaMBAXpert.Usuario.Data\EducaMBAXpert.Usuarios.Data.csproj" />
-    <ProjectReference Include="..\EducaMBAXpert.Usuario.Domain\EducaMBAXpert.Usuarios.Domain.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Usuario.Data\EducaMBAXpert.Alunos.Data.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Usuario.Domain\EducaMBAXpert.Alunos.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

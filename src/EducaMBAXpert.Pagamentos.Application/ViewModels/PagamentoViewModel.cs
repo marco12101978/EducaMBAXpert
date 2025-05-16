@@ -6,7 +6,7 @@ namespace EducaMBAXpert.Pagamentos.Application.ViewModels
     {
         public Guid Id { get; set; }
         public Guid CobrancaCursoId { get; set; }
-        public Guid UsuarioId { get; set; }
+        public Guid AlunoId { get; set; }
 
         public string Status { get; set; } = string.Empty;
         public decimal Valor { get; set; }

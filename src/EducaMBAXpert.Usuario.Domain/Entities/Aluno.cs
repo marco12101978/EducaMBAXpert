@@ -1,8 +1,8 @@
 ﻿using EducaMBAXpert.Core.DomainObjects;
 
-namespace EducaMBAXpert.Usuarios.Domain.Entities
+namespace EducaMBAXpert.Alunos.Domain.Entities
 {
-    public class Usuario : Entity, IAggregateRoot
+    public class Aluno : Entity, IAggregateRoot
     {
         public Guid Id { get; private set; }
     
@@ -13,7 +13,7 @@ namespace EducaMBAXpert.Usuarios.Domain.Entities
         public List<Endereco> Enderecos { get; private set; } = new List<Endereco>();
         public List<Matricula> Matriculas { get; private set; } = new List<Matricula>();
 
-        public Usuario(Guid id, string nome, string email)
+        public Aluno(Guid id, string nome, string email)
         {
             Id = id;
             Nome = nome;
@@ -56,7 +56,7 @@ namespace EducaMBAXpert.Usuarios.Domain.Entities
 
         public void Validar()
         {
-            Validacoes.ValidarGuid(Id, "ID do usuario inválido.");
+            Validacoes.ValidarGuid(Id, "ID do aluno inválido.");
             Validacoes.ValidarSeVazio(Nome, "Nome não pode ser vazio");
             Validacoes.ValidarSeVazio(Email, "Email não pode ser vazio");
         }

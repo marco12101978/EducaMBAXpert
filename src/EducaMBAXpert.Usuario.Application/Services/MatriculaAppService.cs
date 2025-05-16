@@ -4,34 +4,34 @@ using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Bus;
 using EducaMBAXpert.Core.DomainObjects;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
-using EducaMBAXpert.Usuarios.Application.Interfaces;
-using EducaMBAXpert.Usuarios.Application.ViewModels;
-using EducaMBAXpert.Usuarios.Domain.Entities;
-using EducaMBAXpert.Usuarios.Domain.Interfaces;
+using EducaMBAXpert.Alunos.Application.Interfaces;
+using EducaMBAXpert.Alunos.Application.ViewModels;
+using EducaMBAXpert.Alunos.Domain.Entities;
+using EducaMBAXpert.Alunos.Domain.Interfaces;
 using MediatR;
 
-namespace EducaMBAXpert.Usuarios.Application.Services
+namespace EducaMBAXpert.Alunos.Application.Services
 {
     public class MatriculaAppService : IMatriculaComandoAppService , IMatriculaConsultaAppService
     {
         private readonly IMatriculaRepository _matriculaRepository;
         private readonly ICursoConsultaService _cursoConsultaService;
         private readonly ICertificadoService _certificadoService;
-        private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IAlunoRepository _alunoRepository;
         private readonly IMediatrHandler _mediatrHandler;
         private readonly IMapper _mapper;
 
         public MatriculaAppService(IMatriculaRepository matriculaRepository,
                                    ICursoConsultaService cursoConsultaService,
                                    ICertificadoService certificadoService,
-                                   IUsuarioRepository usuarioRepository,
+                                   IAlunoRepository alunoRepository,
                                    IMediatrHandler mediatrHandler,
                                    IMapper mapper)
         {
             _matriculaRepository = matriculaRepository;
             _cursoConsultaService = cursoConsultaService;
             _certificadoService = certificadoService;
-            _usuarioRepository = usuarioRepository;
+            _alunoRepository = alunoRepository;
             _mediatrHandler = mediatrHandler;
             _mapper = mapper;
         }
@@ -95,7 +95,7 @@ namespace EducaMBAXpert.Usuarios.Application.Services
                 return null;
             }
 
-            Usuario aluno = await _usuarioRepository.ObterPorId(matricula.UsuarioId);
+            Aluno aluno = await _alunoRepository.ObterPorId(matricula.AlunoId);
             Result<string> curso = await _cursoConsultaService.ObterNomeCurso(matricula.CursoId);
 
             return _certificadoService.GerarCertificado(aluno.Nome, curso.Data, DateTime.Now);

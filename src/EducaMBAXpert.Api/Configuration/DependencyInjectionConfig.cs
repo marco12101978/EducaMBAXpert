@@ -18,11 +18,11 @@ using EducaMBAXpert.Pagamentos.Application.Services;
 using EducaMBAXpert.Pagamentos.Business.Interfaces;
 using EducaMBAXpert.Pagamentos.Business.Services;
 using EducaMBAXpert.Pagamentos.Data.Repository;
-using EducaMBAXpert.Usuarios.Application.Interfaces;
-using EducaMBAXpert.Usuarios.Application.Services;
-using EducaMBAXpert.Usuarios.Data.Repository;
-using EducaMBAXpert.Usuarios.Domain.Interfaces;
-using EducaMBAXpert.Usuarios.Domain.Services;
+using EducaMBAXpert.Alunos.Application.Interfaces;
+using EducaMBAXpert.Alunos.Application.Services;
+using EducaMBAXpert.Alunos.Data.Repository;
+using EducaMBAXpert.Alunos.Domain.Interfaces;
+using EducaMBAXpert.Alunos.Domain.Services;
 using MediatR;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -51,10 +51,10 @@ namespace EducaMBAXpert.Api.Configuration
             services.AddScoped<IAppIdentityUser, AppIdentityUser>();
             services.AddScoped<INotificador, Notificador>();
 
-            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            services.AddScoped<IUsuarioService, UsuarioService>();
-            services.AddScoped<IUsuarioComandoAppService, UsuarioAppService>();
-            services.AddScoped<IUsuarioConsultaAppService, UsuarioAppService>();
+            services.AddScoped<IAlunoRepository, AlunoRepository>();
+            services.AddScoped<IAlunoService, AlunoService>();
+            services.AddScoped<IAlunoComandoAppService, AlunoAppService>();
+            services.AddScoped<IAlunoConsultaAppService, AlunoAppService>();
 
             services.AddScoped<ICursoRepository, CursoRepository>();
             services.AddScoped<ICursoService, CursoService>();

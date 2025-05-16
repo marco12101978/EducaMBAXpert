@@ -1,4 +1,4 @@
-﻿namespace EducaMBAXpert.Usuarios.Application.Interfaces
+﻿namespace EducaMBAXpert.Alunos.Application.Interfaces
 {
     public interface IMatriculaComandoAppService
     {

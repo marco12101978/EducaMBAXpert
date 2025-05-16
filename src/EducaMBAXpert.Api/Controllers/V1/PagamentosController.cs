@@ -1,10 +1,9 @@
-﻿using EducaMBAXpert.Api.Authentication;
+﻿using EducaMBAXpert.Alunos.Application.Interfaces;
+using EducaMBAXpert.Api.Authentication;
 using EducaMBAXpert.Core.Messages.CommonMessages.IntegrationEvents;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Pagamentos.Application.Interfaces;
 using EducaMBAXpert.Pagamentos.Application.ViewModels;
-using EducaMBAXpert.Usuarios.Application.Interfaces;
-using EducaMBAXpert.Usuarios.Application.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,19 +21,19 @@ namespace EducaMBAXpert.Api.Controllers.V1
         private readonly IMediator _mediator;
         private readonly IPagamentoConsultaAppService _pagamentoConsultaAppService;
         private readonly IPagamentoComandoAppService _pagamentoComandoAppService;
-        private readonly IUsuarioConsultaAppService _usuarioConsultaAppService;
+        private readonly IAlunoConsultaAppService _alunoConsultaAppService;
 
         public PagamentosController(IMediator mediator,
                                     IPagamentoConsultaAppService pagamentoConsultaAppService,
                                     IPagamentoComandoAppService pagamentoComandoAppService,
-                                    IUsuarioConsultaAppService usuarioConsultaAppService,
+                                    IAlunoConsultaAppService alunoConsultaAppService,
                                     IAppIdentityUser appIdentityUser,
                                     NotificationContext _notificationContext ) : base(mediator, _notificationContext, appIdentityUser)
         {
             _mediator = mediator;
             _pagamentoConsultaAppService = pagamentoConsultaAppService;
             _pagamentoComandoAppService = pagamentoComandoAppService;
-            _usuarioConsultaAppService = usuarioConsultaAppService;
+            _alunoConsultaAppService = alunoConsultaAppService;
         }
 
         [HttpPost("pagamento")]
@@ -46,18 +45,18 @@ namespace EducaMBAXpert.Api.Controllers.V1
             if (!ModelState.IsValid)
                 return CustomResponse(HttpStatusCode.BadRequest);
 
-            var usuario = await _usuarioConsultaAppService.ObterPorId(pagamento.UsuarioId);
-            if (usuario == null)
-                return NotFoundResponse("Usuário não encontrado.");
+            var aluno = await _alunoConsultaAppService.ObterPorId(pagamento.AlunoId);
+            if (aluno == null)
+                return NotFoundResponse("Aluno não encontrado.");
 
 
-            var matricula = await _usuarioConsultaAppService.ObterMatriculaPorUsuarioId(pagamento.MatriculaId);
+            var matricula = await _alunoConsultaAppService.ObterMatriculaPorAlunoId(pagamento.MatriculaId);
             if (matricula == null)
                 return NotFoundResponse("Matrícula no curso não encontrada.");
 
 
             var pedidoEvent = new PagamentoCursoEvent(pagamento.MatriculaId,
-                                                      pagamento.UsuarioId,
+                                                      pagamento.AlunoId,
                                                       pagamento.Total,
                                                       pagamento.NomeCartao,
                                                       pagamento.NumeroCartao,
@@ -77,8 +76,8 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(typeof(IEnumerable<PagamentoViewModel>), StatusCodes.Status200OK)]
         public async Task<ActionResult> ObterTodos()
         {
-            var usuarios = await _pagamentoConsultaAppService.ObterTodos();
-            return CustomResponse(HttpStatusCode.OK, usuarios);
+            var pagamentos = await _pagamentoConsultaAppService.ObterTodos();
+            return CustomResponse(HttpStatusCode.OK, pagamentos);
         }
 
         [Authorize(Roles = "Admin")]
@@ -88,11 +87,11 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ObterPorId(Guid id)
         {
-            var usuario = await _pagamentoConsultaAppService.ObterPorId(id);
-            if (usuario == null)
+            var pagamento = await _pagamentoConsultaAppService.ObterPorId(id);
+            if (pagamento == null)
                 return NotFoundResponse("Pagamento não encontrado.");
 
-            return CustomResponse(HttpStatusCode.OK, usuario);
+            return CustomResponse(HttpStatusCode.OK, pagamento);
         }
 
         private IActionResult NotFoundResponse(string message)

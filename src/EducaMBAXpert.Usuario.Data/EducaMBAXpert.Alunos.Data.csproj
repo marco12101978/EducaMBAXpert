@@ -18,7 +18,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\EducaMBAXpert.Core\EducaMBAXpert.Core.csproj" />
-    <ProjectReference Include="..\EducaMBAXpert.Usuario.Domain\EducaMBAXpert.Usuarios.Domain.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Usuario.Domain\EducaMBAXpert.Alunos.Domain.csproj" />
   </ItemGroup>
 
 </Project>

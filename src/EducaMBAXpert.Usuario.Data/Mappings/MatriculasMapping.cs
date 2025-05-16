@@ -1,8 +1,8 @@
-﻿using EducaMBAXpert.Usuarios.Domain.Entities;
+﻿using EducaMBAXpert.Alunos.Domain.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace EducaMBAXpert.Usuarios.Data.Mappings
+namespace EducaMBAXpert.Alunos.Data.Mappings
 {
     public class MatriculasMapping : IEntityTypeConfiguration<Matricula>
     {
@@ -10,7 +10,7 @@ namespace EducaMBAXpert.Usuarios.Data.Mappings
         {
             builder.HasKey(m => m.Id);
 
-            builder.Property(m => m.UsuarioId)
+            builder.Property(m => m.AlunoId)
                 .IsRequired();
 
             builder.Property(m => m.CursoId)
@@ -22,10 +22,6 @@ namespace EducaMBAXpert.Usuarios.Data.Mappings
             builder.Property(m => m.Ativo)
                 .IsRequired();
 
-            //builder.HasOne(m => m.Usuario)
-            //               .WithMany(u => u.Matriculas)
-            //               .HasForeignKey(m => m.UsuarioId)
-            //               .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(m => m.AulasConcluidas)
                    .WithOne(a => a.Matricula)

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EducaMBAXpert.Usuarios.Data.Migrations
+namespace EducaMBAXpert.Alunos.Data.Migrations
 {
     /// <inheritdoc />
     public partial class DB_Initial : Migration
@@ -12,7 +12,7 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Usuarios",
+                name: "Alunos",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
@@ -22,7 +22,7 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Usuarios", x => x.Id);
+                    table.PrimaryKey("PK_Alunos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -37,15 +37,15 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
                     Cidade = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     Estado = table.Column<string>(type: "varchar(100)", maxLength: 50, nullable: false),
                     Cep = table.Column<string>(type: "varchar(100)", maxLength: 20, nullable: false),
-                    UsuarioId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    AlunoId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Enderecos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Enderecos_Usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuarios",
+                        name: "FK_Enderecos_Alunos_AlunoId",
+                        column: x => x.AlunoId,
+                        principalTable: "Alunos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -55,7 +55,7 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UsuarioId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AlunoId = table.Column<Guid>(type: "TEXT", nullable: false),
                     CursoId = table.Column<Guid>(type: "TEXT", nullable: false),
                     DataMatricula = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Ativo = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -64,9 +64,9 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
                 {
                     table.PrimaryKey("PK_Matriculas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Matriculas_Usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuarios",
+                        name: "FK_Matriculas_Alunos_AlunoId",
+                        column: x => x.AlunoId,
+                        principalTable: "Alunos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -97,14 +97,14 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
                 column: "MatriculaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enderecos_UsuarioId",
+                name: "IX_Enderecos_AlunoId",
                 table: "Enderecos",
-                column: "UsuarioId");
+                column: "AlunoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Matriculas_UsuarioId",
+                name: "IX_Matriculas_AlunoId",
                 table: "Matriculas",
-                column: "UsuarioId");
+                column: "AlunoId");
         }
 
         /// <inheritdoc />
@@ -120,7 +120,7 @@ namespace EducaMBAXpert.Usuarios.Data.Migrations
                 name: "Matriculas");
 
             migrationBuilder.DropTable(
-                name: "Usuarios");
+                name: "Alunos");
         }
     }
 }

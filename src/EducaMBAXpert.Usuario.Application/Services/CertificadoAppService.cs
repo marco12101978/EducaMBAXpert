@@ -1,7 +1,7 @@
 ﻿using EducaMBAXpert.Contracts.Cursos;
-using EducaMBAXpert.Usuarios.Application.Interfaces;
+using EducaMBAXpert.Alunos.Application.Interfaces;
 
-namespace EducaMBAXpert.Usuarios.Application.Services
+namespace EducaMBAXpert.Alunos.Application.Services
 {
     public class CertificadoAppService : ICertificadoConsultaAppService
     {

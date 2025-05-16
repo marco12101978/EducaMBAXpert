@@ -41,8 +41,8 @@
     <ProjectReference Include="..\EducaMBAXpert.Pagamento.Data\EducaMBAXpert.Pagamentos.Data.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.Pagamentos.AntiCorruption\EducaMBAXpert.Pagamentos.AntiCorruption.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.Pagamentos.Application\EducaMBAXpert.Pagamentos.Application.csproj" />
-    <ProjectReference Include="..\EducaMBAXpert.Usuario.Application\EducaMBAXpert.Usuarios.Application.csproj" />
-    <ProjectReference Include="..\EducaMBAXpert.Usuario.Data\EducaMBAXpert.Usuarios.Data.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Usuario.Application\EducaMBAXpert.Alunos.Application.csproj" />
+    <ProjectReference Include="..\EducaMBAXpert.Usuario.Data\EducaMBAXpert.Alunos.Data.csproj" />
   </ItemGroup>
 
 </Project>

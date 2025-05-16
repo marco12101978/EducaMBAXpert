@@ -7,17 +7,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{59
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CatalogoCursos", "CatalogoCursos", "{AA84EE3A-2F5C-4E23-8E22-4385983DAE7D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Usuarios", "Usuarios", "{97768BA4-F9EA-4B76-945B-2AB11572FD25}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Alunos", "Alunos", "{97768BA4-F9EA-4B76-945B-2AB11572FD25}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B8547E59-6A31-437F-A8CA-8A24BCB38610}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pagamentos", "Pagamentos", "{A4155716-B851-4863-900E-F52B293335B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Usuarios.Application", "src\EducaMBAXpert.Usuario.Application\EducaMBAXpert.Usuarios.Application.csproj", "{E9F27D64-5529-43A6-81BC-3A220CFA96F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Alunos.Application", "src\EducaMBAXpert.Usuario.Application\EducaMBAXpert.Alunos.Application.csproj", "{E9F27D64-5529-43A6-81BC-3A220CFA96F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Usuarios.Data", "src\EducaMBAXpert.Usuario.Data\EducaMBAXpert.Usuarios.Data.csproj", "{D296645B-D862-4339-9F22-487B1F3BE12C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Alunos.Data", "src\EducaMBAXpert.Usuario.Data\EducaMBAXpert.Alunos.Data.csproj", "{D296645B-D862-4339-9F22-487B1F3BE12C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Usuarios.Domain", "src\EducaMBAXpert.Usuario.Domain\EducaMBAXpert.Usuarios.Domain.csproj", "{CBBC47B4-9231-4BB4-9D8F-79EF82901734}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Alunos.Domain", "src\EducaMBAXpert.Usuario.Domain\EducaMBAXpert.Alunos.Domain.csproj", "{CBBC47B4-9231-4BB4-9D8F-79EF82901734}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.CatalagoCursos.Application", "src\EducaMBAXpert.CatalagoCursos.Application\EducaMBAXpert.CatalagoCursos.Application.csproj", "{D136AF99-DFAE-4245-BC99-5153D49DDD02}"
 EndProject
@@ -41,11 +41,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Pagamentos.Ap
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contratos", "Contratos", "{280DB71C-B9E5-4A0B-A20B-3B84B7BD8C3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.Contracts", "src\EducaMBAXpert.Contracts\EducaMBAXpert.Contracts.csproj", "{B419FBDC-D494-4785-9A0B-48008AC81D6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Contracts", "src\EducaMBAXpert.Contracts\EducaMBAXpert.Contracts.csproj", "{B419FBDC-D494-4785-9A0B-48008AC81D6B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{C6F58F63-A682-4281-BF43-09028F8B8E2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducaMBAXpert.Certificados", "src\EducaMBAXpert.Certificados\EducaMBAXpert.Certificados.csproj", "{8CB94B8A-D14E-4975-B9BC-C0B3971770E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducaMBAXpert.Certificados", "src\EducaMBAXpert.Certificados\EducaMBAXpert.Certificados.csproj", "{8CB94B8A-D14E-4975-B9BC-C0B3971770E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

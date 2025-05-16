@@ -1,9 +1,9 @@
-﻿using EducaMBAXpert.Usuarios.Domain.Entities;
+﻿using EducaMBAXpert.Alunos.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace EducaMBAXpert.Usuarios.Application.ViewModels
+namespace EducaMBAXpert.Alunos.Application.ViewModels
 {
-    public class UsuarioViewModel
+    public class AlunoViewModel
     {
         public Guid Id { get; set; }
 

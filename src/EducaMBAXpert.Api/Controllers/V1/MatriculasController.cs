@@ -2,8 +2,8 @@
 using EducaMBAXpert.CatalagoCursos.Application.Interfaces;
 using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
-using EducaMBAXpert.Usuarios.Application.Interfaces;
-using EducaMBAXpert.Usuarios.Application.ViewModels;
+using EducaMBAXpert.Alunos.Application.Interfaces;
+using EducaMBAXpert.Alunos.Application.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,16 +18,16 @@ namespace EducaMBAXpert.Api.Controllers.V1
     [Authorize]
     public class MatriculasController : MainController
     {
-        private readonly IUsuarioComandoAppService _usuarioComandoAppService;
-        private readonly IUsuarioConsultaAppService _usuarioConsultaAppService;
+        private readonly IAlunoComandoAppService _alunoComandoAppService;
+        private readonly IAlunoConsultaAppService _alunoConsultaAppService;
         private readonly IMatriculaConsultaAppService _matriculaConsultaAppService;
         private readonly IMatriculaComandoAppService _matriculaComandoAppService;
         private readonly ICursoConsultaService _cursoConsultaService;
         private readonly ICursoConsultaAppService _cursoConsultaAppService;
 
         public MatriculasController(IMediator mediator,
-                                    IUsuarioConsultaAppService usuarioConsultaAppService,
-                                    IUsuarioComandoAppService usuarioComandoAppService,
+                                    IAlunoConsultaAppService alunoConsultaAppService,
+                                    IAlunoComandoAppService alunoComandoAppService,
                                     IMatriculaConsultaAppService matriculaConsultaAppService,
                                     IMatriculaComandoAppService matriculaComandoAppService,
                                     ICursoConsultaService cursoConsultaService,
@@ -35,53 +35,53 @@ namespace EducaMBAXpert.Api.Controllers.V1
                                     NotificationContext notificationContext,
                                     IAppIdentityUser user) : base(mediator, notificationContext, user)
         {
-            _usuarioConsultaAppService = usuarioConsultaAppService;
-            _usuarioComandoAppService = usuarioComandoAppService;
+            _alunoConsultaAppService = alunoConsultaAppService;
+            _alunoComandoAppService = alunoComandoAppService;
             _matriculaConsultaAppService = matriculaConsultaAppService;
             _matriculaComandoAppService = matriculaComandoAppService;
             _cursoConsultaService = cursoConsultaService;
             _cursoConsultaAppService = cursoConsultaAppService;
         }
 
-        [HttpPost("matricular/{idUsuario:guid}")]
-        [SwaggerOperation(Summary = "Matricular usuário", Description = "Executa a matrícula no curso.")]
+        [HttpPost("matricular/{idAluno:guid}")]
+        [SwaggerOperation(Summary = "Matricular aluno", Description = "Executa a matrícula no curso.")]
         [ProducesResponseType(typeof(MatriculaInputModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Matricular(Guid idUsuario,[FromBody] MatriculaInputModel matricula)
+        public async Task<IActionResult> Matricular(Guid idAluno, [FromBody] MatriculaInputModel matricula)
         {
-            if (!ModelState.IsValid || matricula.UsuarioId != idUsuario)
+            if (!ModelState.IsValid || matricula.AlunoId != idAluno)
                 return CustomResponse(HttpStatusCode.BadRequest);
 
-            var usuario = await _usuarioConsultaAppService.ObterPorId(idUsuario);
-            if (usuario == null)
-                return NotFoundResponse("Usuário não encontrado.");
+            var aluno = await _alunoConsultaAppService.ObterPorId(idAluno);
+            if (aluno == null)
+                return NotFoundResponse("Aluno não encontrado.");
 
             var curso = await _cursoConsultaAppService.ObterPorId(matricula.CursoId);
             if (curso == null)
                 return NotFoundResponse("Curso não encontrado.");
 
-            await _usuarioComandoAppService.AdicionarMatriculaCurso(matricula);
+            await _alunoComandoAppService.AdicionarMatriculaCurso(matricula);
             return CustomResponse(HttpStatusCode.OK);
         }
 
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("usuario/{idUsuario:guid}/matriculas-ativas")]
+        [HttpGet("aluno/{idAluno:guid}/matriculas-ativas")]
         [SwaggerOperation(Summary = "Listar matrículas ativas", Description = "Retorna as matrículas ativas por usuário.")]
         [ProducesResponseType(typeof(IEnumerable<MatriculaViewModel>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> ObterAtivasPorIdUsuario(Guid idUsuario)
+        public async Task<IActionResult> ObterAtivasPorIdAluno(Guid idAluno)
         {
-            var matriculas = await _usuarioConsultaAppService.ObterTodasMatriculasPorUsuarioId(idUsuario,true);
+            var matriculas = await _alunoConsultaAppService.ObterTodasMatriculasPorAlunoId(idAluno,true);
             return CustomResponse(HttpStatusCode.OK, matriculas);
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("usuario/{idUsuario:guid}/matriculas-inativas")]
-        [SwaggerOperation(Summary = "Listar matrículas inativas", Description = "Retorna as matrículas inativas por usuário.")]
+        [HttpGet("Aluno/{idAluno:guid}/matriculas-inativas")]
+        [SwaggerOperation(Summary = "Listar matrículas inativas", Description = "Retorna as matrículas inativas por aluno.")]
         [ProducesResponseType(typeof(IEnumerable<MatriculaViewModel>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> ObterNaoAtivasPorIdUsuario(Guid idUsuario)
+        public async Task<IActionResult> ObterNaoAtivasPorIdAluno(Guid idAluno)
         {
-            var matriculas = await _usuarioConsultaAppService.ObterTodasMatriculasPorUsuarioId(idUsuario, false);
+            var matriculas = await _alunoConsultaAppService.ObterTodasMatriculasPorAlunoId(idAluno, false);
             return CustomResponse(HttpStatusCode.OK, matriculas);
         }
 

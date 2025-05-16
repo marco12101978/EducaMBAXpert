@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EducaMBAXpert.Usuarios.Application.ViewModels
+namespace EducaMBAXpert.Alunos.Application.ViewModels
 {
     public class EnderecoInputModel
     {
@@ -35,6 +35,6 @@ namespace EducaMBAXpert.Usuarios.Application.ViewModels
 
         // Relacionamento
         [Required(ErrorMessage = "O ID do usuário é obrigatório.")]
-        public Guid UsuarioId { get; set; }
+        public Guid AlunoId { get; set; }
     }
 }

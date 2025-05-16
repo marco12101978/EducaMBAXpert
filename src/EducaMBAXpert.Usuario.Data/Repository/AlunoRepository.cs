@@ -1,34 +1,34 @@
 ﻿using EducaMBAXpert.Core.Data;
-using EducaMBAXpert.Usuarios.Data.Context;
-using EducaMBAXpert.Usuarios.Domain.Entities;
-using EducaMBAXpert.Usuarios.Domain.Interfaces;
+using EducaMBAXpert.Alunos.Data.Context;
+using EducaMBAXpert.Alunos.Domain.Entities;
+using EducaMBAXpert.Alunos.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace EducaMBAXpert.Usuarios.Data.Repository
+namespace EducaMBAXpert.Alunos.Data.Repository
 {
-    public class UsuarioRepository : IUsuarioRepository
+    public class AlunoRepository : IAlunoRepository
     {
-        private readonly UsuarioContext _context;
+        private readonly AlunoContext _context;
 
-        public UsuarioRepository(UsuarioContext context)
+        public AlunoRepository(AlunoContext context)
         {
             _context = context;
         }
 
         public IUnitOfWork UnitOfWork => _context;
 
-        public async Task<IEnumerable<Usuario>> ObterTodos()
+        public async Task<IEnumerable<Aluno>> ObterTodos()
         {
-            return await _context.Usuarios
+            return await _context.Alunos
                  .Include(u => u.Enderecos)
                  .Include(u => u.Matriculas) 
                  .AsNoTracking()
                  .ToListAsync();
         }
 
-        public async Task<Usuario?> ObterPorId(Guid id)
+        public async Task<Aluno?> ObterPorId(Guid id)
         {
-            return await _context.Usuarios
+            return await _context.Alunos
                 .Include(u => u.Enderecos)
                 .Include(u => u.Matriculas) 
                 .AsNoTracking()
@@ -37,14 +37,14 @@ namespace EducaMBAXpert.Usuarios.Data.Repository
 
 
 
-        public void Adicionar(Usuario usuario)
+        public void Adicionar(Aluno aluno)
         {
-            _context.Usuarios.Add(usuario);
+            _context.Alunos.Add(aluno);
         }
 
-        public void Atualizar(Usuario usuario)
+        public void Atualizar(Aluno aluno)
         {
-           _context.Usuarios.Update(usuario);
+           _context.Alunos.Update(aluno);
         }
 
         public void AdicionarEndereco(Endereco endereco)
@@ -69,11 +69,11 @@ namespace EducaMBAXpert.Usuarios.Data.Repository
                  .FirstOrDefaultAsync(m => m.Id == matriculaId);
         }
 
-        public async Task<IEnumerable<Matricula>> ObterTodasMatriculasPorUsuarioId(Guid Usuarioid,bool ativas)
+        public async Task<IEnumerable<Matricula>> ObterTodasMatriculasPorAlunoId(Guid Alunoid,bool ativas)
         {
             return await _context.Matriculas
                 .AsNoTracking()
-                .Where(m => m.UsuarioId == Usuarioid && m.Ativo == ativas)
+                .Where(m => m.AlunoId == Alunoid && m.Ativo == ativas)
                 .ToListAsync();
         }
 

@@ -1,23 +1,23 @@
 ﻿using AutoMapper;
-using EducaMBAXpert.Usuarios.Application.ViewModels;
-using EducaMBAXpert.Usuarios.Domain.Entities;
+using EducaMBAXpert.Alunos.Application.ViewModels;
+using EducaMBAXpert.Alunos.Domain.Entities;
 
-namespace EducaMBAXpert.Usuarios.Application.AutoMapper
+namespace EducaMBAXpert.Alunos.Application.AutoMapper
 {
     public class ViewModelToDomainMappingProfile : Profile
     {
         public ViewModelToDomainMappingProfile()
         {
-            CreateMap<UsuarioInputModel, Usuario>()
-                .ConstructUsing(u => new Usuario(u.Id, u.Nome, u.Email));
+            CreateMap<AlunoInputModel, Aluno>()
+                .ConstructUsing(u => new Aluno(u.Id, u.Nome, u.Email));
 
             CreateMap<EnderecoInputModel, Endereco>()
                 .ConstructUsing(e =>
-                    new Endereco(e.Rua, e.Numero, e.Complemento, e.Bairro, e.Cidade, e.Estado, e.Cep, e.UsuarioId)
+                    new Endereco(e.Rua, e.Numero, e.Complemento, e.Bairro, e.Cidade, e.Estado, e.Cep, e.AlunoId)
                 );
 
             CreateMap<MatriculaInputModel, Matricula>()
-                .ConstructUsing(m => new Matricula(m.UsuarioId, m.CursoId));
+                .ConstructUsing(m => new Matricula(m.AlunoId, m.CursoId));
         }
     }
 }

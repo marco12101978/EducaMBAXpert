@@ -17,7 +17,7 @@ namespace EducaMBAXpert.Pagamentos.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     CobrancaCursoId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UsuarioId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AlunoId = table.Column<Guid>(type: "TEXT", nullable: false),
                     Status = table.Column<string>(type: "varchar(100)", nullable: false),
                     Valor = table.Column<decimal>(type: "TEXT", nullable: false),
                     NomeCartao = table.Column<string>(type: "varchar(250)", nullable: false),

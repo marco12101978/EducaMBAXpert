@@ -3,9 +3,9 @@ using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
 using EducaMBAXpert.CatalagoCursos.Data.Context;
 using EducaMBAXpert.CatalagoCursos.Domain.Entities;
 using EducaMBAXpert.Pagamentos.Data.Context;
-using EducaMBAXpert.Usuarios.Application.ViewModels;
-using EducaMBAXpert.Usuarios.Data.Context;
-using EducaMBAXpert.Usuarios.Domain.Entities;
+using EducaMBAXpert.Alunos.Application.ViewModels;
+using EducaMBAXpert.Alunos.Data.Context;
+using EducaMBAXpert.Alunos.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -38,29 +38,29 @@ namespace EducaMBAXpert.Api.Configuration
             var contextId = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             var contextCurso = scope.ServiceProvider.GetRequiredService<CursoContext>();
             var contextPagamento = scope.ServiceProvider.GetRequiredService<PagamentoContext>();
-            var contextUsuario = scope.ServiceProvider.GetRequiredService<UsuarioContext>();
+            var contextAluno = scope.ServiceProvider.GetRequiredService<AlunoContext>();
 
             if (env.IsDevelopment())
             {
                 await contextId.Database.MigrateAsync();
                 await contextCurso.Database.MigrateAsync();
                 await contextPagamento.Database.MigrateAsync();
-                await contextUsuario.Database.MigrateAsync();
+                await contextAluno.Database.MigrateAsync();
 
-                await EnsureSeedProducts(serviceProvider,contextId, contextUsuario, contextCurso);
+                await EnsureSeedProducts(serviceProvider,contextId, contextAluno, contextCurso);
             }
         }
 
         private static async Task EnsureSeedProducts(IServiceProvider serviceProvider,
                                                      ApplicationDbContext contextId,
-                                                     UsuarioContext contextUsuario,
+                                                     AlunoContext contextAluno,
                                                      CursoContext cursoContext)
         {
             if (contextId.Users.Any())
                 return;
 
 
-            #region Usuario Identity
+            #region Aluno Identity
 
             var id = Guid.NewGuid();
 
@@ -112,13 +112,13 @@ namespace EducaMBAXpert.Api.Configuration
             #endregion
 
 
-            #region Usuario
+            #region Aluno
 
-            var usuario = new Usuario(id: Guid.Parse(user.Id), nome: user.UserName, email: user.Email);
+            var aluno = new Aluno(id: Guid.Parse(user.Id), nome: user.UserName, email: user.Email);
 
-            await contextUsuario.Usuarios.AddAsync(usuario);
+            await contextAluno.Alunos.AddAsync(aluno);
 
-            await contextUsuario.SaveChangesAsync();
+            await contextAluno.SaveChangesAsync();
 
 
             #endregion

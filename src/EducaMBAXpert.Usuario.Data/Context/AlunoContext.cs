@@ -2,17 +2,17 @@
 using EducaMBAXpert.Core.Messages;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
-using EducaMBAXpert.Usuarios.Domain.Entities;
-using EducaMBAXpert.Usuarios.Data.Mappings;
+using EducaMBAXpert.Alunos.Domain.Entities;
+using EducaMBAXpert.Alunos.Data.Mappings;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace EducaMBAXpert.Usuarios.Data.Context
+namespace EducaMBAXpert.Alunos.Data.Context
 {
-    public class UsuarioContext : DbContext, IUnitOfWork
+    public class AlunoContext : DbContext, IUnitOfWork
     {
-        public UsuarioContext(DbContextOptions<UsuarioContext> options) : base(options) { }
+        public AlunoContext(DbContextOptions<AlunoContext> options) : base(options) { }
 
-        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Aluno> Alunos { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<Matricula> Matriculas { get; set; }
         public DbSet<AulaConcluida> AulasConcluidas { get; set; }
@@ -26,7 +26,7 @@ namespace EducaMBAXpert.Usuarios.Data.Context
 
             modelBuilder.Ignore<Event>();
 
-            modelBuilder.ApplyConfiguration(new UsuarioMapping());
+            modelBuilder.ApplyConfiguration(new AlunoMapping());
             modelBuilder.ApplyConfiguration(new EnderecoMapping());
             modelBuilder.ApplyConfiguration(new MatriculasMapping());
             modelBuilder.ApplyConfiguration(new AulaConcluidaMapping());

@@ -1,6 +1,6 @@
 ﻿using EducaMBAXpert.Core.DomainObjects;
 
-namespace EducaMBAXpert.Usuarios.Domain.Entities
+namespace EducaMBAXpert.Alunos.Domain.Entities
 {
     public class AulaConcluida : Entity
     {

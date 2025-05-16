@@ -1,12 +1,12 @@
-﻿using EducaMBAXpert.Usuarios.Domain.Entities;
+﻿using EducaMBAXpert.Alunos.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EducaMBAXpert.Usuarios.Data.Mappings
+namespace EducaMBAXpert.Alunos.Data.Mappings
 {
-    public class UsuarioMapping : IEntityTypeConfiguration<Usuario>
+    public class AlunoMapping : IEntityTypeConfiguration<Aluno>
     {
-        public void Configure(EntityTypeBuilder<Usuario> builder)
+        public void Configure(EntityTypeBuilder<Aluno> builder)
         {
 
             builder.HasKey(u => u.Id);
@@ -23,16 +23,16 @@ namespace EducaMBAXpert.Usuarios.Data.Mappings
                    .IsRequired();
 
             builder.HasMany(u => u.Enderecos)
-                   .WithOne(e => e.Usuario)
-                   .HasForeignKey(e => e.UsuarioId)
+                   .WithOne(e => e.Aluno)
+                   .HasForeignKey(e => e.AlunoId)
                    .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(u => u.Matriculas)
-                    .WithOne(m => m.Usuario) // Matrícula conhece o Usuario
-                    .HasForeignKey(m => m.UsuarioId)
+                    .WithOne(m => m.Aluno) // Matrícula conhece o Aluno
+                    .HasForeignKey(m => m.AlunoId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-            builder.ToTable("Usuarios");
+            builder.ToTable("Alunos");
         }
     }
 }
