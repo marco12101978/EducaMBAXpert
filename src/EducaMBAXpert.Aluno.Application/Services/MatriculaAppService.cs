@@ -3,8 +3,8 @@ using EducaMBAXpert.Alunos.Application.Interfaces;
 using EducaMBAXpert.Alunos.Application.ViewModels;
 using EducaMBAXpert.Alunos.Domain.Entities;
 using EducaMBAXpert.Alunos.Domain.Interfaces;
-using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Bus;
+using EducaMBAXpert.Core.Data;
 using EducaMBAXpert.Core.DomainObjects;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 

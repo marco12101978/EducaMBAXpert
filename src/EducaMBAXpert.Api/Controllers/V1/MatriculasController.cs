@@ -1,6 +1,5 @@
 ﻿using EducaMBAXpert.Api.Authentication;
 using EducaMBAXpert.CatalagoCursos.Application.Interfaces;
-using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Alunos.Application.Interfaces;
 using EducaMBAXpert.Alunos.Application.ViewModels;
@@ -9,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
+using EducaMBAXpert.Core.Data;
 
 namespace EducaMBAXpert.Api.Controllers.V1
 {

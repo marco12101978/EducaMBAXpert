@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\EducaMBAXpert.CatalagoCursos.Data\EducaMBAXpert.CatalagoCursos.Data.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.CatalagoCursos.Domain\EducaMBAXpert.CatalagoCursos.Domain.csproj" />
-    <ProjectReference Include="..\EducaMBAXpert.Contracts\EducaMBAXpert.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

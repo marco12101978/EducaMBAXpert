@@ -37,7 +37,6 @@
     <ProjectReference Include="..\EducaMBAXpert.Aluno.Data\EducaMBAXpert.Alunos.Data.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.CatalagoCursos.Application\EducaMBAXpert.CatalagoCursos.Application.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.CatalagoCursos.Data\EducaMBAXpert.CatalagoCursos.Data.csproj" />
-    <ProjectReference Include="..\EducaMBAXpert.Contracts\EducaMBAXpert.Contracts.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.Core\EducaMBAXpert.Core.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.Pagamento.Data\EducaMBAXpert.Pagamentos.Data.csproj" />
     <ProjectReference Include="..\EducaMBAXpert.Pagamentos.AntiCorruption\EducaMBAXpert.Pagamentos.AntiCorruption.csproj" />

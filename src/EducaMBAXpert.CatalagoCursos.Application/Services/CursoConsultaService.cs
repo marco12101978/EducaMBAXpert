@@ -1,5 +1,5 @@
 ﻿using EducaMBAXpert.CatalagoCursos.Domain.Interfaces;
-using EducaMBAXpert.Contracts.Cursos;
+using EducaMBAXpert.Core.Data;
 using EducaMBAXpert.Core.DomainObjects;
 
 namespace EducaMBAXpert.CatalagoCursos.Application.Services

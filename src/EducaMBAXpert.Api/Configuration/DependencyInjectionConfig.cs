@@ -6,7 +6,6 @@ using EducaMBAXpert.CatalagoCursos.Application.Services;
 using EducaMBAXpert.CatalagoCursos.Data.Repository;
 using EducaMBAXpert.CatalagoCursos.Domain.Interfaces;
 using EducaMBAXpert.CatalagoCursos.Domain.Services;
-using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Bus;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Pagamentos.AntiCorruption.Interfaces;
@@ -24,6 +23,7 @@ using EducaMBAXpert.Alunos.Domain.Services;
 using MediatR;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using EducaMBAXpert.Core.Data;
 
 
 namespace EducaMBAXpert.Api.Configuration
