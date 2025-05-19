@@ -14,22 +14,22 @@ namespace EducaMBAXpert.Alunos.Application.Services
     {
         private readonly IMatriculaRepository _matriculaRepository;
         private readonly ICursoConsultaService _cursoConsultaService;
-        private readonly ICertificadoService _certificadoService;
         private readonly IAlunoRepository _alunoRepository;
+        private readonly ICertificadoAppService _certificadoAppService;
         private readonly IMediatrHandler _mediatrHandler;
         private readonly IMapper _mapper;
 
         public MatriculaAppService(IMatriculaRepository matriculaRepository,
                                    ICursoConsultaService cursoConsultaService,
-                                   ICertificadoService certificadoService,
                                    IAlunoRepository alunoRepository,
+                                   ICertificadoAppService certificadoAppService,
                                    IMediatrHandler mediatrHandler,
                                    IMapper mapper)
         {
             _matriculaRepository = matriculaRepository;
             _cursoConsultaService = cursoConsultaService;
-            _certificadoService = certificadoService;
             _alunoRepository = alunoRepository;
+            _certificadoAppService = certificadoAppService;
             _mediatrHandler = mediatrHandler;
             _mapper = mapper;
         }
@@ -96,7 +96,7 @@ namespace EducaMBAXpert.Alunos.Application.Services
             Aluno aluno = await _alunoRepository.ObterPorId(matricula.AlunoId);
             Result<string> curso = await _cursoConsultaService.ObterNomeCurso(matricula.CursoId);
 
-            return _certificadoService.GerarCertificado(aluno.Nome, curso.Data, DateTime.Now);
+            return _certificadoAppService.GerarCertificado(aluno.Nome, curso.Data, DateTime.Now);
         }
 
         public async Task<MatriculaViewModel> ObterMatricula(Guid matriculaId)

@@ -65,8 +65,7 @@ namespace EducaMBAXpert.Api.Configuration
             services.AddScoped<IMatriculaConsultaAppService, MatriculaAppService>();
             services.AddScoped<IMatriculaComandoAppService, MatriculaAppService>();
 
-            services.AddScoped<ICertificadoConsultaAppService, CertificadoAppService>();
-            services.AddScoped<ICertificadoService, CertificadoService>();
+            services.AddScoped<ICertificadoAppService, CertificadoAppService>();
 
             services.AddScoped<IPagamentoConsultaAppService, PagamentoAppService>();
             services.AddScoped<IPagamentoComandoAppService, PagamentoAppService>();

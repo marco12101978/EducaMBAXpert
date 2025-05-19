@@ -114,7 +114,7 @@ namespace EducaMBAXpert.Api.Configuration
 
             #region Aluno
 
-            var aluno = new Aluno(id: Guid.Parse(user.Id), nome: user.UserName, email: user.Email);
+            var aluno = new Aluno(id: Guid.Parse(user.Id), nome: user.UserName, email: user.Email,ativo:true);
 
             await contextAluno.Alunos.AddAsync(aluno);
 

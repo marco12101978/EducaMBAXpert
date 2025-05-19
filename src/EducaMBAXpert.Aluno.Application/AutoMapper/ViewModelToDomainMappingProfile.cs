@@ -9,7 +9,7 @@ namespace EducaMBAXpert.Alunos.Application.AutoMapper
         public ViewModelToDomainMappingProfile()
         {
             CreateMap<AlunoInputModel, Aluno>()
-                .ConstructUsing(u => new Aluno(u.Id, u.Nome, u.Email));
+                .ConstructUsing(u => new Aluno(u.Id, u.Nome, u.Email,u.Ativo));
 
             CreateMap<EnderecoInputModel, Endereco>()
                 .ConstructUsing(e =>

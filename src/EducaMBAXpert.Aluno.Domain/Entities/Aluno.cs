@@ -13,12 +13,12 @@ namespace EducaMBAXpert.Alunos.Domain.Entities
         public List<Endereco> Enderecos { get; private set; } = new List<Endereco>();
         public List<Matricula> Matriculas { get; private set; } = new List<Matricula>();
 
-        public Aluno(Guid id, string nome, string email)
+        public Aluno(Guid id, string nome, string email,bool ativo)
         {
             Id = id;
             Nome = nome;
             Email = email;
-            Ativo = true;
+            Ativo = ativo;
 
             Validar();
         }
