@@ -90,7 +90,6 @@ namespace EducaMBAXpert.Alunos.Application.Services
             await _alunoRepository.UnitOfWork.Commit();
         }
 
-
         public async Task<MatriculaViewModel> ObterMatriculaPorAlunoId(Guid id)
         {
             return _mapper.Map<MatriculaViewModel>(await _alunoRepository.ObterMatriculaPorId(id));
@@ -100,7 +99,6 @@ namespace EducaMBAXpert.Alunos.Application.Services
         {
             return _mapper.Map<IEnumerable<MatriculaViewModel>>(await _alunoRepository.ObterTodasMatriculasPorAlunoId(id, ativas));
         }
-
 
         public void Dispose()
         {

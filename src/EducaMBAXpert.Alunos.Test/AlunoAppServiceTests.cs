@@ -164,6 +164,53 @@ namespace EducaMBAXpert.Alunos.Test
             Assert.Null(resultado);
         }
 
+        [Fact]
+        public async Task AdicionarEndereco_DeveChamarAdicionarEnderecoECommit()
+        {
+            // Arrange
+            var enderecoInput = new EnderecoInputModel
+            {
+                Rua = "Rua A",
+                Numero = "123",
+                Cidade = "São Paulo",
+                Estado = "SP",
+                Cep = "01234-567"
+            };
 
+            var endereco = new Endereco("Rua Teste","555","sala 2207","Centro","Ribeirao Preto","SP","14096730",Guid.NewGuid());
+
+            _mapperMock.Setup(m => m.Map<Endereco>(enderecoInput)).Returns(endereco);
+            _alunoRepositoryMock.Setup(r => r.UnitOfWork.Commit()).ReturnsAsync(true);
+
+            // Act
+            await _alunoAppService.AdicionarEndereco(enderecoInput);
+
+            // Assert
+            _alunoRepositoryMock.Verify(r => r.AdicionarEndereco(endereco), Times.Once);
+            _alunoRepositoryMock.Verify(r => r.UnitOfWork.Commit(), Times.Once);
+        }
+
+        [Fact]
+        public async Task AdicionarMatriculaCurso_DeveChamarAdicionarMatriculaECommit()
+        {
+            // Arrange
+            var matriculaInput = new MatriculaInputModel
+            {
+                CursoId = Guid.NewGuid(),
+                AlunoId = Guid.NewGuid(),
+            };
+
+            var matricula = new Matricula(matriculaInput.AlunoId, matriculaInput.CursoId);
+
+            _mapperMock.Setup(m => m.Map<Matricula>(matriculaInput)).Returns(matricula);
+            _alunoRepositoryMock.Setup(r => r.UnitOfWork.Commit()).ReturnsAsync(true);
+
+            // Act
+            await _alunoAppService.AdicionarMatriculaCurso(matriculaInput);
+
+            // Assert
+            _alunoRepositoryMock.Verify(r => r.AdicionarMatricula(matricula), Times.Once);
+            _alunoRepositoryMock.Verify(r => r.UnitOfWork.Commit(), Times.Once);
+        }
     }
 }
