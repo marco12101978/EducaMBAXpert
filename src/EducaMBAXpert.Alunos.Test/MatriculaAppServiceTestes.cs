@@ -4,6 +4,8 @@ using EducaMBAXpert.Alunos.Domain.Entities;
 using EducaMBAXpert.Alunos.Domain.Interfaces;
 using EducaMBAXpert.Core.Bus;
 using EducaMBAXpert.Core.Data;
+using EducaMBAXpert.Core.DomainObjects;
+using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using Moq;
 
 namespace EducaMBAXpert.Alunos.Test
@@ -52,6 +54,69 @@ namespace EducaMBAXpert.Alunos.Test
             // Assert
             _matriculaRepositoryMock.Verify(r => r.AdicionarAulaConcluida(It.Is<AulaConcluida>(a => a.AulaId == aulaId)), Times.Once);
             _matriculaRepositoryMock.Verify(r => r.UnitOfWork.Commit(), Times.Once);
+        }
+
+        [Fact]
+        public async Task ConcluirAula_DevePublicarNotificacao_QuandoAulaJaConcluida()
+        {
+            // Arrange
+            var matriculaId = Guid.NewGuid();
+            var aulaId = Guid.NewGuid();
+            var matricula = new Matricula(Guid.NewGuid(), Guid.NewGuid());
+
+            _matriculaRepositoryMock.Setup(r => r.ObterPorIdAsync(matriculaId)).ReturnsAsync(matricula);
+            _matriculaRepositoryMock.Setup(r => r.AulaJaConcluida(matriculaId, aulaId)).ReturnsAsync(true);
+
+            // Act
+            await _matriculaAppService.ConcluirAula(matriculaId, aulaId);
+
+            // Assert
+            _mediatrHandlerMock.Verify(m => m.PublicarNotificacao(It.Is<DomainNotification>(n =>
+                n.Key == "ConcluirAula" && n.Value.Contains("Aula já se encontra concluida"))), Times.Once);
+
+            _matriculaRepositoryMock.Verify(r => r.AdicionarAulaConcluida(It.IsAny<AulaConcluida>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task PodeEmitirCertificado_DeveRetornarTrue_SeConcluido()
+        {
+            // Arrange
+            var matriculaId = Guid.NewGuid();
+            var cursoId = Guid.NewGuid();
+            var matricula = new Mock<Matricula>(Guid.NewGuid(), cursoId) { CallBase = true };
+
+            _matriculaRepositoryMock.Setup(r => r.ObterPorIdAsync(matriculaId)).ReturnsAsync(matricula.Object);
+            _cursoConsultaServiceMock.Setup(c => c.ObterTotalAulasPorCurso(cursoId)).ReturnsAsync(Result<int>.Ok(10));
+            matricula.Setup(m => m.PodeEmitirCertificado(10)).Returns(true);
+
+            // Act
+            var podeEmitir = await _matriculaAppService.PodeEmitirCertificado(matriculaId);
+
+            // Assert
+            Assert.True(podeEmitir);
+        }
+
+
+        [Fact]
+        public async Task GerarCertificadoPDF_DeveRetornarNull_SeNaoConcluido()
+        {
+            // Arrange
+            var matriculaId = Guid.NewGuid();
+            var cursoId = Guid.NewGuid();
+            var alunoId = Guid.NewGuid();
+            var matricula = new Mock<Matricula>(alunoId, cursoId) { CallBase = true };
+
+            _matriculaRepositoryMock.Setup(r => r.ObterPorIdAsync(matriculaId)).ReturnsAsync(matricula.Object);
+            _cursoConsultaServiceMock.Setup(c => c.ObterTotalAulasPorCurso(cursoId)).ReturnsAsync(Result<int>.Ok(10));
+            matricula.Setup(m => m.PodeEmitirCertificado(10)).Returns(false);
+
+            // Act
+            var resultado = await _matriculaAppService.GerarCertificadoPDF(matriculaId);
+
+            // Assert
+            Assert.Null(resultado);
+            _mediatrHandlerMock.Verify(m => m.PublicarNotificacao(It.Is<DomainNotification>(n => n.Key == "GerarCertificadoPDF"
+                                       && n.Value.Contains("Aluno ainda não concluiu"))), Times.Once);
         }
     }
 }

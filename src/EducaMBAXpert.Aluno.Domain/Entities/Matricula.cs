@@ -49,7 +49,7 @@ namespace EducaMBAXpert.Alunos.Domain.Entities
             _aulasConcluidas.Add(new AulaConcluida(this.Id, aulaId));
         }
 
-        public bool PodeEmitirCertificado(int totalAulasCurso)
+        public virtual bool PodeEmitirCertificado(int totalAulasCurso)
         {
             return _aulasConcluidas.Select(a => a.AulaId).Distinct().Count() == totalAulasCurso;
         }
