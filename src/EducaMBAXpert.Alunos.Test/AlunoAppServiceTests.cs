@@ -212,5 +212,53 @@ namespace EducaMBAXpert.Alunos.Test
             _alunoRepositoryMock.Verify(r => r.AdicionarMatricula(matricula), Times.Once);
             _alunoRepositoryMock.Verify(r => r.UnitOfWork.Commit(), Times.Once);
         }
+
+        [Fact]
+        public async Task ObterMatriculaPorAlunoId_DeveRetornarMatriculaViewModel()
+        {
+            // Arrange
+            var alunoId = Guid.NewGuid();
+            var matricula = new Matricula(alunoId, Guid.NewGuid());
+            var matriculaViewModel = new MatriculaViewModel { AlunoId = alunoId };
+
+            _alunoRepositoryMock.Setup(r => r.ObterMatriculaPorId(alunoId)).ReturnsAsync(matricula);
+            _mapperMock.Setup(m => m.Map<MatriculaViewModel>(matricula)).Returns(matriculaViewModel);
+
+            // Act
+            var resultado = await _alunoAppService.ObterMatriculaPorAlunoId(alunoId);
+
+            // Assert
+            Assert.NotNull(resultado);
+            Assert.Equal(alunoId, resultado.AlunoId);
+        }
+
+        [Fact]
+        public async Task ObterTodasMatriculasPorAlunoId_DeveRetornarListaDeMatriculaViewModel()
+        {
+            // Arrange
+            var alunoId = Guid.NewGuid();
+            var ativas = true;
+
+            var matriculas = new List<Matricula>
+            {
+                new Matricula(alunoId, Guid.NewGuid())
+            };
+
+            var matriculasVm = new List<MatriculaViewModel>
+            {
+                new MatriculaViewModel { AlunoId = alunoId }
+            };
+
+            _alunoRepositoryMock.Setup(r => r.ObterTodasMatriculasPorAlunoId(alunoId, ativas)).ReturnsAsync(matriculas);
+            _mapperMock.Setup(m => m.Map<IEnumerable<MatriculaViewModel>>(matriculas)).Returns(matriculasVm);
+
+            // Act
+            var resultado = await _alunoAppService.ObterTodasMatriculasPorAlunoId(alunoId, ativas);
+
+            // Assert
+            Assert.NotNull(resultado);
+            Assert.Single(resultado);
+            Assert.All(resultado, m => Assert.Equal(alunoId, m.AlunoId));
+        }
     }
 }

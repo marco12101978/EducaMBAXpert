@@ -65,8 +65,6 @@ namespace EducaMBAXpert.Api.Configuration
             services.AddScoped<IMatriculaConsultaAppService, MatriculaAppService>();
             services.AddScoped<IMatriculaComandoAppService, MatriculaAppService>();
 
-            services.AddScoped<ICertificadoAppService, CertificadoAppService>();
-
             services.AddScoped<IPagamentoConsultaAppService, PagamentoAppService>();
             services.AddScoped<IPagamentoComandoAppService, PagamentoAppService>();
             services.AddScoped<IPagamentoRepository, PagamentoRepository>();
@@ -76,8 +74,6 @@ namespace EducaMBAXpert.Api.Configuration
             services.AddScoped<Pagamentos.AntiCorruption.Interfaces.IConfigurationManager, Pagamentos.AntiCorruption.Services.ConfigurationManager>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-
 
             return services;
         }

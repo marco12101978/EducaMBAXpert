@@ -7,7 +7,5 @@ namespace EducaMBAXpert.Alunos.Application.Interfaces
         Task<bool> PodeEmitirCertificado(Guid matriculaId);
         Task<byte[]> GerarCertificadoPDF(Guid matriculaId);
         Task<MatriculaViewModel> ObterMatricula(Guid matriculaId);
-
-
     }
 }

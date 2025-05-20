@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
 using EducaMBAXpert.Alunos.Application.Interfaces;
 using EducaMBAXpert.Alunos.Application.ViewModels;
 using EducaMBAXpert.Alunos.Domain.Entities;
@@ -15,23 +17,23 @@ namespace EducaMBAXpert.Alunos.Application.Services
         private readonly IMatriculaRepository _matriculaRepository;
         private readonly ICursoConsultaService _cursoConsultaService;
         private readonly IAlunoRepository _alunoRepository;
-        private readonly ICertificadoAppService _certificadoAppService;
         private readonly IMediatrHandler _mediatrHandler;
         private readonly IMapper _mapper;
 
         public MatriculaAppService(IMatriculaRepository matriculaRepository,
                                    ICursoConsultaService cursoConsultaService,
                                    IAlunoRepository alunoRepository,
-                                   ICertificadoAppService certificadoAppService,
                                    IMediatrHandler mediatrHandler,
                                    IMapper mapper)
         {
             _matriculaRepository = matriculaRepository;
             _cursoConsultaService = cursoConsultaService;
             _alunoRepository = alunoRepository;
-            _certificadoAppService = certificadoAppService;
             _mediatrHandler = mediatrHandler;
             _mapper = mapper;
+
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
         }
 
         public async Task ConcluirAula(Guid matriculaId, Guid aulaId)
@@ -96,12 +98,51 @@ namespace EducaMBAXpert.Alunos.Application.Services
             Aluno aluno = await _alunoRepository.ObterPorId(matricula.AlunoId);
             Result<string> curso = await _cursoConsultaService.ObterNomeCurso(matricula.CursoId);
 
-            return _certificadoAppService.GerarCertificado(aluno.Nome, curso.Data, DateTime.Now);
+            return GerarCertificado(aluno.Nome, curso.Data, DateTime.Now);
         }
 
         public async Task<MatriculaViewModel> ObterMatricula(Guid matriculaId)
         {
             return _mapper.Map<MatriculaViewModel>(await _matriculaRepository.ObterPorIdAsync(matriculaId));
+        }
+
+
+        private byte[] GerarCertificado(string nomeAluno, string nomeCurso, DateTime dataEmissao)
+        {
+            var documento = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(50);
+                    page.PageColor(Colors.White);
+
+                    page.Content()
+                        .Column(coluna =>
+                        {
+                            coluna.Spacing(20);
+
+                            coluna.Item().AlignCenter().Text("CERTIFICADO DE CONCLUSÃO").FontSize(24).Bold();
+                            coluna.Item().AlignCenter().Text($"Certificamos que {nomeAluno}").FontSize(18);
+                            coluna.Item().AlignCenter().Text($"concluiu o curso {nomeCurso}").FontSize(18);
+                            coluna.Item().AlignCenter().Text($"em {dataEmissao:dd/MM/yyyy}").FontSize(16);
+
+                            coluna.Item().Height(100);
+
+
+                            coluna.Item().AlignRight().Text("__________________________").FontSize(14);
+                            coluna.Item().AlignRight().Text("Assinatura da Instituição").FontSize(12);
+                        });
+                });
+            });
+
+
+
+
+
+            using var memoryStream = new System.IO.MemoryStream();
+            documento.GeneratePdf(memoryStream);
+            return memoryStream.ToArray();
         }
     }
 }
