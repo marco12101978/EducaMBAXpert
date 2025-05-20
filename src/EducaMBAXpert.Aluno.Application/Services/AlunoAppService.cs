@@ -100,6 +100,8 @@ namespace EducaMBAXpert.Alunos.Application.Services
             return _mapper.Map<IEnumerable<MatriculaViewModel>>(await _alunoRepository.ObterTodasMatriculasPorAlunoId(id, ativas));
         }
 
+
+
         public void Dispose()
         {
             _alunoRepository?.Dispose();

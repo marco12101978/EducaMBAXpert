@@ -106,7 +106,6 @@ namespace EducaMBAXpert.Alunos.Application.Services
             return _mapper.Map<MatriculaViewModel>(await _matriculaRepository.ObterPorIdAsync(matriculaId));
         }
 
-
         private byte[] GerarCertificado(string nomeAluno, string nomeCurso, DateTime dataEmissao)
         {
             var documento = Document.Create(container =>

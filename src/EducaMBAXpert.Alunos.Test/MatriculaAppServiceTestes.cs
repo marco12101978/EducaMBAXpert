@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EducaMBAXpert.Alunos.Application.Services;
+using EducaMBAXpert.Alunos.Application.ViewModels;
 using EducaMBAXpert.Alunos.Domain.Entities;
 using EducaMBAXpert.Alunos.Domain.Interfaces;
 using EducaMBAXpert.Core.Bus;
@@ -76,6 +77,51 @@ namespace EducaMBAXpert.Alunos.Test
 
             _matriculaRepositoryMock.Verify(r => r.AdicionarAulaConcluida(It.IsAny<AulaConcluida>()), Times.Never);
         }
+
+        [Fact]
+        public async Task ObterMatricula_DeveRetornarViewModel_QuandoMatriculaExiste()
+        {
+            // Arrange
+            var matriculaId = Guid.NewGuid();
+            var matricula = new Matricula(Guid.NewGuid(), Guid.NewGuid());
+
+            var matriculaVm = new MatriculaViewModel
+            {
+                Id = matriculaId,
+                AlunoId = matricula.AlunoId,
+                CursoId = matricula.CursoId
+            };
+
+            _matriculaRepositoryMock.Setup(r => r.ObterPorIdAsync(matriculaId)).ReturnsAsync(matricula);
+
+            _mapperMock.Setup(m => m.Map<MatriculaViewModel>(matricula)).Returns(matriculaVm);
+
+            // Act
+            var resultado = await _matriculaAppService.ObterMatricula(matriculaId);
+
+            // Assert
+            Assert.NotNull(resultado);
+            Assert.Equal(matricula.AlunoId, resultado.AlunoId);
+            Assert.Equal(matricula.CursoId, resultado.CursoId);
+        }
+
+        [Fact]
+        public async Task ObterMatricula_DeveRetornarNull_QuandoMatriculaNaoExiste()
+        {
+            // Arrange
+            var matriculaId = Guid.NewGuid();
+
+            _matriculaRepositoryMock.Setup(r => r.ObterPorIdAsync(matriculaId)).ReturnsAsync((Matricula)null);
+
+            _mapperMock.Setup(m => m.Map<MatriculaViewModel>(null)).Returns((MatriculaViewModel)null);
+
+            // Act
+            var resultado = await _matriculaAppService.ObterMatricula(matriculaId);
+
+            // Assert
+            Assert.Null(resultado);
+        }
+
 
         [Fact]
         public async Task PodeEmitirCertificado_DeveRetornarTrue_SeConcluido()

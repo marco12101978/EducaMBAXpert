@@ -170,11 +170,13 @@ namespace EducaMBAXpert.Alunos.Test
             // Arrange
             var enderecoInput = new EnderecoInputModel
             {
-                Rua = "Rua A",
-                Numero = "123",
-                Cidade = "São Paulo",
+                Rua = "Rua Teste",
+                Numero = "555",
+                Cidade = "Ribeirao Preto",
+                Complemento = "sala 2207",
+                Bairro = "Centro",
                 Estado = "SP",
-                Cep = "01234-567"
+                Cep = "14096730"
             };
 
             var endereco = new Endereco("Rua Teste","555","sala 2207","Centro","Ribeirao Preto","SP","14096730",Guid.NewGuid());
