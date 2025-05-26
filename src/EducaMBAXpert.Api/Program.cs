@@ -43,7 +43,10 @@ namespace EducaMBAXpert.Api
 
             app.MapControllers();
 
-            app.UseDbMigrationHelper();
+            if (!app.Environment.IsEnvironment("Test"))
+            {
+                app.UseDbMigrationHelper();
+            }
 
             app.Run();
         }

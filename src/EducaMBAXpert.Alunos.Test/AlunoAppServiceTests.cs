@@ -215,6 +215,34 @@ namespace EducaMBAXpert.Alunos.Test
             _alunoRepositoryMock.Verify(r => r.UnitOfWork.Commit(), Times.Once);
         }
 
+
+        //[Fact]
+        //public async Task AdicionarMatriculaCurso_DeveChamarAtualizarMatriculaECommit()
+        //{
+        //    // Arrange
+        //    var matriculaInput = new MatriculaInputModel
+        //    {
+        //        CursoId = Guid.NewGuid(),
+        //        AlunoId = Guid.NewGuid(),
+        //    };
+
+        //    var matricula = new Matricula(matriculaInput.AlunoId, matriculaInput.CursoId);
+
+        //    _mapperMock.Setup(m => m.Map<Matricula>(matriculaInput)).Returns(matricula);
+        //    _alunoRepositoryMock.Setup(r => r.UnitOfWork.Commit()).ReturnsAsync(true);
+
+        //    // Act
+        //    await _alunoAppService.AdicionarMatriculaCurso(matriculaInput);
+
+        //    // Assert
+        //    _alunoRepositoryMock.Verify(r => r.AdicionarMatricula(matricula), Times.Once);
+        //    _alunoRepositoryMock.Verify(r => r.UnitOfWork.Commit(), Times.Once);
+        //}
+
+        //public void AtualizarMatricula(Matricula matricula)
+
+
+
         [Fact]
         public async Task ObterMatriculaPorAlunoId_DeveRetornarMatriculaViewModel()
         {
