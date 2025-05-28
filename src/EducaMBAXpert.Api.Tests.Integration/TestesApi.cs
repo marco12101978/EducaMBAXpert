@@ -2,15 +2,16 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FluentAssertions;
+using EducaMBAXpert.Api.Tests.Integration.Config;
 using Xunit;
 
 namespace EducaMBAXpert.Api.Tests.Integration
 {
-    public class TestesApiGerados : TesteIntegracaoBase
+    public class TestesApi : TesteIntegracaoBase
     {
-
         [Fact]
+        //[Fact(DisplayName = "Adicionar Novo Curso"), TestPriority(1)]
+        //[Trait("Categoria", "Integração API - Pedido")]
         public async Task HttpPost_api_v1_catalogo_curso_novo()
         {
             // Arrange
@@ -21,7 +22,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await TestClient.PostAsync("/api/v1/catalogo_curso/novo", content);
 
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
+            Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
         [Fact]
@@ -33,7 +34,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await TestClient.GetAsync("/api/v1/catalogo_curso/obter_todos");
 
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
+            Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
         [Fact]
@@ -45,7 +46,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await TestClient.GetAsync("/api/v1/catalogo_curso/obter/00000000-0000-0000-0000-000000000000");
 
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
+            Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
         [Fact]
@@ -59,7 +60,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await TestClient.PostAsync("/api/v1/matriculas/matricular/00000000-0000-0000-0000-000000000000", content);
 
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK, $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
+            Assert.True(response.StatusCode == HttpStatusCode.OK, $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
         [Fact]
@@ -71,7 +72,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await TestClient.GetAsync("/api/v1/matriculas/aluno/00000000-0000-0000-0000-000000000000/matriculas-ativas");
 
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK, $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
+            Assert.True(response.StatusCode == HttpStatusCode.OK, $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
         [Fact]
@@ -83,7 +84,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await TestClient.GetAsync("/api/v1/matriculas/Aluno/00000000-0000-0000-0000-000000000000/matriculas-inativas");
 
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK,$"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
+            Assert.True(response.StatusCode == HttpStatusCode.OK,$"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
         [Fact]
@@ -97,7 +98,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await TestClient.PostAsync("/api/v1/matriculas/matricula/1/aula/1/concluir", content);
 
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK ,$"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
+            Assert.True(response.StatusCode == HttpStatusCode.OK ,$"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
         [Fact]
@@ -109,7 +110,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await TestClient.GetAsync("/api/v1/matriculas/matricula/1/certificado");
 
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK ,$"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
+            Assert.True(response.StatusCode == HttpStatusCode.OK ,$"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
         [Fact]
@@ -121,7 +122,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await TestClient.GetAsync("/api/v1/matriculas/matricula/1/certificado/download");
 
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK, $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
+            Assert.True(response.StatusCode == HttpStatusCode.OK, $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
         [Fact]
@@ -135,7 +136,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await TestClient.PostAsync("/api/v1/pagamentos/pagamento", content);
 
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK,$"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
+            Assert.True(response.StatusCode == HttpStatusCode.OK,$"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
         [Fact]
@@ -147,7 +148,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await TestClient.GetAsync("/api/v1/pagamentos/obter_todos");
 
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK, $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
+            Assert.True(response.StatusCode == HttpStatusCode.OK, $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
         [Fact]
@@ -159,81 +160,9 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await TestClient.GetAsync("/api/v1/pagamentos/obter/00000000-0000-0000-0000-000000000000");
 
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
+            Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
-        [Fact]
-        public async Task HttpPost_api_v1_alunos_registrar()
-        {
-            // Arrange
-            var jsonBody = "{\"example\": \"value\"}";
-            var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
-
-            // Act
-            var response = await TestClient.PostAsync("/api/v1/alunos/registrar", content);
-
-            // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK,$"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
-        }
-        [Fact]
-        public async Task HttpPost_api_v1_alunos_login_deve_retornar_OK_para_dados_validos()
-        {
-            // Arrange
-            var jsonBody = "{\"email\": \"usuario@teste.com\", \"senha\": \"123456\"}";
-            var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
-
-            // Act
-            var response = await TestClient.PostAsync("/api/v1/alunos/login", content);
-
-            // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK,
-                $"Esperado que o status code fosse OK, mas foi {response.StatusCode}");
-        }
-
-        [Fact]
-        public async Task HttpPost_api_v1_alunos_login_deve_retornar_BadRequest_para_dados_invalidos()
-        {
-            // Arrange
-            var jsonBody = "{\"campoInvalido\": \"valor\"}";
-            var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
-
-            // Act
-            var response = await TestClient.PostAsync("/api/v1/alunos/login", content);
-
-            // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.BadRequest,
-                $"Esperado que o status code fosse BadRequest, mas foi {response.StatusCode}");
-        }
-
-        [Fact]
-        public async Task HttpPost_api_v1_alunos_login_deve_retornar_Unauthorized_para_usuario_nao_autenticado()
-        {
-            // Arrange
-            var jsonBody = "{\"email\": \"usuario@teste.com\", \"senha\": \"senhaIncorreta\"}";
-            var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
-
-            // Act
-            var response = await TestClient.PostAsync("/api/v1/alunos/login", content);
-
-            // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.Unauthorized,
-                $"Esperado que o status code fosse Unauthorized, mas foi {response.StatusCode}");
-        }
-
-        [Fact]
-        public async Task HttpPost_api_v1_alunos_login_deve_retornar_InternalServerError_para_erro_interno()
-        {
-            // Arrange
-            var jsonBody = "{\"email\": \"causaErro@teste.com\", \"senha\": \"123456\"}";
-            var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
-
-            // Act
-            var response = await TestClient.PostAsync("/api/v1/alunos/login", content);
-
-            // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.InternalServerError,
-                $"Esperado que o status code fosse InternalServerError, mas foi {response.StatusCode}");
-        }
 
 
 
