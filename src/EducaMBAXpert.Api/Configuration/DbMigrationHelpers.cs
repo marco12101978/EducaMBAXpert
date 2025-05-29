@@ -40,16 +40,28 @@ namespace EducaMBAXpert.Api.Configuration
             var contextPagamento = scope.ServiceProvider.GetRequiredService<PagamentoContext>();
             var contextAluno = scope.ServiceProvider.GetRequiredService<AlunoContext>();
 
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsEnvironment("Test"))
             {
-                await contextId.Database.MigrateAsync();
-                await contextCurso.Database.MigrateAsync();
-                await contextPagamento.Database.MigrateAsync();
-                await contextAluno.Database.MigrateAsync();
+                await MigrarBancosAsync(contextId, contextCurso, contextPagamento, contextAluno);
 
-                await EnsureSeedProducts(serviceProvider,contextId, contextAluno, contextCurso);
+                if (env.IsDevelopment())
+                {
+                    await EnsureSeedProducts(serviceProvider, contextId, contextAluno, contextCurso);
+                }
             }
         }
+
+        private static async Task MigrarBancosAsync(DbContext contextId,
+                                                    DbContext contextCurso,
+                                                    DbContext contextPagamento,
+                                                    DbContext contextAluno)
+        {
+            await contextId.Database.MigrateAsync();
+            await contextCurso.Database.MigrateAsync();
+            await contextPagamento.Database.MigrateAsync();
+            await contextAluno.Database.MigrateAsync();
+        }
+
 
         private static async Task EnsureSeedProducts(IServiceProvider serviceProvider,
                                                      ApplicationDbContext contextId,

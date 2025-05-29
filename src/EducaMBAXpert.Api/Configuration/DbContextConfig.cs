@@ -10,7 +10,7 @@ namespace EducaMBAXpert.Api.Configuration
     {
         public static WebApplicationBuilder AddDbContextConfig(this WebApplicationBuilder builder)
         {
-            if (builder.Environment.IsDevelopment())
+            if (builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("Test"))
             {
                 var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionSqLite") ?? throw new InvalidOperationException("Connection string 'DefaultConnectionSqLite' not found.");
 
@@ -37,6 +37,11 @@ namespace EducaMBAXpert.Api.Configuration
                 });
 
                 builder.Services.AddDbContext<AlunoContext>(options =>
+                {
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                });
+
+                builder.Services.AddDbContext<PagamentoContext>(options =>
                 {
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 });

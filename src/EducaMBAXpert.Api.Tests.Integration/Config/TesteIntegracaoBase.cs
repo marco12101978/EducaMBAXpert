@@ -21,20 +21,20 @@ namespace EducaMBAXpert.Api.Tests.Integration
                 .WithWebHostBuilder(builder =>
                 {
                     builder.UseEnvironment("Test"); // <- ESSENCIAL
-                    builder.ConfigureServices(services =>
-                    {
-                        var descriptor = services.SingleOrDefault(
-                            d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
-                        if (descriptor != null)
-                        {
-                            services.Remove(descriptor);
-                        }
+                    //builder.ConfigureServices(services =>
+                    //{
+                    //    var descriptor = services.SingleOrDefault(
+                    //        d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+                    //    if (descriptor != null)
+                    //    {
+                    //        services.Remove(descriptor);
+                    //    }
 
-                        services.AddDbContext<ApplicationDbContext>(options =>
-                        {
-                            options.UseInMemoryDatabase("BancoDeTeste");
-                        });
-                    });
+                    //    services.AddDbContext<ApplicationDbContext>(options =>
+                    //    {
+                    //        options.UseInMemoryDatabase("BancoDeTeste");
+                    //    });
+                    //});
                 });
 
             TestClient = _factory.CreateClient();

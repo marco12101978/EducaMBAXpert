@@ -1,66 +1,68 @@
 ﻿using EducaMBAXpert.Api.Tests.Integration.Config;
 using EducaMBAXpert.Api.ViewModels.User;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace EducaMBAXpert.Api.Tests.Integration
 {
+    [TestCaseOrderer("EducaMBAXpert.Api.Tests.Integration.Config.PriorityOrderer", "EducaMBAXpert.Api.Tests.Integration")]
+    [Collection(nameof(IntegrationWebTestsFixtureCollection))]
     public class AlunosTests :  TesteIntegracaoBase
     {
-        //[Fact]
-        //public async Task HttpPost_api_v1_alunos_registrar()
-        //{
-        //    //// Arrange
-        //    //var jsonBody = "{\"example\": \"value\"}";
-        //    //var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
 
-        //    //// Act
-        //    //var response = await TestClient.PostAsJsonAsync("/api/v1/alunos/registrar", content);
+        private readonly IntegrationTestsFixture<Program> _testsFixture;
 
-        //    //// Assert
-        //    //Assert.True(response.StatusCode == HttpStatusCode.OK, $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
+        public AlunosTests(IntegrationTestsFixture<Program> testsFixture)
+        {
+            _testsFixture = testsFixture;
+        }
 
 
-        //    var usuario = new RegisterUserViewModel
-        //    {
-        //        Nome = "João da Silva",
-        //        Email = "joao@email.com",
-        //        Password = "Senha@123",           
-        //        ConfirmPassword = "Senha@123"
-        //    };
-
-        //    var content = new StringContent(JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/json");
-
-        //    // Act
-        //    var response = await TestClient.PostAsync("/api/v1/alunos/registrar", content);
-
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK,
-        //        $"Esperado que o status code fosse OK, mas foi {response.StatusCode}. Resposta: {await response.Content.ReadAsStringAsync()}");
+        [Fact(DisplayName = "Adicionar Novo Aluno"), TestPriority(1)]
+        [Trait("ALUNOS", "Integração API - Alunos")]
+        public async Task HttpPost_api_v1_alunos_registrar()
+        {
+            // Arrange
+            var usuario = new RegisterUserViewModel
+            {
+                Nome = "João da Silva",
+                Email = "teste@teste.com",
+                Password = "Teste@123",
+                ConfirmPassword = "Teste@123"
+            };
 
 
+            // Act
+            var response = await TestClient.PostAsJsonAsync("/api/v1/alunos/registrar", usuario);
 
-        //}
-        //[Fact]
-        //public async Task HttpPost_api_v1_alunos_login_deve_retornar_OK_para_dados_validos()
-        //{
-        //    // Arrange
-        //    var jsonBody = "{\"email\": \"usuario@teste.com\", \"senha\": \"123456\"}";
-        //    var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.OK,
+                $"Esperado que o status code fosse OK, mas foi {response.StatusCode}. Resposta: {await response.Content.ReadAsStringAsync()}");
 
-        //    // Act
-        //    var response = await TestClient.PostAsync("/api/v1/alunos/login", content);
+        }
 
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK,
-        //        $"Esperado que o status code fosse OK, mas foi {response.StatusCode}");
-        //}
+
+        [Fact(DisplayName = "Efetuar Login Aluno"), TestPriority(2)]
+        [Trait("ALUNOS", "Integração API - Alunos")]
+        public async Task HttpPost_api_v1_alunos_login_deve_retornar_OK_para_dados_validos()
+        {
+            // Arrange
+            var usuario = new LoginUserViewModel
+            {
+                Email = "teste@teste.com",
+                Password = "Teste@123",
+            };
+
+
+            // Act
+            var response = await TestClient.PostAsJsonAsync("/api/v1/alunos/login", usuario);
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.OK,
+                $"Esperado que o status code fosse OK, mas foi {response.StatusCode}");
+        }
 
         //[Fact]
         //public async Task HttpPost_api_v1_alunos_login_deve_retornar_BadRequest_para_dados_invalidos()
@@ -109,4 +111,4 @@ namespace EducaMBAXpert.Api.Tests.Integration
 
 
     }
-}
+    }
