@@ -138,7 +138,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
         {
             // Arrange
 
-            await _testsFixture.RealizarLoginApi();
+            await _testsFixture.RealizarLoginAdmimApi();
             _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
 
             // Act

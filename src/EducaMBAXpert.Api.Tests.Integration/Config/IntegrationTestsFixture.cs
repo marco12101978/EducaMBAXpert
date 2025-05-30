@@ -63,6 +63,26 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
             IdAluno = usuario?.userId;
         }
 
+        public async Task RealizarLoginAdmimApi()
+        {
+            var userData = new LoginUserViewModel
+            {
+                Email = "marco@imperiumsolucoes.com.br",
+                Password = "Imp@S2291755"
+            };
+
+            Client = Factory.CreateClient();
+
+            var response = await Client.PostAsJsonAsync("/api/v1/alunos/login", userData);
+
+            response.EnsureSuccessStatusCode();
+
+            var contentString = await response.Content.ReadAsStringAsync();
+            var usuario = JsonConvert.DeserializeObject<Usuario>(contentString);
+
+            TokenAluno = usuario?.token;
+            IdAluno = usuario?.userId;
+        }
 
 
         public void Dispose()

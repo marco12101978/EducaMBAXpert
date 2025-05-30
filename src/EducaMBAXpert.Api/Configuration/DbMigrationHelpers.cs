@@ -1,16 +1,11 @@
-﻿using EducaMBAXpert.Api.Context;
-using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
+﻿using EducaMBAXpert.Alunos.Data.Context;
+using EducaMBAXpert.Alunos.Domain.Entities;
+using EducaMBAXpert.Api.Context;
 using EducaMBAXpert.CatalagoCursos.Data.Context;
 using EducaMBAXpert.CatalagoCursos.Domain.Entities;
 using EducaMBAXpert.Pagamentos.Data.Context;
-using EducaMBAXpert.Alunos.Application.ViewModels;
-using EducaMBAXpert.Alunos.Data.Context;
-using EducaMBAXpert.Alunos.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.Reflection.Metadata;
-using System.Text.Json.Serialization;
 
 namespace EducaMBAXpert.Api.Configuration
 {
@@ -43,11 +38,7 @@ namespace EducaMBAXpert.Api.Configuration
             if (env.IsDevelopment() || env.IsEnvironment("Test"))
             {
                 await MigrarBancosAsync(contextId, contextCurso, contextPagamento, contextAluno);
-
-                if (env.IsDevelopment())
-                {
-                    await EnsureSeedProducts(serviceProvider, contextId, contextAluno, contextCurso);
-                }
+                await EnsureSeedProducts(serviceProvider, contextId, contextAluno, contextCurso);
             }
         }
 
@@ -72,7 +63,7 @@ namespace EducaMBAXpert.Api.Configuration
                 return;
 
 
-            #region Aluno Identity
+            #region Aluno Admin Identity
 
             var id = Guid.NewGuid();
 
@@ -123,10 +114,9 @@ namespace EducaMBAXpert.Api.Configuration
 
             #endregion
 
-
             #region Aluno
 
-            var aluno = new Aluno(id: Guid.Parse(user.Id), nome: user.UserName, email: user.Email,ativo:true);
+            var aluno = new Aluno(id: Guid.Parse(user.Id), nome: user.UserName, email: user.Email, ativo: true);
 
             await contextAluno.Alunos.AddAsync(aluno);
 
@@ -137,12 +127,12 @@ namespace EducaMBAXpert.Api.Configuration
 
             #region Curso
 
-            Curso curso ;
+            Curso curso;
             Modulo modulo;
             Aula aula;
 
             #region Curso 1
-            curso = new Curso("Explorando novas linguagens de programação", "Uma abordagem moderna para desenvolvimento de software, incluindo práticas de programação e metodologias ágeis.",99.99m,CategoriaCurso.Negocios,NivelDificuldade.Avancado);
+            curso = new Curso("Explorando novas linguagens de programação", "Uma abordagem moderna para desenvolvimento de software, incluindo práticas de programação e metodologias ágeis.", 99.99m, CategoriaCurso.Negocios, NivelDificuldade.Avancado);
             curso.Ativar();
 
             modulo = new Modulo("Fundamentos Básicos");
@@ -281,6 +271,7 @@ namespace EducaMBAXpert.Api.Configuration
 
 
             #endregion
+
         }
     }
 
