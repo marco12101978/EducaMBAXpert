@@ -1,8 +1,11 @@
-﻿using EducaMBAXpert.Api.Tests.Integration.Config;
+﻿using EducaMBAXpert.Alunos.Application.ViewModels;
+using EducaMBAXpert.Api.Tests.Integration.Config;
 using EducaMBAXpert.Api.ViewModels.User;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Runtime.InteropServices.ObjectiveC;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -103,7 +106,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
 
         [Fact(DisplayName = "Obter todos Alunos Retornar Nao Autenticado"), TestPriority(5)]
         [Trait("ALUNOS", "Integração API - Alunos")]
-        public async Task HttpPost_api_v1_alunos_login_deve_retornar_Unauthorized_para_usuario_nao_autenticado()
+        public async Task HttpGet_api_v1_alunos_login_deve_retornar_Unauthorized_para_usuario_nao_autenticado()
         {
             // Arrange
 
@@ -117,7 +120,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
 
         [Fact(DisplayName = "Obter todos Alunos Retornar Nao Autorizado"), TestPriority(6)]
         [Trait("ALUNOS", "Integração API - Alunos")]
-        public async Task HttpPost_api_v1_alunos_login_deve_retornar_Forbidden()
+        public async Task HttpGet_api_v1_alunos_login_deve_retornar_Forbidden()
         {
             // Arrange
             await _testsFixture.RealizarLoginApi();
@@ -131,10 +134,9 @@ namespace EducaMBAXpert.Api.Tests.Integration
                 $"Esperado que o status code fosse Forbidden, mas foi {response.StatusCode}");
         }
 
-
         [Fact(DisplayName = "Obter todos Alunos Retornar OK"), TestPriority(7)]
         [Trait("ALUNOS", "Integração API - Alunos")]
-        public async Task HttpPost_api_v1_alunos_login_deve_retornar_OK()
+        public async Task HttpGet_api_v1_alunos_obter_todos_deve_retornar_OK()
         {
             // Arrange
 
@@ -148,6 +150,164 @@ namespace EducaMBAXpert.Api.Tests.Integration
             Assert.True(response.StatusCode == HttpStatusCode.OK,
                 $"Esperado que o status code fosse OK, mas foi {response.StatusCode}");
         }
+
+        [Fact(DisplayName = "Obter Aluno por Id Retornar OK"), TestPriority(7)]
+        [Trait("ALUNOS", "Integração API - Alunos")]
+        public async Task HttpGet_api_v1_alunos_obter_aluno_por_id_deve_retornar_OK()
+        {
+            // Arrange
+
+            await _testsFixture.RealizarLoginAdmimApi();
+            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+
+            // Act
+            var response = await _testsFixture.Client.GetAsync($"/api/v1/alunos/obter/{_testsFixture.IdAluno}");
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.OK,
+                $"Esperado que o status code fosse OK, mas foi {response.StatusCode}");
+        }
+
+        [Fact(DisplayName = "Adicionar Endereco Alunos Existente Retornar OK"), TestPriority(8)]
+        [Trait("ALUNOS", "Integração API - Alunos")]
+        public async Task HttpPost_api_v1_alunos_adicionarEndereco_deve_retornar_NoContent()
+        {
+            // Arrange
+
+            await _testsFixture.RealizarLoginApi();
+            var idAluno = _testsFixture.IdAluno;
+
+            EnderecoInputModel enderecoInputModel = new EnderecoInputModel
+            {
+                Rua = "Rua José Bonifácio",
+                Numero = "123",
+                Complemento = "Apto 202",
+                Bairro = "Centro",
+                Cidade = "Sao Paulo",
+                Estado = "SP",
+                Cep = "23564-448",
+                AlunoId = Guid.Parse(idAluno)
+            };
+
+            await _testsFixture.RealizarLoginApi();
+            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+
+
+            // Act
+            var response = await _testsFixture.Client.PostAsJsonAsync($"/api/v1/alunos/{idAluno}/enderecos", enderecoInputModel);
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.NoContent,
+                $"Esperado que o status code fosse NoContent, mas foi {response.StatusCode}");
+        }
+
+        [Fact(DisplayName = "Adicionar Endereco Alunos nao Cadastrado Retornar NotFound"), TestPriority(9)]
+        [Trait("ALUNOS", "Integração API - Alunos")]
+        public async Task HttpPost_api_v1_alunos_adicionarEndereco_deve_retornar_NotFound()
+        {
+            // Arrange
+            await _testsFixture.RealizarLoginApi();
+            var idAluno = _testsFixture.IdAluno;
+
+            EnderecoInputModel enderecoInputModel = new EnderecoInputModel
+            {
+                Rua = "Rua José Bonifácio",
+                Numero = "123",
+                Complemento = "Apto 202",
+                Bairro = "Centro",
+                Cidade = "Sao Paulo",
+                Estado = "SP",
+                Cep = "23564-448",
+                AlunoId = Guid.Parse(idAluno)
+            };
+
+            await _testsFixture.RealizarLoginApi();
+            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+
+            // Act
+            var response = await _testsFixture.Client.PostAsJsonAsync($"/api/v1/alunos/{Guid.NewGuid}/enderecos", enderecoInputModel);
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.NotFound,
+                $"Esperado que o status code fosse NotFound, mas foi {response.StatusCode}");
+        }
+
+        [Fact(DisplayName = "Inativar Alunos deve retonar NoContent"), TestPriority(10)]
+        [Trait("ALUNOS", "Integração API - Alunos")]
+        public async Task HttpPut_api_v1_alunos_inativar_deve_retornar_NoContent()
+        {
+            // Arrange
+
+            await _testsFixture.RealizarLoginApi();
+            var idAluno = _testsFixture.IdAluno;
+
+            await _testsFixture.RealizarLoginAdmimApi();
+            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+
+            // Act
+            var response = await _testsFixture.Client.PutAsync($"/api/v1/alunos/{idAluno}/inativar",null);
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.NoContent,
+                $"Esperado que o status code fosse NoContent, mas foi {response.StatusCode}");
+        }
+
+        [Fact(DisplayName = "Ativar Alunos deve retonar NoContent"), TestPriority(11)]
+        [Trait("ALUNOS", "Integração API - Alunos")]
+        public async Task HttpPut_api_v1_alunos_ativar_deve_retornar_NoContent()
+        {
+            // Arrange
+
+            await _testsFixture.RealizarLoginApi();
+            var idAluno = _testsFixture.IdAluno;
+
+            await _testsFixture.RealizarLoginAdmimApi();
+            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+
+            // Act
+            var response = await _testsFixture.Client.PutAsync($"/api/v1/alunos/{idAluno}/ativar", null);
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.NoContent,
+                $"Esperado que o status code fosse NoContent, mas foi {response.StatusCode}");
+        }
+
+        [Fact(DisplayName = "Inativar Alunos deve retonar Nao Autorizado"), TestPriority(12)]
+        [Trait("ALUNOS", "Integração API - Alunos")]
+        public async Task HttpPut_api_v1_alunos_inativar_deve_retornar_Forbidden()
+        {
+            // Arrange
+            await _testsFixture.RealizarLoginApi();
+            var idAluno = _testsFixture.IdAluno;
+
+            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+
+            // Act
+            var response = await _testsFixture.Client.PutAsync($"/api/v1/alunos/{idAluno}/inativar", null);
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.Forbidden,
+                $"Esperado que o status code fosse Forbidden, mas foi {response.StatusCode}");
+        }
+
+        [Fact(DisplayName = "Ativar Alunos deve retonar Nao Autorizado"), TestPriority(13)]
+        [Trait("ALUNOS", "Integração API - Alunos")]
+        public async Task HttpPut_api_v1_alunos_ativar_deve_retornar_Forbidden()
+        {
+            // Arrange
+
+            var idAluno = _testsFixture.IdAluno;
+
+            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+
+            // Act
+            var response = await _testsFixture.Client.PutAsync($"/api/v1/alunos/{idAluno}/ativar", null);
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.Forbidden,
+                $"Esperado que o status code fosse Forbidden, mas foi {response.StatusCode}");
+        }
+
 
     }
 }
