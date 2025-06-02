@@ -10,6 +10,8 @@ using EducaMBAXpert.Api.ViewModels.User;
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
+using System.Linq;
 
 namespace EducaMBAXpert.Api.Tests.Integration.Config
 {
@@ -83,6 +85,21 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
             TokenAluno = usuario?.token;
             IdAluno = usuario?.userId;
         }
+
+        public async Task<Guid> ObterIdPrimeiroCursoAsync()
+        {
+            var response = await Client.GetAsync("/api/v1/catalogo_curso/obter_todos");
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+            var cursos = JsonConvert.DeserializeObject<List<CursoViewModel>>(json);
+
+            if (cursos == null || !cursos.Any())
+                throw new Exception("Nenhum curso encontrado na resposta da API.");
+
+            return cursos.First().Id;
+        }
+
 
 
         public void Dispose()

@@ -308,6 +308,5 @@ namespace EducaMBAXpert.Api.Tests.Integration
                 $"Esperado que o status code fosse Forbidden, mas foi {response.StatusCode}");
         }
 
-
     }
 }
