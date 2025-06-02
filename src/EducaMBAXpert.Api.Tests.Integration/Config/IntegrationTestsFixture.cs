@@ -86,6 +86,8 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
             IdAluno = usuario?.userId;
         }
 
+
+
         public async Task<Guid> ObterIdPrimeiroCursoAsync()
         {
             var response = await Client.GetAsync("/api/v1/catalogo_curso/obter_todos");

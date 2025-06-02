@@ -29,13 +29,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
         public async Task HttpPost_api_v1_alunos_registrar()
         {
             // Arrange
-            var usuario = new RegisterUserViewModel
-            {
-                Nome = "Aluno Teste de Integracao",
-                Email = "teste@teste.com",
-                Password = "Teste@123",
-                ConfirmPassword = "Teste@123"
-            };
+            var usuario = CriarNovoAluno();
 
 
             // Act
@@ -52,11 +46,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
         public async Task HttpPost_api_v1_alunos_login_deve_retornar_OK_para_dados_validos()
         {
             // Arrange
-            var usuario = new LoginUserViewModel
-            {
-                Email = "teste@teste.com",
-                Password = "Teste@123",
-            };
+            var usuario = CriarLoginValido();
 
             // Act
             var response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/alunos/login", usuario);
@@ -71,11 +61,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
         public async Task HttpPost_api_v1_alunos_login_deve_retornar_BadRequest_para_dados_invalidos()
         {
             // Arrange
-            var usuario = new LoginUserViewModel
-            {
-                Email = "testeXteste.com",
-                Password = "Teste@123456",
-            };
+            var usuario = CriarLoginInvalido();
 
             // Act
             var response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/alunos/login", usuario);
@@ -123,8 +109,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
         public async Task HttpGet_api_v1_alunos_login_deve_retornar_Forbidden()
         {
             // Arrange
-            await _testsFixture.RealizarLoginApi();
-            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+            await AutenticarComoAluno();
 
             // Act
             var response = await _testsFixture.Client.GetAsync("/api/v1/alunos/obter_todos");
@@ -139,9 +124,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
         public async Task HttpGet_api_v1_alunos_obter_todos_deve_retornar_OK()
         {
             // Arrange
-
-            await _testsFixture.RealizarLoginAdmimApi();
-            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+            await AutenticarComoAdmin();
 
             // Act
             var response = await _testsFixture.Client.GetAsync("/api/v1/alunos/obter_todos");
@@ -156,10 +139,8 @@ namespace EducaMBAXpert.Api.Tests.Integration
         public async Task HttpGet_api_v1_alunos_obter_aluno_por_id_deve_retornar_OK()
         {
             // Arrange
-
-            await _testsFixture.RealizarLoginAdmimApi();
-            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
-
+            await AutenticarComoAdmin();
+          
             // Act
             var response = await _testsFixture.Client.GetAsync($"/api/v1/alunos/obter/{_testsFixture.IdAluno}");
 
@@ -174,24 +155,10 @@ namespace EducaMBAXpert.Api.Tests.Integration
         {
             // Arrange
 
-            await _testsFixture.RealizarLoginApi();
+            await AutenticarComoAluno();
             var idAluno = _testsFixture.IdAluno;
 
-            EnderecoInputModel enderecoInputModel = new EnderecoInputModel
-            {
-                Rua = "Rua José Bonifácio",
-                Numero = "123",
-                Complemento = "Apto 202",
-                Bairro = "Centro",
-                Cidade = "Sao Paulo",
-                Estado = "SP",
-                Cep = "23564-448",
-                AlunoId = Guid.Parse(idAluno)
-            };
-
-            await _testsFixture.RealizarLoginApi();
-            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
-
+            EnderecoInputModel enderecoInputModel = CriarEndereco(Guid.Parse(idAluno));
 
             // Act
             var response = await _testsFixture.Client.PostAsJsonAsync($"/api/v1/alunos/{idAluno}/enderecos", enderecoInputModel);
@@ -206,26 +173,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         public async Task HttpPost_api_v1_alunos_adicionarEndereco_deve_retornar_NotFound()
         {
             // Arrange
-            await _testsFixture.RealizarLoginApi();
+            await AutenticarComoAluno();
             var idAluno = _testsFixture.IdAluno;
 
-            EnderecoInputModel enderecoInputModel = new EnderecoInputModel
-            {
-                Rua = "Rua José Bonifácio",
-                Numero = "123",
-                Complemento = "Apto 202",
-                Bairro = "Centro",
-                Cidade = "Sao Paulo",
-                Estado = "SP",
-                Cep = "23564-448",
-                AlunoId = Guid.Parse(idAluno)
-            };
+            EnderecoInputModel enderecoInputModel = CriarEndereco(Guid.Parse(idAluno));
 
-            await _testsFixture.RealizarLoginApi();
-            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
 
             // Act
-            var response = await _testsFixture.Client.PostAsJsonAsync($"/api/v1/alunos/{Guid.NewGuid}/enderecos", enderecoInputModel);
+            var response = await _testsFixture.Client.PostAsJsonAsync($"/api/v1/alunos/{Guid.NewGuid()}/enderecos", enderecoInputModel);
 
             // Assert
             Assert.True(response.StatusCode == HttpStatusCode.NotFound,
@@ -238,11 +193,11 @@ namespace EducaMBAXpert.Api.Tests.Integration
         {
             // Arrange
 
-            await _testsFixture.RealizarLoginApi();
+            await AutenticarComoAluno();
             var idAluno = _testsFixture.IdAluno;
 
-            await _testsFixture.RealizarLoginAdmimApi();
-            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+            await AutenticarComoAdmin();
+
 
             // Act
             var response = await _testsFixture.Client.PutAsync($"/api/v1/alunos/{idAluno}/inativar",null);
@@ -258,11 +213,10 @@ namespace EducaMBAXpert.Api.Tests.Integration
         {
             // Arrange
 
-            await _testsFixture.RealizarLoginApi();
+            await AutenticarComoAluno();
             var idAluno = _testsFixture.IdAluno;
 
-            await _testsFixture.RealizarLoginAdmimApi();
-            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+            await AutenticarComoAdmin();
 
             // Act
             var response = await _testsFixture.Client.PutAsync($"/api/v1/alunos/{idAluno}/ativar", null);
@@ -277,10 +231,8 @@ namespace EducaMBAXpert.Api.Tests.Integration
         public async Task HttpPut_api_v1_alunos_inativar_deve_retornar_Forbidden()
         {
             // Arrange
-            await _testsFixture.RealizarLoginApi();
+            await AutenticarComoAluno();
             var idAluno = _testsFixture.IdAluno;
-
-            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
 
             // Act
             var response = await _testsFixture.Client.PutAsync($"/api/v1/alunos/{idAluno}/inativar", null);
@@ -295,10 +247,8 @@ namespace EducaMBAXpert.Api.Tests.Integration
         public async Task HttpPut_api_v1_alunos_ativar_deve_retornar_Forbidden()
         {
             // Arrange
-
+            await AutenticarComoAluno();
             var idAluno = _testsFixture.IdAluno;
-
-            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
 
             // Act
             var response = await _testsFixture.Client.PutAsync($"/api/v1/alunos/{idAluno}/ativar", null);
@@ -308,5 +258,54 @@ namespace EducaMBAXpert.Api.Tests.Integration
                 $"Esperado que o status code fosse Forbidden, mas foi {response.StatusCode}");
         }
 
+
+        private async Task AutenticarComoAluno()
+        {
+            await _testsFixture.RealizarLoginApi();
+            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+        }
+
+        private async Task AutenticarComoAdmin()
+        {
+            await _testsFixture.RealizarLoginAdmimApi();
+            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+        }
+
+        private void LimparToken()
+        {
+            _testsFixture.Client.AtribuirToken("");
+        }
+
+        private RegisterUserViewModel CriarNovoAluno() => new()
+        {
+            Nome = "Aluno Teste de Integracao",
+            Email = "teste@teste.com",
+            Password = "Teste@123",
+            ConfirmPassword = "Teste@123"
+        };
+
+        private LoginUserViewModel CriarLoginValido() => new()
+        {
+            Email = "teste@teste.com",
+            Password = "Teste@123"
+        };
+
+        private LoginUserViewModel CriarLoginInvalido() => new()
+        {
+            Email = "testeXteste.com",
+            Password = "Teste@123456"
+        };
+
+        private EnderecoInputModel CriarEndereco(Guid alunoId) => new()
+        {
+            Rua = "Rua José Bonifácio",
+            Numero = "123",
+            Complemento = "Apto 202",
+            Bairro = "Centro",
+            Cidade = "Sao Paulo",
+            Estado = "SP",
+            Cep = "23564-448",
+            AlunoId = alunoId
+        };
     }
 }

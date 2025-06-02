@@ -9,45 +9,6 @@ namespace EducaMBAXpert.Api.Tests.Integration
 {
     public class TestesApi : TesteIntegracaoBase
     {
-        //[Fact]
-        ////[Fact(DisplayName = "Adicionar Novo Curso"), TestPriority(1)]
-        ////[Trait("Categoria", "Integração API - Pedido")]
-        //public async Task HttpPost_api_v1_catalogo_curso_novo()
-        //{
-        //    // Arrange
-        //    var jsonBody = "{\"example\": \"value\"}";
-        //    var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
-
-        //    // Act
-        //    var response = await TestClient.PostAsync("/api/v1/catalogo_curso/novo", content);
-
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
-        //}
-
-        //[Fact]
-        //public async Task HttpGet_api_v1_catalogo_curso_obter_todos()
-        //{
-        //    // Arrange
-
-        //    // Act
-        //    var response = await TestClient.GetAsync("/api/v1/catalogo_curso/obter_todos");
-
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
-        //}
-
-        //[Fact]
-        //public async Task HttpGet_api_v1_catalogo_curso_obter_id_guid()
-        //{
-        //    // Arrange
-
-        //    // Act
-        //    var response = await TestClient.GetAsync("/api/v1/catalogo_curso/obter/00000000-0000-0000-0000-000000000000");
-
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
-        //}
 
         //[Fact]
         //public async Task HttpPost_api_v1_matriculas_matricular_idAluno_guid()
@@ -161,75 +122,6 @@ namespace EducaMBAXpert.Api.Tests.Integration
 
         //    // Assert
         //    Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
-        //}
-
-
-
-
-        //[Fact]
-        //public async Task HttpPost_api_v1_alunos_id_guid_enderecos()
-        //{
-        //    // Arrange
-        //    var jsonBody = "{\"example\": \"value\"}";
-        //    var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
-
-        //    // Act
-        //    var response = await TestClient.PostAsync("/api/v1/alunos/00000000-0000-0000-0000-000000000000/enderecos", content);
-
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
-        //}
-
-        //[Fact]
-        //public async Task HttpGet_api_v1_alunos_obter_todos()
-        //{
-        //    // Arrange
-
-        //    // Act
-        //    var response = await TestClient.GetAsync("/api/v1/alunos/obter_todos");
-
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
-        //}
-
-        //[Fact]
-        //public async Task HttpGet_api_v1_alunos_obter_id_guid()
-        //{
-        //    // Arrange
-
-        //    // Act
-        //    var response = await TestClient.GetAsync("/api/v1/alunos/obter/00000000-0000-0000-0000-000000000000");
-
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
-        //}
-
-        //[Fact]
-        //public async Task HttpPut_api_v1_alunos_id_guid_inativar()
-        //{
-        //    // Arrange
-        //    var jsonBody = "{\"example\": \"value\"}";
-        //    var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
-
-        //    // Act
-        //    var response = await TestClient.PutAsync("/api/v1/alunos/00000000-0000-0000-0000-000000000000/inativar", content);
-
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
-        //}
-
-        //[Fact]
-        //public async Task HttpPut_api_v1_alunos_id_guid_ativar()
-        //{
-        //    // Arrange
-        //    var jsonBody = "{\"example\": \"value\"}";
-        //    var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
-
-        //    // Act
-        //    var response = await TestClient.PutAsync("/api/v1/alunos/00000000-0000-0000-0000-000000000000/ativar", content);
-
-        //    // Assert
-        //    Assert.True(response.StatusCode == HttpStatusCode.OK , $"Esperado que o status code fosse OK ou BadRequest, mas foi {response.StatusCode}");
         //}
 
     }
