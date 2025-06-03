@@ -23,9 +23,8 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
 
     public class IntegrationTestsFixture<TProgram> : IDisposable where TProgram : class
     {
-
-        public string TokenAluno;
-        public string IdAluno;
+        public string Token;
+        public Guid IdAluno;
 
         public readonly LojaAppFactory<TProgram> Factory;
         public HttpClient Client;
@@ -61,8 +60,8 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
             var contentString = await response.Content.ReadAsStringAsync();
             var usuario = JsonConvert.DeserializeObject<Usuario>(contentString);
 
-            TokenAluno = usuario?.token;
-            IdAluno = usuario?.userId;
+            Token = usuario?.token;
+            IdAluno = Guid.Parse(usuario?.userId);
         }
 
         public async Task RealizarLoginAdmimApi()
@@ -82,8 +81,8 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
             var contentString = await response.Content.ReadAsStringAsync();
             var usuario = JsonConvert.DeserializeObject<Usuario>(contentString);
 
-            TokenAluno = usuario?.token;
-            IdAluno = usuario?.userId;
+            Token = usuario?.token;
+            IdAluno = Guid.Parse(usuario?.userId);
         }
 
 
@@ -102,6 +101,19 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
             return cursos.First().Id;
         }
 
+        public async Task<Guid> ObterIdPrimeiraMatriculaAsync(Guid idAluno)
+        {
+            var response = await Client.GetAsync($"api/v1/matriculas/aluno/{idAluno}/matriculas-ativas");
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+            var cursos = JsonConvert.DeserializeObject<List<CursoViewModel>>(json);
+
+            if (cursos == null || !cursos.Any())
+                throw new Exception("Nenhum curso encontrado na resposta da API.");
+
+            return cursos.First().Id;
+        }
 
 
         public void Dispose()
@@ -119,5 +131,8 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
             [JsonPropertyName("token")]
             public string token { get; set; }
         }
+
+
+
     }
 }

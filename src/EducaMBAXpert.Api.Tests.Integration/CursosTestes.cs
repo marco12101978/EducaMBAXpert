@@ -173,7 +173,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
         private async Task AutenticarComoAdmin()
         {
             await _testsFixture.RealizarLoginAdmimApi();
-            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+            _testsFixture.Client.AtribuirToken(_testsFixture.Token);
         }
         private void LimparToken()
         {

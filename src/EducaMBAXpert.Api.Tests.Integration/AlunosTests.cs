@@ -158,7 +158,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             await AutenticarComoAluno();
             var idAluno = _testsFixture.IdAluno;
 
-            EnderecoInputModel enderecoInputModel = CriarEndereco(Guid.Parse(idAluno));
+            EnderecoInputModel enderecoInputModel = CriarEndereco(idAluno);
 
             // Act
             var response = await _testsFixture.Client.PostAsJsonAsync($"/api/v1/alunos/{idAluno}/enderecos", enderecoInputModel);
@@ -176,7 +176,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             await AutenticarComoAluno();
             var idAluno = _testsFixture.IdAluno;
 
-            EnderecoInputModel enderecoInputModel = CriarEndereco(Guid.Parse(idAluno));
+            EnderecoInputModel enderecoInputModel = CriarEndereco(idAluno);
 
 
             // Act
@@ -262,13 +262,13 @@ namespace EducaMBAXpert.Api.Tests.Integration
         private async Task AutenticarComoAluno()
         {
             await _testsFixture.RealizarLoginApi();
-            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+            _testsFixture.Client.AtribuirToken(_testsFixture.Token);
         }
 
         private async Task AutenticarComoAdmin()
         {
             await _testsFixture.RealizarLoginAdmimApi();
-            _testsFixture.Client.AtribuirToken(_testsFixture.TokenAluno);
+            _testsFixture.Client.AtribuirToken(_testsFixture.Token);
         }
 
         private void LimparToken()
