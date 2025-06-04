@@ -1,9 +1,12 @@
 ﻿using EducaMBAXpert.Alunos.Application.ViewModels;
 using EducaMBAXpert.Api.Tests.Integration.Config;
-using System.Net.Http.Json;
-using System.Net;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace EducaMBAXpert.Api.Tests.Integration
@@ -62,12 +65,12 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await _testsFixture.Client.PostAsJsonAsync($"/api/v1/matriculas/matricular/{idAluno}", matricula);
 
             // Assert
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.True(response.StatusCode == HttpStatusCode.BadRequest, $"Esperado que o status code fosse BadRequest , mas foi {response.StatusCode}");
         }
 
         [Fact(DisplayName = "Listar matrículas inativas do aluno"), TestPriority(2)]
         [Trait("Matricula", "Integração API - Matricula")]
-        public async Task HttpGet_api_v1_matriculas_inativas_ok()
+        public async Task HttpGet_api_v1_matricula_inativas_ok()
         {
             // Arrange
             await Autenticar();
@@ -79,10 +82,32 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var json = await response.Content.ReadAsStringAsync();
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.True(response.StatusCode == HttpStatusCode.OK, $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
-        [Fact(DisplayName = "Verificar certificado deve retornar OK"), TestPriority(3)]
+        [Fact(DisplayName = "Ativar matricular aluno com sucesso"), TestPriority(3)]
+        [Trait("Matricula", "Integração API - Matricula")]
+        public async Task HttpPost_api_v1_matricula_ativar_ok()
+        {
+            // Arrange
+            await Autenticar();
+            var idAluno = _testsFixture.IdAluno;
+
+            var response = await _testsFixture.Client.GetAsync($"/api/v1/matriculas/aluno/{idAluno}/matriculas-inativas");
+            var json = JsonConvert.DeserializeObject<List<MatriculaViewModel>>(await response.Content.ReadAsStringAsync());
+
+            var matriculaId = json.First().Id;
+
+            // Act
+            var response2 = await _testsFixture.Client.PutAsync($"/api/v1/matriculas/aluno/matriculas/{matriculaId}/ativar",null);
+                                                                 
+
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.OK, $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
+        }
+
+
+        [Fact(DisplayName = "Verificar certificado deve retornar OK"), TestPriority(4)]
         [Trait("Matricula", "Integração API - Matricula")]
         public async Task HttpGet_api_v1_matriculas_verificar_certificado_ok()
         {
@@ -94,7 +119,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var response = await _testsFixture.Client.GetAsync($"/api/v1/matriculas/matricula/{idMatricula}/certificado");
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.True(response.StatusCode == HttpStatusCode.OK, $"Esperado que o status code fosse OK , mas foi {response.StatusCode}");
         }
 
         private async Task Autenticar()

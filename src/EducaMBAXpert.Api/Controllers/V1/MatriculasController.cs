@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using EducaMBAXpert.Core.Data;
+using EducaMBAXpert.Core.Messages.CommonMessages.IntegrationEvents;
+using EducaMBAXpert.Pagamentos.Business.Entities;
 
 namespace EducaMBAXpert.Api.Controllers.V1
 {
@@ -24,6 +26,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         private readonly IMatriculaComandoAppService _matriculaComandoAppService;
         private readonly ICursoConsultaService _cursoConsultaService;
         private readonly ICursoConsultaAppService _cursoConsultaAppService;
+        private readonly IMediator _mediator;
 
         public MatriculasController(IMediator mediator,
                                     IAlunoConsultaAppService alunoConsultaAppService,
@@ -41,6 +44,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
             _matriculaComandoAppService = matriculaComandoAppService;
             _cursoConsultaService = cursoConsultaService;
             _cursoConsultaAppService = cursoConsultaAppService;
+            _mediator = mediator;
         }
 
         [HttpPost("matricular/{idAluno:guid}")]
@@ -76,7 +80,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("Aluno/{idAluno:guid}/matriculas-inativas")]
+        [HttpGet("aluno/{idAluno:guid}/matriculas-inativas")]
         [SwaggerOperation(Summary = "Listar matrículas inativas", Description = "Retorna as matrículas inativas por aluno.")]
         [ProducesResponseType(typeof(IEnumerable<MatriculaViewModel>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ObterNaoAtivasPorIdAluno(Guid idAluno)
@@ -84,6 +88,51 @@ namespace EducaMBAXpert.Api.Controllers.V1
             var matriculas = await _alunoConsultaAppService.ObterTodasMatriculasPorAlunoId(idAluno, false);
             return CustomResponse(HttpStatusCode.OK, matriculas);
         }
+
+
+        [HttpPut("aluno/matriculas/{matriculaId}/ativar")]
+        [SwaggerOperation(Summary = "Ativar a matrículas", Description = "Ativar a matrícula sem a necessidade de pagamento.")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> AtivarMatricula(Guid matriculaId)
+        {
+            var _matricula = await _matriculaConsultaAppService.ObterMatricula(matriculaId);
+            if (_matricula == null)
+                return NotFoundResponse("Matrícula não encontrada.");
+
+            if (_matricula.Ativo == true)
+                return NotFoundResponse("Matrícula já se encontra ativa.");
+
+
+            var ativarMatriculaEvent = new AtivarMatriculaEvent(matriculaId);
+
+            await _mediator.Publish(ativarMatriculaEvent);
+
+            return CustomResponse(HttpStatusCode.OK);
+
+        }
+
+        [HttpPut("aluno/matricula/{matriculaId}/inativar")]
+        [SwaggerOperation(Summary = "Inativar a matrículas", Description = "Inativar a matrícula")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> InativarMatricula(Guid matriculaId)
+        {
+            var _matricula = await _matriculaConsultaAppService.ObterMatricula(matriculaId);
+            if (_matricula == null)
+                return NotFoundResponse("Matrícula não encontrada.");
+
+            if (_matricula.Ativo == false)
+                return NotFoundResponse("Matrícula já se encontra ativa.");
+
+            var inativarMatriculaEvent = new InativarMatriculaEvent(matriculaId);
+
+            await _mediator.Publish(inativarMatriculaEvent);
+
+            return CustomResponse(HttpStatusCode.OK);
+
+        }
+
 
         [HttpPost("matricula/{matriculaId}/aula/{aulaId}/concluir")]
         [SwaggerOperation(Summary = "Concluir aula", Description = "Marca uma aula como concluída para a matrícula.")]

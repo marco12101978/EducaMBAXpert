@@ -20,6 +20,7 @@ namespace EducaMBAXpert.Alunos.Data.Repository
         public async Task<Matricula> ObterPorIdAsync(Guid id)
         {
             return await _context.Matriculas
+                .AsNoTracking()
                 .Include(m => m.AulasConcluidas)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }

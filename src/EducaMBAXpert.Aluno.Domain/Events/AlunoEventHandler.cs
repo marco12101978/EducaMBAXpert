@@ -4,7 +4,9 @@ using MediatR;
 
 namespace EducaMBAXpert.Alunos.Domain.Events
 {
-    public class AlunoPagamentoEventHandler : INotificationHandler<PagamentoRealizadoEvent>
+    public class AlunoPagamentoEventHandler : INotificationHandler<PagamentoRealizadoEvent>,
+                                              INotificationHandler<AtivarMatriculaEvent>,
+                                              INotificationHandler<InativarMatriculaEvent>
     {
         private readonly IAlunoRepository _alunoRepository;
 
@@ -23,6 +25,29 @@ namespace EducaMBAXpert.Alunos.Domain.Events
 
             await _alunoRepository.UnitOfWork.Commit();
         }
+
+        public async Task Handle(AtivarMatriculaEvent mensagem, CancellationToken cancellationToken)
+        {
+            Entities.Matricula matricula = await _alunoRepository.ObterMatriculaPorId(mensagem.AggregateID);
+
+            matricula.Ativar();
+
+            _alunoRepository.AtualizarMatricula(matricula);
+
+            await _alunoRepository.UnitOfWork.Commit();
+        }
+
+        public async Task Handle(InativarMatriculaEvent mensagem, CancellationToken cancellationToken)
+        {
+            Entities.Matricula matricula = await _alunoRepository.ObterMatriculaPorId(mensagem.AggregateID);
+
+            matricula.Desativar();
+
+            _alunoRepository.AtualizarMatricula(matricula);
+
+            await _alunoRepository.UnitOfWork.Commit();
+        }
+
     }
 
 }
