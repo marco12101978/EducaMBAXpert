@@ -12,6 +12,7 @@ using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
 using System.Linq;
+using EducaMBAXpert.Alunos.Application.ViewModels;
 
 namespace EducaMBAXpert.Api.Tests.Integration.Config
 {
@@ -101,20 +102,33 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
             return cursos.First().Id;
         }
 
-        public async Task<Guid> ObterIdPrimeiraMatriculaAsync(Guid idAluno)
+        public async Task<MatriculaViewModel> ObterPrimeiraMatriculaAsync(Guid idAluno)
         {
             var response = await Client.GetAsync($"api/v1/matriculas/aluno/{idAluno}/matriculas-ativas");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
-            var cursos = JsonConvert.DeserializeObject<List<CursoViewModel>>(json);
+            var matricula = JsonConvert.DeserializeObject<List<MatriculaViewModel>>(json);
 
-            if (cursos == null || !cursos.Any())
-                throw new Exception("Nenhum curso encontrado na resposta da API.");
+            if (matricula == null || !matricula.Any())
+                throw new Exception("Nenhuma matricula encontrado na resposta da API.");
 
-            return cursos.First().Id;
+            return matricula.First();
         }
 
+        public async Task<CursoViewModel> ObterAulasCursoAsync(Guid idCurso)
+        {
+            var response = await Client.GetAsync($"/api/v1/catalogo_curso/obter/{idCurso}");
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+            var curso = JsonConvert.DeserializeObject<CursoViewModel>(json);
+
+            if (curso == null)
+                throw new Exception("Nenhum curso encontrado na resposta da API.");
+
+            return curso;
+        }
 
         public void Dispose()
         {
