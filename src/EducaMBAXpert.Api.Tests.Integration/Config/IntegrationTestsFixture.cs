@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
 using System.Linq;
 using EducaMBAXpert.Alunos.Application.ViewModels;
+using EducaMBAXpert.Pagamentos.Application.ViewModels;
 
 namespace EducaMBAXpert.Api.Tests.Integration.Config
 {
@@ -44,7 +45,7 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
             Client = Factory.CreateClient(clientOptions);
         }
 
-        public async Task RealizarLoginApi()
+        public async Task RealizarLoginComoUsuario()
         {
             var userData = new LoginUserViewModel
             {
@@ -65,7 +66,7 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
             IdAluno = Guid.Parse(usuario?.userId);
         }
 
-        public async Task RealizarLoginAdmimApi()
+        public async Task RealizarLoginComoAdmim()
         {
             var userData = new LoginUserViewModel
             {
@@ -104,7 +105,7 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
 
         public async Task<MatriculaViewModel> ObterPrimeiraMatriculaAsync(Guid idAluno)
         {
-            var response = await Client.GetAsync($"api/v1/matriculas/aluno/{idAluno}/matriculas-ativas");
+            var response = await Client.GetAsync($"/api/v1/matriculas/aluno/{idAluno}/matriculas-ativas");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
@@ -115,6 +116,22 @@ namespace EducaMBAXpert.Api.Tests.Integration.Config
 
             return matricula.First();
         }
+
+        public async Task<PagamentoViewModel> ObterPrimeiraPagamentoAsync()
+        {
+            var response = await Client.GetAsync($"/api/v1/pagamentos/obter_todos");
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+            var pagamento = JsonConvert.DeserializeObject<List<PagamentoViewModel>>(json);
+
+            if (pagamento == null || !pagamento.Any())
+                throw new Exception("Nenhuma matricula encontrado na resposta da API.");
+
+            return pagamento.First();
+        }
+
+
 
         public async Task<CursoViewModel> ObterAulasCursoAsync(Guid idCurso)
         {

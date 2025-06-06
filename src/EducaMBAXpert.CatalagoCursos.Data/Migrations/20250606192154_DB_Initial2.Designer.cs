@@ -3,6 +3,7 @@ using System;
 using EducaMBAXpert.CatalagoCursos.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducaMBAXpert.CatalagoCursos.Data.Migrations
 {
     [DbContext(typeof(CursoContext))]
-    partial class CursoContextModelSnapshot : ModelSnapshot
+    [Migration("20250606192154_DB_Initial2")]
+    partial class DB_Initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.4");

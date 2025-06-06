@@ -29,18 +29,18 @@ namespace EducaMBAXpert.Alunos.Test
             _mediatrHandlerMock = new Mock<IMediatrHandler>();
             _mapperMock = new Mock<IMapper>();
 
-            _matriculaAppService = new MatriculaAppService(_matriculaRepositoryMock.Object,
-                                                           _cursoConsultaServiceMock.Object,
-                                                           _alunoRepositoryMock.Object,
-                                                           _mediatrHandlerMock.Object,
-                                                            _mapperMock.Object
-            );
+            _matriculaAppService = new MatriculaAppService(
+                _matriculaRepositoryMock.Object,
+                _cursoConsultaServiceMock.Object,
+                _alunoRepositoryMock.Object,
+                _mediatrHandlerMock.Object,
+                _mapperMock.Object);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Concluir aula quando não concluída deve adicionar e commitar")]
+        [Trait("Matricula", "AppService")]
         public async Task ConcluirAula_DeveAdicionarAulaConcluida_QuandoNaoConcluida()
         {
-            // Arrange
             var matriculaId = Guid.NewGuid();
             var aulaId = Guid.NewGuid();
             var matricula = new Matricula(Guid.NewGuid(), Guid.NewGuid());
@@ -49,18 +49,16 @@ namespace EducaMBAXpert.Alunos.Test
             _matriculaRepositoryMock.Setup(r => r.AulaJaConcluida(matriculaId, aulaId)).ReturnsAsync(false);
             _matriculaRepositoryMock.Setup(r => r.UnitOfWork.Commit()).ReturnsAsync(true);
 
-            // Act
             await _matriculaAppService.ConcluirAula(matriculaId, aulaId);
 
-            // Assert
             _matriculaRepositoryMock.Verify(r => r.AdicionarAulaConcluida(It.Is<AulaConcluida>(a => a.AulaId == aulaId)), Times.Once);
             _matriculaRepositoryMock.Verify(r => r.UnitOfWork.Commit(), Times.Once);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Concluir aula já concluída deve publicar notificação")]
+        [Trait("Matricula", "AppService")]
         public async Task ConcluirAula_DevePublicarNotificacao_QuandoAulaJaConcluida()
         {
-            // Arrange
             var matriculaId = Guid.NewGuid();
             var aulaId = Guid.NewGuid();
             var matricula = new Matricula(Guid.NewGuid(), Guid.NewGuid());
@@ -68,65 +66,50 @@ namespace EducaMBAXpert.Alunos.Test
             _matriculaRepositoryMock.Setup(r => r.ObterPorIdAsync(matriculaId)).ReturnsAsync(matricula);
             _matriculaRepositoryMock.Setup(r => r.AulaJaConcluida(matriculaId, aulaId)).ReturnsAsync(true);
 
-            // Act
             await _matriculaAppService.ConcluirAula(matriculaId, aulaId);
 
-            // Assert
             _mediatrHandlerMock.Verify(m => m.PublicarNotificacao(It.Is<DomainNotification>(n =>
                 n.Key == "ConcluirAula" && n.Value.Contains("Aula já se encontra concluida"))), Times.Once);
 
             _matriculaRepositoryMock.Verify(r => r.AdicionarAulaConcluida(It.IsAny<AulaConcluida>()), Times.Never);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Obter matrícula existente deve retornar viewmodel")]
+        [Trait("Matricula", "AppService")]
         public async Task ObterMatricula_DeveRetornarViewModel_QuandoMatriculaExiste()
         {
-            // Arrange
             var matriculaId = Guid.NewGuid();
             var matricula = new Matricula(Guid.NewGuid(), Guid.NewGuid());
-
-            var matriculaVm = new MatriculaViewModel
-            {
-                Id = matriculaId,
-                AlunoId = matricula.AlunoId,
-                CursoId = matricula.CursoId
-            };
+            var matriculaVm = new MatriculaViewModel { Id = matriculaId, AlunoId = matricula.AlunoId, CursoId = matricula.CursoId };
 
             _matriculaRepositoryMock.Setup(r => r.ObterPorIdAsync(matriculaId)).ReturnsAsync(matricula);
-
             _mapperMock.Setup(m => m.Map<MatriculaViewModel>(matricula)).Returns(matriculaVm);
 
-            // Act
             var resultado = await _matriculaAppService.ObterMatricula(matriculaId);
 
-            // Assert
             Assert.NotNull(resultado);
             Assert.Equal(matricula.AlunoId, resultado.AlunoId);
             Assert.Equal(matricula.CursoId, resultado.CursoId);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Obter matrícula inexistente deve retornar null")]
+        [Trait("Matricula", "AppService")]
         public async Task ObterMatricula_DeveRetornarNull_QuandoMatriculaNaoExiste()
         {
-            // Arrange
             var matriculaId = Guid.NewGuid();
 
             _matriculaRepositoryMock.Setup(r => r.ObterPorIdAsync(matriculaId)).ReturnsAsync((Matricula)null);
-
             _mapperMock.Setup(m => m.Map<MatriculaViewModel>(null)).Returns((MatriculaViewModel)null);
 
-            // Act
             var resultado = await _matriculaAppService.ObterMatricula(matriculaId);
 
-            // Assert
             Assert.Null(resultado);
         }
 
-
-        [Fact]
+        [Fact(DisplayName = "Pode emitir certificado deve retornar true se concluído")]
+        [Trait("Matricula", "AppService")]
         public async Task PodeEmitirCertificado_DeveRetornarTrue_SeConcluido()
         {
-            // Arrange
             var matriculaId = Guid.NewGuid();
             var cursoId = Guid.NewGuid();
             var matricula = new Mock<Matricula>(Guid.NewGuid(), cursoId) { CallBase = true };
@@ -135,18 +118,15 @@ namespace EducaMBAXpert.Alunos.Test
             _cursoConsultaServiceMock.Setup(c => c.ObterTotalAulasPorCurso(cursoId)).ReturnsAsync(Result<int>.Ok(10));
             matricula.Setup(m => m.PodeEmitirCertificado(10)).Returns(true);
 
-            // Act
             var podeEmitir = await _matriculaAppService.PodeEmitirCertificado(matriculaId);
 
-            // Assert
             Assert.True(podeEmitir);
         }
 
-
-        [Fact]
+        [Fact(DisplayName = "Gerar certificado PDF deve retornar null se não concluído")]
+        [Trait("Matricula", "AppService")]
         public async Task GerarCertificadoPDF_DeveRetornarNull_SeNaoConcluido()
         {
-            // Arrange
             var matriculaId = Guid.NewGuid();
             var cursoId = Guid.NewGuid();
             var alunoId = Guid.NewGuid();
@@ -156,13 +136,12 @@ namespace EducaMBAXpert.Alunos.Test
             _cursoConsultaServiceMock.Setup(c => c.ObterTotalAulasPorCurso(cursoId)).ReturnsAsync(Result<int>.Ok(10));
             matricula.Setup(m => m.PodeEmitirCertificado(10)).Returns(false);
 
-            // Act
             var resultado = await _matriculaAppService.GerarCertificadoPDF(matriculaId);
 
-            // Assert
             Assert.Null(resultado);
-            _mediatrHandlerMock.Verify(m => m.PublicarNotificacao(It.Is<DomainNotification>(n => n.Key == "GerarCertificadoPDF"
-                                       && n.Value.Contains("Aluno ainda não concluiu"))), Times.Once);
+            _mediatrHandlerMock.Verify(m => m.PublicarNotificacao(It.Is<DomainNotification>(n =>
+                n.Key == "GerarCertificadoPDF" && n.Value.Contains("Aluno ainda não concluiu"))), Times.Once);
         }
     }
+
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EducaMBAXpert.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class DB_Initial : Migration
+    public partial class DB_Initial1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
