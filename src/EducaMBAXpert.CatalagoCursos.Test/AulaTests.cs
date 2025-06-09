@@ -7,6 +7,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
     public class AulaTests
     {
         [Fact(DisplayName = "Criar aula válida")]
+        [Trait("Aula", "Service")]
         public void CriarAula_DeveSerValida()
         {
             // Arrange & Act
@@ -21,6 +22,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Theory(DisplayName = "Título inválido")]
         [InlineData("")]
         [InlineData(null)]
+        [Trait("Aula", "Service")]
         public void CriarAula_TituloInvalido_DeveLancarExcecao(string tituloInvalido)
         {
             // Arrange, Act & Assert
@@ -33,6 +35,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Theory(DisplayName = "URL inválida")]
         [InlineData("")]
         [InlineData(null)]
+        [Trait("Aula", "Service")]
         public void CriarAula_UrlInvalida_DeveLancarExcecao(string urlInvalida)
         {
             var ex = Assert.Throws<DomainException>(() =>
@@ -44,6 +47,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Theory(DisplayName = "Duração inválida")]
         [InlineData(0)]
         [InlineData(-1)]
+        [Trait("Aula", "Service")]
         public void CriarAula_DuracaoInvalida_DeveLancarExcecao(int minutos)
         {
             var ex = Assert.Throws<DomainException>(() =>

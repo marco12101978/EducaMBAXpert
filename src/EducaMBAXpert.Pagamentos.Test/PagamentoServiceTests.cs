@@ -31,6 +31,7 @@ namespace EducaMBAXpert.Pagamentos.Test
         }
 
         [Fact(DisplayName = "Realizar pagamento com sucesso")]
+        [Trait("Pagamento", "Service")]
         public async Task RealizarPagamentoPedido_Sucesso_DeveSalvarECommitar()
         {
             // Arrange
@@ -70,6 +71,7 @@ namespace EducaMBAXpert.Pagamentos.Test
         }
 
         [Fact(DisplayName = "Realizar pagamento negado - não deve salvar ou commitar")]
+        [Trait("Pagamento", "Service")]
         public async Task RealizarPagamentoPedido_Negado_NaoDevePersistir()
         {
             // Arrange
@@ -107,6 +109,7 @@ namespace EducaMBAXpert.Pagamentos.Test
 
 
         [Fact(DisplayName = "Erro ao realizar commit deve propagar exceção")]
+        [Trait("Pagamento", "Service")]
         public async Task RealizarPagamentoPedido_ErroCommit_DeveLancarExcecao()
         {
             // Arrange

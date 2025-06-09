@@ -6,6 +6,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
     public class NivelDificuldadeTests
     {
         [Fact(DisplayName = "Nível de dificuldade deve conter valores esperados")]
+        [Trait("Nivel Dificuldades", "Service")]
         public void Nivel_DeveConterValores()
         {
             Assert.True(Enum.IsDefined(typeof(NivelDificuldade), NivelDificuldade.Iniciante));
@@ -14,6 +15,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         }
 
         [Fact(DisplayName = "Conversão de string para enum deve funcionar")]
+        [Trait("Nivel Dificuldades", "Service")]
         public void Nivel_ConversaoString_DeveFuncionar()
         {
             var nivel = (NivelDificuldade)Enum.Parse(typeof(NivelDificuldade), "Avancado");

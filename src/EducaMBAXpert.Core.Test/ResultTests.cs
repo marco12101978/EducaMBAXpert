@@ -11,6 +11,7 @@ namespace EducaMBAXpert.Core.Test
     public class ResultTests
     {
         [Fact(DisplayName = "Result.Ok deve retornar sucesso sem mensagem")]
+        [Trait("Result", "Core")]
         public void Result_Ok_DeveSerSucesso()
         {
             var result = Result.Ok();
@@ -20,6 +21,7 @@ namespace EducaMBAXpert.Core.Test
         }
 
         [Fact(DisplayName = "Result.Fail deve retornar falha com mensagem")]
+        [Trait("Result", "Core")]
         public void Result_Fail_DeveSerFalha()
         {
             var result = Result.Fail("Erro ao salvar");
@@ -29,6 +31,7 @@ namespace EducaMBAXpert.Core.Test
         }
 
         [Fact(DisplayName = "Result<T>.Ok deve retornar sucesso com dados")]
+        [Trait("Result", "Core")]
         public void ResultT_Ok_DeveRetornarComDados()
         {
             var result = Result<string>.Ok("dados");
@@ -39,6 +42,7 @@ namespace EducaMBAXpert.Core.Test
         }
 
         [Fact(DisplayName = "Result<T>.Fail deve retornar falha com mensagem e sem dados")]
+        [Trait("Result", "Core")]
         public void ResultT_Fail_DeveRetornarComErro()
         {
             var result = Result<string>.Fail("falhou");

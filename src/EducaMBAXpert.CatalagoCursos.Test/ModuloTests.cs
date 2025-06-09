@@ -7,6 +7,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
     public class ModuloTests
     {
         [Fact(DisplayName = "Criar módulo válido")]
+        [Trait("Modulo", "Service")]
         public void CriarModulo_DeveSerValido()
         {
             var modulo = new Modulo("Módulo 1");
@@ -17,6 +18,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Theory(DisplayName = "Nome inválido")]
         [InlineData("")]
         [InlineData(null)]
+        [Trait("Modulo", "Service")]
         public void CriarModulo_NomeInvalido_DeveLancarExcecao(string nome)
         {
             var ex = Assert.Throws<DomainException>(() => new Modulo(nome));
@@ -24,6 +26,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         }
 
         [Fact(DisplayName = "Adicionar aula válida")]
+        [Trait("Modulo", "Service")]
         public void AdicionarAula_Valida_DeveAdicionar()
         {
             var modulo = new Modulo("Módulo de Teste");
@@ -36,6 +39,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         }
 
         [Fact(DisplayName = "Adicionar aula nula deve lançar exceção")]
+        [Trait("Modulo", "Service")]
         public void AdicionarAula_Nula_DeveLancarExcecao()
         {
             var modulo = new Modulo("Módulo");

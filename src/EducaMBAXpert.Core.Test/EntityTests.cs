@@ -13,6 +13,7 @@ namespace EducaMBAXpert.Core.Test
         private class EntityFake : Entity { }
 
         [Fact(DisplayName = "Entidade deve ter ID gerado")]
+        [Trait("Entity", "Core")]
         public void Entidade_DeveGerarId()
         {
             var entidade = new EntityFake();
@@ -20,6 +21,7 @@ namespace EducaMBAXpert.Core.Test
         }
 
         [Fact(DisplayName = "Entidades com mesmo ID devem ser iguais")]
+        [Trait("Entity", "Core")]
         public void Entidades_ComMesmoId_DevemSerIguais()
         {
             var id = Guid.NewGuid();
@@ -32,6 +34,7 @@ namespace EducaMBAXpert.Core.Test
         }
 
         [Fact(DisplayName = "Entidades com IDs diferentes devem ser diferentes")]
+        [Trait("Entity", "Core")]
         public void Entidades_ComIdsDiferentes_DevemSerDiferentes()
         {
             var a = new EntityFake();

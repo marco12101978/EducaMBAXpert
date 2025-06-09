@@ -29,6 +29,7 @@ namespace EducaMBAXpert.Core.Test
         }
 
         [Fact(DisplayName = "ValueObjects com mesmos valores devem ser iguais")]
+        [Trait("ValueObject", "Core")]
         public void ValueObjects_Iguais_DevemSerIguais()
         {
             var a = new Money(100, "BRL");
@@ -39,6 +40,7 @@ namespace EducaMBAXpert.Core.Test
         }
 
         [Fact(DisplayName = "ValueObjects com valores diferentes devem ser diferentes")]
+        [Trait("ValueObject", "Core")]
         public void ValueObjects_Diferentes_DevemSerDiferentes()
         {
             var a = new Money(100, "BRL");

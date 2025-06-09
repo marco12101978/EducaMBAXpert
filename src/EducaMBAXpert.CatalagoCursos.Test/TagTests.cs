@@ -6,6 +6,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
     public class TagTests
     {
         [Fact(DisplayName = "Criar tag válida")]
+        [Trait("Tags", "Service")]
         public void CriarTag_Valida_DeveSerValida()
         {
             var tag = new Tag("backend");
@@ -13,6 +14,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         }
 
         [Fact(DisplayName = "Criar tag com valor nulo deve lançar exceção")]
+        [Trait("Tags", "Service")]
         public void CriarTag_ValorNulo_DeveLancarExcecao()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => new Tag(null));
@@ -20,6 +22,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         }
 
         [Fact(DisplayName = "Tags com mesmo valor devem ser iguais")]
+        [Trait("Tags", "Service")]
         public void Tags_Iguais_DeveRetornarTrue()
         {
             var tag1 = new Tag("frontend");
@@ -29,6 +32,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         }
 
         [Fact(DisplayName = "Tags com valores diferentes devem ser diferentes")]
+        [Trait("Tags", "Service")]
         public void Tags_Diferentes_DeveRetornarFalse()
         {
             var tag1 = new Tag("frontend");

@@ -8,6 +8,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
     {
 
         [Fact(DisplayName = "Criar curso válido")]
+        [Trait("Curso", "Service")]
         public void CriarCurso_DeveSerValido()
         {
             var curso = new Curso("Curso C#", "Aprenda C#", 199.90m, CategoriaCurso.Programacao, NivelDificuldade.Iniciante);
@@ -20,6 +21,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Theory(DisplayName = "Título inválido")]
         [InlineData("")]
         [InlineData(null)]
+        [Trait("Curso", "Service")]
         public void CriarCurso_TituloInvalido_DeveLancarExcecao(string titulo)
         {
             var ex = Assert.Throws<DomainException>(() =>
@@ -31,6 +33,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Theory(DisplayName = "Descrição inválida")]
         [InlineData("")]
         [InlineData(null)]
+        [Trait("Curso", "Service")]
         public void CriarCurso_DescricaoInvalida_DeveLancarExcecao(string descricao)
         {
             var ex = Assert.Throws<DomainException>(() =>
@@ -42,6 +45,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Theory(DisplayName = "Valor inválido")]
         [InlineData(0)]
         [InlineData(-10)]
+        [Trait("Curso", "Service")]
         public void CriarCurso_ValorInvalido_DeveLancarExcecao(decimal valor)
         {
             var ex = Assert.Throws<DomainException>(() =>
@@ -51,6 +55,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         }
 
         [Fact(DisplayName = "Categoria nula")]
+        [Trait("Curso", "Service")]
         public void CriarCurso_CategoriaNula_DeveLancarExcecao()
         {
             var ex = Assert.Throws<DomainException>(() =>
@@ -60,6 +65,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         }
 
         [Fact(DisplayName = "Nível nulo")]
+        [Trait("Curso", "Service")]
         public void CriarCurso_NivelNulo_DeveLancarExcecao()
         {
             var ex = Assert.Throws<DomainException>(() =>
