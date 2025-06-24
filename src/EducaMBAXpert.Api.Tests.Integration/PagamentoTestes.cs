@@ -1,20 +1,16 @@
 ﻿using EducaMBAXpert.Api.Tests.Integration.Config;
-using EducaMBAXpert.CatalagoCursos.Domain.Entities;
 using EducaMBAXpert.Pagamentos.Application.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
 using System.Net;
-using System.Text;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Xunit;
-using System.Net.Http;
-using EducaMBAXpert.Pagamentos.Business.Entities;
 
 namespace EducaMBAXpert.Api.Tests.Integration
 {
-    [TestCaseOrderer("EducaMBAXpert.Api.Tests.Integration.Config.PriorityOrderer", "EducaMBAXpert.Api.Tests.Integration")]
+    [TestCaseOrderer("EducaMBAXpert.Api.Tests.Integration.Config.PriorityOrderer",
+                  "EducaMBAXpert.Api.Tests.Integration")]
     [Collection(nameof(IntegrationWebTestsFixtureCollection))]
     public class PagamentoTestes
     {
@@ -31,6 +27,7 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Pagamento", "Integração API - Pagamento")]
         public async Task ExecutarPagamento_ComTentativas_DeveRetornarNoContent()
         {
+            // Arrange
             await AutenticarComoAdminAsync();
 
             var idAluno = _testsFixture.IdAluno;
@@ -38,17 +35,19 @@ namespace EducaMBAXpert.Api.Tests.Integration
             var inputModel = CriarPagamentoInputModel(idAluno, idMatricula);
 
             HttpResponseMessage response = null;
-            int tentativas;
 
-            for (tentativas = 1; tentativas <= 10; tentativas++)
+            // Act
+            for (int tentativas = 1; tentativas <= 10; tentativas++)
             {
                 response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/pagamentos/pagamento", inputModel);
+
                 if (response.StatusCode == HttpStatusCode.NoContent)
                     break;
 
                 await Task.Delay(1000);
             }
 
+            // Assert
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
@@ -57,14 +56,17 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Pagamento", "Integração API - Pagamento")]
         public async Task ExecutarPagamento_AlunoIdInvalido_DeveRetornarNotFound()
         {
+            // Arrange
             await AutenticarComoAdminAsync();
 
             var idAlunoInvalido = Guid.NewGuid();
             var idMatricula = (await _testsFixture.ObterPrimeiraMatriculaAsync(_testsFixture.IdAluno)).Id;
             var inputModel = CriarPagamentoInputModel(idAlunoInvalido, idMatricula);
 
+            // Act
             var response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/pagamentos/pagamento", inputModel);
 
+            // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
@@ -72,14 +74,17 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Pagamento", "Integração API - Pagamento")]
         public async Task ExecutarPagamento_MatriculaIdInvalido_DeveRetornarNotFound()
         {
+            // Arrange
             await AutenticarComoAdminAsync();
 
             var idAluno = _testsFixture.IdAluno;
             var idMatriculaInvalido = Guid.NewGuid();
             var inputModel = CriarPagamentoInputModel(idAluno, idMatriculaInvalido);
 
+            // Act
             var response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/pagamentos/pagamento", inputModel);
 
+            // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
@@ -90,16 +95,20 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [InlineData("1111222233334444", "00/00", "123", "Expiração inválida")]
         [InlineData("1111222233334444", "11/24", "", "CVV vazio")]
         [InlineData("1111222233334444", "11/24", "abc", "CVV com letras")]
-        public async Task ExecutarPagamento_DadosCartaoInvalidos_DeveRetornarBadRequest(string numeroCartao, string expiracao, string cvv, string descricao)
+        public async Task ExecutarPagamento_DadosCartaoInvalidos_DeveRetornarBadRequest(
+            string numeroCartao, string expiracao, string cvv, string descricao)
         {
+            // Arrange
             await AutenticarComoAdminAsync();
 
             var idAluno = _testsFixture.IdAluno;
             var idMatricula = (await _testsFixture.ObterPrimeiraMatriculaAsync(idAluno)).Id;
             var inputModel = CriarPagamentoInputModel(idAluno, idMatricula, numeroCartao, expiracao, cvv);
 
+            // Act
             var response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/pagamentos/pagamento", inputModel);
 
+            // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
@@ -111,10 +120,13 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Pagamento", "Integração API - Pagamento")]
         public async Task ObterTodosPagamentos_DeveRetornarOK()
         {
+            // Arrange
             await AutenticarComoAdminAsync();
 
+            // Act
             var response = await _testsFixture.Client.GetAsync("/api/v1/pagamentos/obter_todos");
 
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -122,11 +134,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Pagamento", "Integração API - Pagamento")]
         public async Task ObterPagamentoPorId_DeveRetornarOK()
         {
+            // Arrange
             await AutenticarComoAdminAsync();
-
             var idPagamento = (await _testsFixture.ObterPrimeiraPagamentoAsync()).Id;
+
+            // Act
             var response = await _testsFixture.Client.GetAsync($"/api/v1/pagamentos/obter/{idPagamento}");
 
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -138,10 +153,13 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Pagamento", "Integração API - Pagamento")]
         public async Task ObterTodosPagamentos_SemAutenticacao_DeveRetornarUnauthorized()
         {
+            // Arrange
             _testsFixture.Client.AtribuirToken(null);
 
+            // Act
             var response = await _testsFixture.Client.GetAsync("/api/v1/pagamentos/obter_todos");
 
+            // Assert
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -149,11 +167,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Pagamento", "Integração API - Pagamento")]
         public async Task ObterPagamentoPorId_SemAutenticacao_DeveRetornarUnauthorized()
         {
+            // Arrange
             _testsFixture.Client.AtribuirToken(null);
-
             var idPagamento = Guid.NewGuid();
+
+            // Act
             var response = await _testsFixture.Client.GetAsync($"/api/v1/pagamentos/obter/{idPagamento}");
 
+            // Assert
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -165,10 +186,13 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Pagamento", "Integração API - Pagamento")]
         public async Task ObterTodosPagamentos_ComoUsuarioComum_DeveRetornarForbidden()
         {
+            // Arrange
             await AutenticarComoUsuarioAsync();
 
+            // Act
             var response = await _testsFixture.Client.GetAsync("/api/v1/pagamentos/obter_todos");
 
+            // Assert
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -176,11 +200,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Pagamento", "Integração API - Pagamento")]
         public async Task ObterPagamentoPorId_ComoUsuarioComum_DeveRetornarForbidden()
         {
+            // Arrange
             await AutenticarComoUsuarioAsync();
+            var idPagamento = Guid.NewGuid(); 
 
-            var idPagamento = Guid.NewGuid(); // mesmo que exista, não importa: não tem permissão
+            // Act
             var response = await _testsFixture.Client.GetAsync($"/api/v1/pagamentos/obter/{idPagamento}");
 
+            // Assert
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 

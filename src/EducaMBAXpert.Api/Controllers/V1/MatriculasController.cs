@@ -11,6 +11,7 @@ using System.Net;
 using EducaMBAXpert.Core.Data;
 using EducaMBAXpert.Core.Messages.CommonMessages.IntegrationEvents;
 using EducaMBAXpert.Pagamentos.Business.Entities;
+using EducaMBAXpert.Core.Messages.CommonMessages.Queries;
 
 namespace EducaMBAXpert.Api.Controllers.V1
 {
@@ -24,7 +25,6 @@ namespace EducaMBAXpert.Api.Controllers.V1
         private readonly IAlunoConsultaAppService _alunoConsultaAppService;
         private readonly IMatriculaConsultaAppService _matriculaConsultaAppService;
         private readonly IMatriculaComandoAppService _matriculaComandoAppService;
-        private readonly ICursoConsultaService _cursoConsultaService;
         private readonly ICursoConsultaAppService _cursoConsultaAppService;
         private readonly IMediator _mediator;
 
@@ -33,7 +33,6 @@ namespace EducaMBAXpert.Api.Controllers.V1
                                     IAlunoComandoAppService alunoComandoAppService,
                                     IMatriculaConsultaAppService matriculaConsultaAppService,
                                     IMatriculaComandoAppService matriculaComandoAppService,
-                                    ICursoConsultaService cursoConsultaService,
                                     ICursoConsultaAppService cursoConsultaAppService,
                                     NotificationContext notificationContext,
                                     IAppIdentityUser user) : base(mediator, notificationContext, user)
@@ -42,7 +41,6 @@ namespace EducaMBAXpert.Api.Controllers.V1
             _alunoComandoAppService = alunoComandoAppService;
             _matriculaConsultaAppService = matriculaConsultaAppService;
             _matriculaComandoAppService = matriculaComandoAppService;
-            _cursoConsultaService = cursoConsultaService;
             _cursoConsultaAppService = cursoConsultaAppService;
             _mediator = mediator;
         }
@@ -147,8 +145,9 @@ namespace EducaMBAXpert.Api.Controllers.V1
             if (_matriculas.Ativo == false)
                 return NotFoundResponse("Matrícula não ativa.");
 
-            var aulaExiste = await _cursoConsultaService.ExisteAulaNoCurso(_matriculas.CursoId, aulaId);
-            if (!aulaExiste.Data)
+            var aulaExiste = _mediator.Send(new ExisteAulaNoCursoQuery(_matriculas.CursoId, aulaId)) ;
+
+            if (aulaExiste == null || !aulaExiste.Result)
                 return NotFoundResponse("Aula não encontrada no curso.");
 
             await _matriculaComandoAppService.ConcluirAula(matriculaId, aulaId);

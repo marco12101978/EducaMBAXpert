@@ -11,7 +11,8 @@ using Xunit;
 
 namespace EducaMBAXpert.Api.Tests.Integration
 {
-    [TestCaseOrderer("EducaMBAXpert.Api.Tests.Integration.Config.PriorityOrderer", "EducaMBAXpert.Api.Tests.Integration")]
+    [TestCaseOrderer("EducaMBAXpert.Api.Tests.Integration.Config.PriorityOrderer",
+                   "EducaMBAXpert.Api.Tests.Integration")]
     [Collection(nameof(IntegrationWebTestsFixtureCollection))]
     public class AlunosTests
     {
@@ -28,10 +29,13 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task RegistrarAluno_DeveRetornarOK()
         {
+            // Arrange
             var usuario = CriarNovoAluno();
 
+            // Act
             var response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/alunos/registrar", usuario);
 
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -39,10 +43,13 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task LoginAluno_DadosValidos_DeveRetornarOK()
         {
+            // Arrange
             var usuario = CriarLoginValido();
 
+            // Act
             var response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/alunos/login", usuario);
 
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -50,10 +57,13 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task LoginAluno_DadosInvalidos_DeveRetornarBadRequest()
         {
+            // Arrange
             var usuario = CriarLoginInvalido();
 
+            // Act
             var response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/alunos/login", usuario);
 
+            // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
@@ -61,10 +71,17 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task LoginAluno_UsuarioInexistente_DeveRetornarNotFound()
         {
-            var usuario = new LoginUserViewModel { Email = "teste@teste.com", Password = "Teste@123456" };
+            // Arrange
+            var usuario = new LoginUserViewModel
+            {
+                Email = "teste@teste.com",
+                Password = "Teste@123456"
+            };
 
+            // Act
             var response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/alunos/login", usuario);
 
+            // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
@@ -76,10 +93,13 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task ObterTodosAlunos_SemAutenticacao_DeveRetornarUnauthorized()
         {
+            // Arrange
             LimparToken();
 
+            // Act
             var response = await _testsFixture.Client.GetAsync("/api/v1/alunos/obter_todos");
 
+            // Assert
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -87,10 +107,13 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task ObterTodosAlunos_ComoAlunoComum_DeveRetornarForbidden()
         {
+            // Arrange
             await AutenticarComoAluno();
 
+            // Act
             var response = await _testsFixture.Client.GetAsync("/api/v1/alunos/obter_todos");
 
+            // Assert
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -98,10 +121,13 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task ObterTodosAlunos_ComoAdmin_DeveRetornarOK()
         {
+            // Arrange
             await AutenticarComoAdmin();
 
+            // Act
             var response = await _testsFixture.Client.GetAsync("/api/v1/alunos/obter_todos");
 
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -109,10 +135,13 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task ObterAlunoPorId_ComoAdmin_DeveRetornarOK()
         {
+            // Arrange
             await AutenticarComoAdmin();
 
+            // Act
             var response = await _testsFixture.Client.GetAsync($"/api/v1/alunos/obter/{_testsFixture.IdAluno}");
 
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -124,12 +153,15 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task AdicionarEndereco_DeveRetornarNoContent()
         {
+            // Arrange
             await AutenticarComoAluno();
-
             var endereco = CriarEndereco(_testsFixture.IdAluno);
 
-            var response = await _testsFixture.Client.PostAsJsonAsync($"/api/v1/alunos/{_testsFixture.IdAluno}/enderecos", endereco);
+            // Act
+            var response = await _testsFixture.Client.PostAsJsonAsync(
+                $"/api/v1/alunos/{_testsFixture.IdAluno}/enderecos", endereco);
 
+            // Assert
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
 
@@ -137,12 +169,15 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task AdicionarEndereco_AlunoInexistente_DeveRetornarNotFound()
         {
+            // Arrange
             await AutenticarComoAluno();
+            var endereco = CriarEndereco(Guid.NewGuid());
 
-            var endereco = CriarEndereco(_testsFixture.IdAluno);
+            // Act
+            var response = await _testsFixture.Client.PostAsJsonAsync(
+                $"/api/v1/alunos/{Guid.NewGuid()}/enderecos", endereco);
 
-            var response = await _testsFixture.Client.PostAsJsonAsync($"/api/v1/alunos/{Guid.NewGuid()}/enderecos", endereco);
-
+            // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
@@ -154,10 +189,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task InativarAluno_ComoAdmin_DeveRetornarNoContent()
         {
+            // Arrange
             await AutenticarComoAdmin();
 
-            var response = await _testsFixture.Client.PutAsync($"/api/v1/alunos/{_testsFixture.IdAluno}/inativar", null);
+            // Act
+            var response = await _testsFixture.Client.PutAsync(
+                $"/api/v1/alunos/{_testsFixture.IdAluno}/inativar", null);
 
+            // Assert
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
 
@@ -165,10 +204,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task AtivarAluno_ComoAdmin_DeveRetornarNoContent()
         {
+            // Arrange
             await AutenticarComoAdmin();
 
-            var response = await _testsFixture.Client.PutAsync($"/api/v1/alunos/{_testsFixture.IdAluno}/ativar", null);
+            // Act
+            var response = await _testsFixture.Client.PutAsync(
+                $"/api/v1/alunos/{_testsFixture.IdAluno}/ativar", null);
 
+            // Assert
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
 
@@ -176,10 +219,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task InativarAluno_ComoAlunoComum_DeveRetornarForbidden()
         {
+            // Arrange
             await AutenticarComoAluno();
 
-            var response = await _testsFixture.Client.PutAsync($"/api/v1/alunos/{_testsFixture.IdAluno}/inativar", null);
+            // Act
+            var response = await _testsFixture.Client.PutAsync(
+                $"/api/v1/alunos/{_testsFixture.IdAluno}/inativar", null);
 
+            // Assert
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -187,10 +234,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Alunos", "Integração API - Alunos")]
         public async Task AtivarAluno_ComoAlunoComum_DeveRetornarForbidden()
         {
+            // Arrange
             await AutenticarComoAluno();
 
-            var response = await _testsFixture.Client.PutAsync($"/api/v1/alunos/{_testsFixture.IdAluno}/ativar", null);
+            // Act
+            var response = await _testsFixture.Client.PutAsync(
+                $"/api/v1/alunos/{_testsFixture.IdAluno}/ativar", null);
 
+            // Assert
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -210,7 +261,8 @@ namespace EducaMBAXpert.Api.Tests.Integration
             _testsFixture.Client.AtribuirToken(_testsFixture.Token);
         }
 
-        private void LimparToken() => _testsFixture.Client.AtribuirToken(null);
+        private void LimparToken() =>
+            _testsFixture.Client.AtribuirToken(null);
 
         private RegisterUserViewModel CriarNovoAluno() => new()
         {

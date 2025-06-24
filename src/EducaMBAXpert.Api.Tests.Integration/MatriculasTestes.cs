@@ -12,7 +12,8 @@ using Xunit;
 
 namespace EducaMBAXpert.Api.Tests.Integration
 {
-    [TestCaseOrderer("EducaMBAXpert.Api.Tests.Integration.Config.PriorityOrderer", "EducaMBAXpert.Api.Tests.Integration")]
+    [TestCaseOrderer("EducaMBAXpert.Api.Tests.Integration.Config.PriorityOrderer",
+                 "EducaMBAXpert.Api.Tests.Integration")]
     [Collection(nameof(IntegrationWebTestsFixtureCollection))]
     public class MatriculasTestes
     {
@@ -29,14 +30,22 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Matriculas", "Integração API - Matriculas")]
         public async Task MatricularAluno_DeveRetornarNoContent()
         {
+            // Arrange
             await AutenticarComoAdmin();
             var idAluno = _testsFixture.IdAluno;
             var idCurso = await _testsFixture.ObterIdPrimeiroCursoAsync();
 
-            var matricula = new MatriculaInputModel { AlunoId = idAluno, CursoId = idCurso };
+            var matricula = new MatriculaInputModel
+            {
+                AlunoId = idAluno,
+                CursoId = idCurso
+            };
 
-            var response = await _testsFixture.Client.PostAsJsonAsync($"/api/v1/matriculas/matricular/{idAluno}", matricula);
+            // Act
+            var response = await _testsFixture.Client
+                .PostAsJsonAsync($"/api/v1/matriculas/matricular/{idAluno}", matricula);
 
+            // Assert
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
 
@@ -44,12 +53,20 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Matriculas", "Integração API - Matriculas")]
         public async Task MatricularAluno_DadosInvalidos_DeveRetornarBadRequest()
         {
+            // Arrange
             await AutenticarComoAdmin();
 
-            var matricula = new MatriculaInputModel { AlunoId = Guid.NewGuid(), CursoId = await _testsFixture.ObterIdPrimeiroCursoAsync() };
+            var matricula = new MatriculaInputModel
+            {
+                AlunoId = Guid.NewGuid(),
+                CursoId = await _testsFixture.ObterIdPrimeiroCursoAsync()
+            };
 
-            var response = await _testsFixture.Client.PostAsJsonAsync($"/api/v1/matriculas/matricular/{Guid.NewGuid()}", matricula);
+            // Act
+            var response = await _testsFixture.Client
+                .PostAsJsonAsync($"/api/v1/matriculas/matricular/{Guid.NewGuid()}", matricula);
 
+            // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
@@ -61,10 +78,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Matriculas", "Integração API - Matriculas")]
         public async Task ListarMatriculasInativas_DeveRetornarOK()
         {
+            // Arrange
             await AutenticarComoAdmin();
 
-            var response = await _testsFixture.Client.GetAsync($"/api/v1/matriculas/aluno/{_testsFixture.IdAluno}/matriculas-inativas");
+            // Act
+            var response = await _testsFixture.Client
+                .GetAsync($"/api/v1/matriculas/aluno/{_testsFixture.IdAluno}/matriculas-inativas");
 
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -72,16 +93,24 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Matriculas", "Integração API - Matriculas")]
         public async Task AtivarMatricula_DeveRetornarNoContent()
         {
+            // Arrange
             await AutenticarComoAdmin();
 
-            var responseInativas = await _testsFixture.Client.GetAsync($"/api/v1/matriculas/aluno/{_testsFixture.IdAluno}/matriculas-inativas");
-            var matriculas = JsonConvert.DeserializeObject<List<MatriculaViewModel>>(await responseInativas.Content.ReadAsStringAsync());
+            var responseInativas = await _testsFixture.Client
+                .GetAsync($"/api/v1/matriculas/aluno/{_testsFixture.IdAluno}/matriculas-inativas");
+
+            var matriculas = JsonConvert.DeserializeObject<List<MatriculaViewModel>>(
+                await responseInativas.Content.ReadAsStringAsync());
+
             var matriculaId = matriculas.FirstOrDefault()?.Id;
 
             Assert.NotNull(matriculaId);
 
-            var response = await _testsFixture.Client.PutAsync($"/api/v1/matriculas/aluno/matriculas/{matriculaId}/ativar", null);
+            // Act
+            var response = await _testsFixture.Client
+                .PutAsync($"/api/v1/matriculas/aluno/matriculas/{matriculaId}/ativar", null);
 
+            // Assert
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
 
@@ -93,13 +122,18 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Matriculas", "Integração API - Matriculas")]
         public async Task VerificarCertificado_NaoPermitido()
         {
+            // Arrange
             await AutenticarComoAdmin();
-
             var matricula = await _testsFixture.ObterPrimeiraMatriculaAsync(_testsFixture.IdAluno);
-            var response = await _testsFixture.Client.GetAsync($"/api/v1/matriculas/matricula/{matricula.Id}/certificado");
 
-            var resultado = JsonConvert.DeserializeObject<ResponseCertificado>(await response.Content.ReadAsStringAsync());
+            // Act
+            var response = await _testsFixture.Client
+                .GetAsync($"/api/v1/matriculas/matricula/{matricula.Id}/certificado");
 
+            var resultado = JsonConvert.DeserializeObject<ResponseCertificado>(
+                await response.Content.ReadAsStringAsync());
+
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.False(resultado.podeEmitir);
         }
@@ -108,19 +142,23 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Matriculas", "Integração API - Matriculas")]
         public async Task ConcluirAulasMatricula_DeveRetornarSucesso()
         {
+            // Arrange
             await AutenticarComoAdmin();
 
             var matricula = await _testsFixture.ObterPrimeiraMatriculaAsync(_testsFixture.IdAluno);
             var curso = await _testsFixture.ObterAulasCursoAsync(matricula.CursoId);
 
+            // Act & Assert
             foreach (var modulo in curso.Modulos)
             {
                 foreach (var aula in modulo.Aulas)
                 {
                     var endpoint = $"/api/v1/matriculas/matricula/{matricula.Id}/aula/{aula.Id}/concluir";
+
                     var response = await _testsFixture.Client.PostAsync(endpoint, null);
 
-                    Assert.True(response.IsSuccessStatusCode, $"Falha ao concluir aula {aula.Id}. StatusCode: {response.StatusCode}");
+                    Assert.True(response.IsSuccessStatusCode,
+                        $"Falha ao concluir aula {aula.Id}. StatusCode: {response.StatusCode}");
                 }
             }
         }
@@ -129,12 +167,18 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Matriculas", "Integração API - Matriculas")]
         public async Task VerificarCertificado_Permitido()
         {
+            // Arrange
             await AutenticarComoAdmin();
-
             var matricula = await _testsFixture.ObterPrimeiraMatriculaAsync(_testsFixture.IdAluno);
-            var response = await _testsFixture.Client.GetAsync($"/api/v1/matriculas/matricula/{matricula.Id}/certificado");
-            var resultado = JsonConvert.DeserializeObject<ResponseCertificado>(await response.Content.ReadAsStringAsync());
 
+            // Act
+            var response = await _testsFixture.Client
+                .GetAsync($"/api/v1/matriculas/matricula/{matricula.Id}/certificado");
+
+            var resultado = JsonConvert.DeserializeObject<ResponseCertificado>(
+                await response.Content.ReadAsStringAsync());
+
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             Assert.True(resultado.podeEmitir);
         }

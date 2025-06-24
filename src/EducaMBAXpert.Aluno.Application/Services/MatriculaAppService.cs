@@ -9,25 +9,24 @@ using EducaMBAXpert.Core.Bus;
 using EducaMBAXpert.Core.Data;
 using EducaMBAXpert.Core.DomainObjects;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
+using Azure.Core;
+using EducaMBAXpert.Core.Messages.CommonMessages.Queries;
 
 namespace EducaMBAXpert.Alunos.Application.Services
 {
     public class MatriculaAppService : IMatriculaComandoAppService , IMatriculaConsultaAppService
     {
         private readonly IMatriculaRepository _matriculaRepository;
-        private readonly ICursoConsultaService _cursoConsultaService;
         private readonly IAlunoRepository _alunoRepository;
         private readonly IMediatrHandler _mediatrHandler;
         private readonly IMapper _mapper;
 
         public MatriculaAppService(IMatriculaRepository matriculaRepository,
-                                   ICursoConsultaService cursoConsultaService,
                                    IAlunoRepository alunoRepository,
                                    IMediatrHandler mediatrHandler,
                                    IMapper mapper)
         {
             _matriculaRepository = matriculaRepository;
-            _cursoConsultaService = cursoConsultaService;
             _alunoRepository = alunoRepository;
             _mediatrHandler = mediatrHandler;
             _mapper = mapper;
@@ -70,10 +69,9 @@ namespace EducaMBAXpert.Alunos.Application.Services
                                                                                  "Matrícula não encontrada."));
                 return false;
             }
+            var totalAulas = await _mediatrHandler.EnviarQuery<ObterTotalAulasPorCursoQuery, Int32>(new ObterTotalAulasPorCursoQuery(matricula.CursoId));
 
-
-            var totalAulas = await _cursoConsultaService.ObterTotalAulasPorCurso(matricula.CursoId);
-            return matricula.PodeEmitirCertificado(totalAulas.Data);
+            return matricula.PodeEmitirCertificado(Convert.ToInt32(totalAulas));
         }
 
         public async Task<byte[]> GerarCertificadoPDF(Guid matriculaId)
@@ -87,8 +85,11 @@ namespace EducaMBAXpert.Alunos.Application.Services
                 return null;
             }
 
-            var totalAulas = await _cursoConsultaService.ObterTotalAulasPorCurso(matricula.CursoId);
-            if (!matricula.PodeEmitirCertificado(totalAulas.Data))
+            // var totalAulas = await _cursoConsultaService.ObterTotalAulasPorCurso(matricula.CursoId);
+
+            var totalAulas = await _mediatrHandler.EnviarQuery<ObterTotalAulasPorCursoQuery, Int32>(new ObterTotalAulasPorCursoQuery(matricula.CursoId));
+
+            if (!matricula.PodeEmitirCertificado(Convert.ToInt32(totalAulas)))
             {
                 await _mediatrHandler.PublicarNotificacao(new DomainNotification("GerarCertificadoPDF",
                                                                                  "Aluno ainda não concluiu todas as aulas."));
@@ -96,9 +97,10 @@ namespace EducaMBAXpert.Alunos.Application.Services
             }
 
             Aluno aluno = await _alunoRepository.ObterPorId(matricula.AlunoId);
-            Result<string> curso = await _cursoConsultaService.ObterNomeCurso(matricula.CursoId);
 
-            return GerarCertificado(aluno.Nome, curso.Data, DateTime.Now);
+            var nomeCurso = await _mediatrHandler.EnviarQuery<ObterNomeCursoQuery, string>(new ObterNomeCursoQuery(matricula.CursoId));
+
+            return GerarCertificado(aluno.Nome, nomeCurso, DateTime.Now);
         }
 
         public async Task<MatriculaViewModel> ObterMatricula(Guid matriculaId)

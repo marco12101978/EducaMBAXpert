@@ -12,7 +12,8 @@ using Xunit;
 
 namespace EducaMBAXpert.Api.Tests.Integration
 {
-    [TestCaseOrderer("EducaMBAXpert.Api.Tests.Integration.Config.PriorityOrderer", "EducaMBAXpert.Api.Tests.Integration")]
+    [TestCaseOrderer("EducaMBAXpert.Api.Tests.Integration.Config.PriorityOrderer",
+                 "EducaMBAXpert.Api.Tests.Integration")]
     [Collection(nameof(IntegrationWebTestsFixtureCollection))]
     public class CursosTestes
     {
@@ -29,11 +30,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Cursos", "Integração API - Cursos")]
         public async Task AdicionarCurso_ComoAdmin_DeveRetornarOK()
         {
+            // Arrange
             await AutenticarComoAdmin();
             var curso = CriarCursoValido();
 
+            // Act
             var response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/catalogo_curso/novo", curso);
 
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -41,11 +45,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Cursos", "Integração API - Cursos")]
         public async Task AdicionarCurso_SemToken_DeveRetornarUnauthorized()
         {
+            // Arrange
             LimparToken();
             var curso = CriarCursoValido();
 
+            // Act
             var response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/catalogo_curso/novo", curso);
 
+            // Assert
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -53,11 +60,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Cursos", "Integração API - Cursos")]
         public async Task AdicionarCurso_DadosInvalidos_DeveRetornarBadRequest()
         {
+            // Arrange
             await AutenticarComoAdmin();
             var curso = new CursoInputModel();
 
+            // Act
             var response = await _testsFixture.Client.PostAsJsonAsync("/api/v1/catalogo_curso/novo", curso);
 
+            // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
@@ -69,10 +79,13 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Cursos", "Integração API - Cursos")]
         public async Task ObterTodosCursos_ComoAdmin_DeveRetornarOK()
         {
+            // Arrange
             await AutenticarComoAdmin();
 
+            // Act
             var response = await _testsFixture.Client.GetAsync("/api/v1/catalogo_curso/obter_todos");
 
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -80,11 +93,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Cursos", "Integração API - Cursos")]
         public async Task ObterCursoPorId_Existente_DeveRetornarOK()
         {
+            // Arrange
             await AutenticarComoAdmin();
             var idCurso = await _testsFixture.ObterIdPrimeiroCursoAsync();
 
+            // Act
             var response = await _testsFixture.Client.GetAsync($"/api/v1/catalogo_curso/obter/{idCurso}");
 
+            // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -92,10 +108,14 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Cursos", "Integração API - Cursos")]
         public async Task ObterCursoPorId_Inexistente_DeveRetornarNotFound()
         {
+            // Arrange
             await AutenticarComoAdmin();
+            var idInexistente = Guid.NewGuid();
 
-            var response = await _testsFixture.Client.GetAsync($"/api/v1/catalogo_curso/obter/{Guid.NewGuid()}");
+            // Act
+            var response = await _testsFixture.Client.GetAsync($"/api/v1/catalogo_curso/obter/{idInexistente}");
 
+            // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
@@ -103,12 +123,15 @@ namespace EducaMBAXpert.Api.Tests.Integration
         [Trait("Cursos", "Integração API - Cursos")]
         public async Task ObterCursoPorId_SemToken_DeveRetornarUnauthorized()
         {
+            // Arrange
             await AutenticarComoAdmin();
             var idCurso = await _testsFixture.ObterIdPrimeiroCursoAsync();
             LimparToken();
 
+            // Act
             var response = await _testsFixture.Client.GetAsync($"/api/v1/catalogo_curso/obter/{idCurso}");
 
+            // Assert
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -138,27 +161,27 @@ namespace EducaMBAXpert.Api.Tests.Integration
                 Categoria = CategoriaCurso.Programacao,
                 Nivel = NivelDificuldade.Iniciante,
                 Modulos = new List<ModuloInputModel>
+            {
+                new ModuloInputModel
                 {
-                    new ModuloInputModel
+                    Nome = "Introdução ao Design",
+                    Aulas = new List<AulaInputModel>
                     {
-                        Nome = "Introdução ao Design",
-                        Aulas = new List<AulaInputModel>
+                        new AulaInputModel
                         {
-                            new AulaInputModel
-                            {
-                                Titulo = "Princípios do Design",
-                                Duracao = TimeSpan.FromMinutes(40),
-                                Url = "https://example.com/video3"
-                            },
-                            new AulaInputModel
-                            {
-                                Titulo = "Elementos de Interface",
-                                Duracao = TimeSpan.FromMinutes(50),
-                                Url = "https://example.com/video4"
-                            }
+                            Titulo = "Princípios do Design",
+                            Duracao = TimeSpan.FromMinutes(40),
+                            Url = "https://example.com/video3"
+                        },
+                        new AulaInputModel
+                        {
+                            Titulo = "Elementos de Interface",
+                            Duracao = TimeSpan.FromMinutes(50),
+                            Url = "https://example.com/video4"
                         }
                     }
                 }
+            }
             };
         }
 

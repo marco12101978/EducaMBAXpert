@@ -14,6 +14,7 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Categoria", "Service")]
         public void Categoria_DeveConterValores()
         {
+            // Arrange & Act & Assert
             Assert.True(Enum.IsDefined(typeof(CategoriaCurso), CategoriaCurso.Programacao));
             Assert.True(Enum.IsDefined(typeof(CategoriaCurso), CategoriaCurso.Design));
             Assert.True(Enum.IsDefined(typeof(CategoriaCurso), CategoriaCurso.Marketing));
@@ -25,7 +26,13 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Categoria", "Service")]
         public void Categoria_ConversaoString_DeveFuncionar()
         {
-            var categoria = (CategoriaCurso)Enum.Parse(typeof(CategoriaCurso), "Marketing");
+            // Arrange
+            var valor = "Marketing";
+
+            // Act
+            var categoria = (CategoriaCurso)Enum.Parse(typeof(CategoriaCurso), valor);
+
+            // Assert
             Assert.Equal(CategoriaCurso.Marketing, categoria);
         }
     }
