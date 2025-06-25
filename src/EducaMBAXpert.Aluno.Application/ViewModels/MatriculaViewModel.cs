@@ -10,7 +10,9 @@
 
         // Dados da matrícula
         public DateTime DataMatricula { get; set; }
+        public DateTime? DataDeConclusao { get; set; }
         public bool Ativo { get; set; }
+        public decimal PercentualConclusao { get; set; }
 
     }
 }

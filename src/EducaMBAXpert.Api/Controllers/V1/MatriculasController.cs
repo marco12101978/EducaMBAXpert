@@ -1,17 +1,15 @@
-﻿using EducaMBAXpert.Api.Authentication;
-using EducaMBAXpert.CatalagoCursos.Application.Interfaces;
-using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
-using EducaMBAXpert.Alunos.Application.Interfaces;
+﻿using EducaMBAXpert.Alunos.Application.Interfaces;
 using EducaMBAXpert.Alunos.Application.ViewModels;
+using EducaMBAXpert.Api.Authentication;
+using EducaMBAXpert.CatalagoCursos.Application.Interfaces;
+using EducaMBAXpert.Core.Messages.CommonMessages.IntegrationEvents;
+using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
+using EducaMBAXpert.Core.Messages.CommonMessages.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
-using EducaMBAXpert.Core.Data;
-using EducaMBAXpert.Core.Messages.CommonMessages.IntegrationEvents;
-using EducaMBAXpert.Pagamentos.Business.Entities;
-using EducaMBAXpert.Core.Messages.CommonMessages.Queries;
 
 namespace EducaMBAXpert.Api.Controllers.V1
 {
@@ -84,6 +82,16 @@ namespace EducaMBAXpert.Api.Controllers.V1
         public async Task<IActionResult> ObterNaoAtivasPorIdAluno(Guid idAluno)
         {
             var matriculas = await _alunoConsultaAppService.ObterTodasMatriculasPorAlunoId(idAluno, false);
+            return CustomResponse(HttpStatusCode.OK, matriculas);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("{id:guid}")]
+        [SwaggerOperation(Summary = "Obtem a matrícula por Id", Description = "Retorna a matrícula por Id.")]
+        [ProducesResponseType(typeof(IEnumerable<MatriculaViewModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ObterPorId(Guid id)
+        {
+            var matriculas = await _alunoConsultaAppService.ObterMatriculaPorId(id);
             return CustomResponse(HttpStatusCode.OK, matriculas);
         }
 

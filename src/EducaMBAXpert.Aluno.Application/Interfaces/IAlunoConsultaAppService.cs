@@ -7,7 +7,8 @@ namespace EducaMBAXpert.Alunos.Application.Interfaces
         Task<IEnumerable<AlunoViewModel>> ObterTodos();
         Task<AlunoViewModel> ObterPorId(Guid id);
 
-        Task<MatriculaViewModel> ObterMatriculaPorAlunoId(Guid id);
+        Task<MatriculaViewModel> ObterMatriculaPorId(Guid id);
+
         Task<IEnumerable<MatriculaViewModel>> ObterTodasMatriculasPorAlunoId(Guid id, bool ativas);
     }
 }

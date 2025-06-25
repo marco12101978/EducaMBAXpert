@@ -50,7 +50,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
                 return NotFoundResponse("Aluno não encontrado.");
 
 
-            var matricula = await _alunoConsultaAppService.ObterMatriculaPorAlunoId(pagamento.MatriculaId);
+            var matricula = await _alunoConsultaAppService.ObterMatriculaPorId(pagamento.MatriculaId);
             if (matricula == null)
                 return NotFoundResponse("Matrícula no curso não encontrada.");
 

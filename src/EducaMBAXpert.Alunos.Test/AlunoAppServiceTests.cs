@@ -201,7 +201,7 @@ namespace EducaMBAXpert.Alunos.Test
             _mapperMock.Setup(m => m.Map<MatriculaViewModel>(matricula)).Returns(matriculaVm);
 
             // Act
-            var resultado = await _alunoAppService.ObterMatriculaPorAlunoId(alunoId);
+            var resultado = await _alunoAppService.ObterMatriculaPorId(alunoId);
 
             // Assert
             Assert.NotNull(resultado);

@@ -27,7 +27,9 @@ namespace EducaMBAXpert.Alunos.Domain.Entities
         public Guid AlunoId { get; private set; }
         public Guid CursoId { get; private set; }
         public DateTime DataMatricula { get; private set; }
+        public DateTime? DataDeConclusao { get; private set; }
         public bool Ativo { get; private set; }
+        public Decimal PercentualConclusao { get; private set; }
 
         public void Ativar()
         {

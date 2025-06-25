@@ -4,6 +4,7 @@ using EducaMBAXpert.Alunos.Application.Interfaces;
 using EducaMBAXpert.Alunos.Application.ViewModels;
 using EducaMBAXpert.Alunos.Domain.Entities;
 using EducaMBAXpert.Alunos.Domain.Interfaces;
+using EducaMBAXpert.Alunos.Data.Repository;
 
 namespace EducaMBAXpert.Alunos.Application.Services
 {
@@ -90,17 +91,17 @@ namespace EducaMBAXpert.Alunos.Application.Services
             await _alunoRepository.UnitOfWork.Commit();
         }
 
-        public async Task<MatriculaViewModel> ObterMatriculaPorAlunoId(Guid id)
+        public async Task<MatriculaViewModel> ObterMatriculaPorId(Guid id)
         {
             return _mapper.Map<MatriculaViewModel>(await _alunoRepository.ObterMatriculaPorId(id));
         }
 
         public async Task<IEnumerable<MatriculaViewModel>> ObterTodasMatriculasPorAlunoId(Guid id,bool ativas)
         {
+            var xxxx = await _alunoRepository.ObterTodasMatriculasPorAlunoId(id, ativas);
+
             return _mapper.Map<IEnumerable<MatriculaViewModel>>(await _alunoRepository.ObterTodasMatriculasPorAlunoId(id, ativas));
         }
-
-
 
         public void Dispose()
         {
