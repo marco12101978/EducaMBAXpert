@@ -65,8 +65,9 @@ namespace EducaMBAXpert.Alunos.Data.Repository
         public async Task<Matricula?> ObterMatriculaPorId(Guid matriculaId)
         {
             return await _context.Matriculas
-                 .AsNoTracking()
-                 .FirstOrDefaultAsync(m => m.Id == matriculaId);
+                .Include(m => m.AulasConcluidas)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == matriculaId);
         }
 
         public async Task<IEnumerable<Matricula>> ObterTodasMatriculasPorAlunoId(Guid Alunoid,bool ativas)

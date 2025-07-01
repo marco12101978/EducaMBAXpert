@@ -1,4 +1,6 @@
-﻿namespace EducaMBAXpert.Alunos.Application.ViewModels
+﻿using EducaMBAXpert.Alunos.Domain.Entities;
+
+namespace EducaMBAXpert.Alunos.Application.ViewModels
 {
     public class MatriculaViewModel
     {
@@ -13,6 +15,6 @@
         public DateTime? DataDeConclusao { get; set; }
         public bool Ativo { get; set; }
         public decimal PercentualConclusao { get; set; }
-
+        public List<AulaConcluida> AulasConcluidas { get; set; }
     }
 }

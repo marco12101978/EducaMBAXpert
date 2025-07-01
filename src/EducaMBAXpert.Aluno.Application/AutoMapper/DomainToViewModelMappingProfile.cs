@@ -14,6 +14,8 @@ namespace EducaMBAXpert.Alunos.Application.AutoMapper
             CreateMap<Endereco, EnderecoViewModel>();
 
             CreateMap<Matricula, MatriculaViewModel>();
+
+            CreateMap<AulaConcluida, AulaConcluidaViewModel>();
         }
 
     }

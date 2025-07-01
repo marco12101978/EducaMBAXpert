@@ -8,6 +8,7 @@ namespace EducaMBAXpert.Alunos.Application.Interfaces
         Task Atualizar(AlunoInputModel alunoViewModel);
         Task AdicionarEndereco(EnderecoInputModel enderecoViewModel);
         Task AdicionarMatriculaCurso(MatriculaInputModel matriculaInputModel);
+        Task AtualizarMatriculaCurso(MatriculaInputModel matriculaInputModel);
         Task<bool> Inativar(Guid id);
         Task<bool> Ativar(Guid id);
     }

@@ -1,4 +1,5 @@
 ﻿using EducaMBAXpert.Core.DomainObjects;
+using System.Text.Json.Serialization;
 
 namespace EducaMBAXpert.Alunos.Domain.Entities
 {
@@ -8,6 +9,7 @@ namespace EducaMBAXpert.Alunos.Domain.Entities
         public Guid AulaId { get; private set; }
         public DateTime DataConclusao { get; private set; }
 
+        [JsonIgnore]
         public Matricula Matricula { get; private set; }
 
         protected AulaConcluida() { }

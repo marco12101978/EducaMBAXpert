@@ -1,5 +1,6 @@
 ﻿using EducaMBAXpert.Alunos.Application.Interfaces;
 using EducaMBAXpert.Alunos.Application.ViewModels;
+using EducaMBAXpert.Alunos.Domain.Entities;
 using EducaMBAXpert.Api.Authentication;
 using EducaMBAXpert.CatalagoCursos.Application.Interfaces;
 using EducaMBAXpert.Core.Messages.CommonMessages.IntegrationEvents;
@@ -61,6 +62,8 @@ namespace EducaMBAXpert.Api.Controllers.V1
                 return NotFoundResponse("Curso não encontrado.");
 
             await _alunoComandoAppService.AdicionarMatriculaCurso(matricula);
+
+
             return CustomResponse(HttpStatusCode.OK);
         }
 
@@ -88,10 +91,10 @@ namespace EducaMBAXpert.Api.Controllers.V1
         [Authorize(Roles = "Admin")]
         [HttpGet("{id:guid}")]
         [SwaggerOperation(Summary = "Obtem a matrícula por Id", Description = "Retorna a matrícula por Id.")]
-        [ProducesResponseType(typeof(IEnumerable<MatriculaViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(MatriculaViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> ObterPorId(Guid id)
         {
-            var matriculas = await _alunoConsultaAppService.ObterMatriculaPorId(id);
+            MatriculaViewModel matriculas = await _alunoConsultaAppService.ObterMatriculaPorId(id);
             return CustomResponse(HttpStatusCode.OK, matriculas);
         }
 
@@ -159,6 +162,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
                 return NotFoundResponse("Aula não encontrada no curso.");
 
             await _matriculaComandoAppService.ConcluirAula(matriculaId, aulaId);
+
 
             return CustomResponse(HttpStatusCode.OK);
         }

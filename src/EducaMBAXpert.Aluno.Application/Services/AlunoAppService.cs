@@ -91,6 +91,17 @@ namespace EducaMBAXpert.Alunos.Application.Services
             await _alunoRepository.UnitOfWork.Commit();
         }
 
+
+        public async Task AtualizarMatriculaCurso(MatriculaInputModel matriculaInputModel)
+        {
+            var _matricula = _mapper.Map<Matricula>(matriculaInputModel);
+
+            _alunoRepository.AtualizarMatricula(_matricula);
+
+            await _alunoRepository.UnitOfWork.Commit();
+        }
+
+
         public async Task<MatriculaViewModel> ObterMatriculaPorId(Guid id)
         {
             return _mapper.Map<MatriculaViewModel>(await _alunoRepository.ObterMatriculaPorId(id));
@@ -108,7 +119,6 @@ namespace EducaMBAXpert.Alunos.Application.Services
             _alunoRepository?.Dispose();
             _alunoService?.Dispose();
         }
-
 
     }
 }

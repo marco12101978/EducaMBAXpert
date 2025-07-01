@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
-using QuestPDF.Fluent;
-using QuestPDF.Helpers;
 using EducaMBAXpert.Alunos.Application.Interfaces;
 using EducaMBAXpert.Alunos.Application.ViewModels;
 using EducaMBAXpert.Alunos.Domain.Entities;
 using EducaMBAXpert.Alunos.Domain.Interfaces;
 using EducaMBAXpert.Core.Bus;
-using EducaMBAXpert.Core.Data;
-using EducaMBAXpert.Core.DomainObjects;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
-using Azure.Core;
 using EducaMBAXpert.Core.Messages.CommonMessages.Queries;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
 
 namespace EducaMBAXpert.Alunos.Application.Services
 {
@@ -45,6 +42,7 @@ namespace EducaMBAXpert.Alunos.Application.Services
 
             if (!aulaJaConcluida)
             {
+
                 var novaAula = new AulaConcluida(matriculaId, aulaId);
                 await _matriculaRepository.AdicionarAulaConcluida(novaAula);
             }
@@ -55,9 +53,14 @@ namespace EducaMBAXpert.Alunos.Application.Services
                 return;
             }
 
+
+            await AtualizarPercentualConclusao(matricula);
+
             await _matriculaRepository.UnitOfWork.Commit();
 
         }
+
+
 
         public async Task<bool> PodeEmitirCertificado(Guid matriculaId)
         {
@@ -84,8 +87,6 @@ namespace EducaMBAXpert.Alunos.Application.Services
                                                                                  "Matrícula não encontrada."));
                 return null;
             }
-
-            // var totalAulas = await _cursoConsultaService.ObterTotalAulasPorCurso(matricula.CursoId);
 
             var totalAulas = await _mediatrHandler.EnviarQuery<ObterTotalAulasPorCursoQuery, Int32>(new ObterTotalAulasPorCursoQuery(matricula.CursoId));
 
@@ -137,13 +138,24 @@ namespace EducaMBAXpert.Alunos.Application.Services
                 });
             });
 
-
-
-
-
             using var memoryStream = new System.IO.MemoryStream();
             documento.GeneratePdf(memoryStream);
             return memoryStream.ToArray();
+        }
+
+        private async Task AtualizarPercentualConclusao(Matricula matricula)
+        {
+            var totalAulasCurso = await _mediatrHandler.EnviarQuery<ObterTotalAulasPorCursoQuery, Int32>(new ObterTotalAulasPorCursoQuery(matricula.CursoId));
+
+            var aulasConcluidas = matricula.ObterTotalAlunasConcluidas() + 1;
+
+            if (aulasConcluidas > 0 && totalAulasCurso > 0)
+            {
+                decimal percentual = (decimal)aulasConcluidas / totalAulasCurso * 100;
+                matricula.DefinirPercentualConclusao(Math.Round(percentual, 2));
+                _alunoRepository.AtualizarMatricula(matricula);
+                await _alunoRepository.UnitOfWork.Commit();
+            }
         }
     }
 }
