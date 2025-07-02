@@ -21,10 +21,7 @@ namespace EducaMBAXpert.Alunos.Test
             _alunoServiceMock = new Mock<IAlunoService>();
             _mapperMock = new Mock<IMapper>();
 
-            _alunoAppService = new AlunoAppService(
-                _alunoRepositoryMock.Object,
-                _alunoServiceMock.Object,
-                _mapperMock.Object);
+            _alunoAppService = new AlunoAppService( _alunoRepositoryMock.Object, _alunoServiceMock.Object,_mapperMock.Object);
         }
 
         #region Obter

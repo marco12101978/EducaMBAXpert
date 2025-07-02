@@ -3,9 +3,7 @@ using EducaMBAXpert.Api.Tests.Integration.Config;
 using EducaMBAXpert.Api.ViewModels.User;
 using System;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Runtime.InteropServices.ObjectiveC;
 using System.Threading.Tasks;
 using Xunit;
 

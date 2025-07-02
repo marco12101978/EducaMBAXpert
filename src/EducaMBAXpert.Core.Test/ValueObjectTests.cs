@@ -32,22 +32,34 @@ namespace EducaMBAXpert.Core.Test
         [Trait("ValueObject", "Core")]
         public void ValueObjects_Iguais_DevemSerIguais()
         {
-            var a = new Money(100, "BRL");
-            var b = new Money(100, "BRL");
+            // Arrange
+            var amount = 100m;
+            var currency = "BRL";
 
+            // Act
+            var a = new Money(amount, currency);
+            var b = new Money(amount, currency);
+            var saoIguais = a.Equals(b);
+
+            // Assert
             Assert.Equal(a, b);
-            Assert.True(a.Equals(b));
+            Assert.True(saoIguais);
         }
 
         [Fact(DisplayName = "ValueObjects com valores diferentes devem ser diferentes")]
         [Trait("ValueObject", "Core")]
         public void ValueObjects_Diferentes_DevemSerDiferentes()
         {
+            // Arrange
             var a = new Money(100, "BRL");
             var b = new Money(200, "USD");
 
+            // Act
+            var saoIguais = a.Equals(b);
+
+            // Assert
             Assert.NotEqual(a, b);
-            Assert.False(a.Equals(b));
+            Assert.False(saoIguais);
         }
     }
 }

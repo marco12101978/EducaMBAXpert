@@ -1,9 +1,4 @@
 ﻿using EducaMBAXpert.Core.DomainObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace EducaMBAXpert.Core.Test
@@ -14,8 +9,12 @@ namespace EducaMBAXpert.Core.Test
         [Trait("Result", "Core")]
         public void Result_Ok_DeveSerSucesso()
         {
+            // Arrange
+
+            // Act
             var result = Result.Ok();
 
+            // Assert
             Assert.True(result.Success);
             Assert.Null(result.Message);
         }
@@ -24,20 +23,30 @@ namespace EducaMBAXpert.Core.Test
         [Trait("Result", "Core")]
         public void Result_Fail_DeveSerFalha()
         {
-            var result = Result.Fail("Erro ao salvar");
+            // Arrange
+            var mensagem = "Erro ao salvar";
 
+            // Act
+            var result = Result.Fail(mensagem);
+
+            // Assert
             Assert.False(result.Success);
-            Assert.Equal("Erro ao salvar", result.Message);
+            Assert.Equal(mensagem, result.Message);
         }
 
         [Fact(DisplayName = "Result<T>.Ok deve retornar sucesso com dados")]
         [Trait("Result", "Core")]
         public void ResultT_Ok_DeveRetornarComDados()
         {
-            var result = Result<string>.Ok("dados");
+            // Arrange
+            var dados = "dados";
 
+            // Act
+            var result = Result<string>.Ok(dados);
+
+            // Assert
             Assert.True(result.Success);
-            Assert.Equal("dados", result.Data);
+            Assert.Equal(dados, result.Data);
             Assert.Null(result.Message);
         }
 
@@ -45,10 +54,15 @@ namespace EducaMBAXpert.Core.Test
         [Trait("Result", "Core")]
         public void ResultT_Fail_DeveRetornarComErro()
         {
-            var result = Result<string>.Fail("falhou");
+            // Arrange
+            var mensagem = "falhou";
 
+            // Act
+            var result = Result<string>.Fail(mensagem);
+
+            // Assert
             Assert.False(result.Success);
-            Assert.Equal("falhou", result.Message);
+            Assert.Equal(mensagem, result.Message);
             Assert.Null(result.Data);
         }
     }

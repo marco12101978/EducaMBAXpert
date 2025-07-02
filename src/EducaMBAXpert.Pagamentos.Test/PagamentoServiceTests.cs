@@ -23,11 +23,7 @@ namespace EducaMBAXpert.Pagamentos.Test
             _repositoryMock = new Mock<IPagamentoRepository>();
             _mediatorMock = new Mock<IMediatrHandler>();
 
-            _service = new PagamentoService(
-                _facadeMock.Object,
-                _repositoryMock.Object,
-                _mediatorMock.Object
-            );
+            _service = new PagamentoService( _facadeMock.Object,_repositoryMock.Object, _mediatorMock.Object);
         }
 
         [Fact(DisplayName = "Realizar pagamento com sucesso")]
@@ -53,18 +49,17 @@ namespace EducaMBAXpert.Pagamentos.Test
                 StatusTransacao = StatusTransacao.Pago
             };
 
-            _facadeMock
-                .Setup(f => f.RealizarPagamento(It.IsAny<CobrancaCurso>(), It.IsAny<Pagamento>()))
-                .Returns(transacao);
+            _facadeMock.Setup(f => f.RealizarPagamento(It.IsAny<CobrancaCurso>(), It.IsAny<Pagamento>()))
+                       .Returns(transacao);
 
-            _repositoryMock.Setup(r => r.UnitOfWork.Commit()).ReturnsAsync(true);
+            _repositoryMock.Setup(r => r.UnitOfWork.Commit())
+                           .ReturnsAsync(true);
 
             // Act
             var resultado = await _service.RealizarPagamentoPedido(input);
 
             // Assert
             Assert.Equal(StatusTransacao.Pago, resultado.StatusTransacao);
-
             _repositoryMock.Verify(r => r.Adicionar(It.IsAny<Pagamento>()), Times.Once);
             _repositoryMock.Verify(r => r.AdicionarTransacao(transacao), Times.Once);
             _repositoryMock.Verify(r => r.UnitOfWork.Commit(), Times.Once);
@@ -93,20 +88,18 @@ namespace EducaMBAXpert.Pagamentos.Test
                 StatusTransacao = StatusTransacao.Recusado
             };
 
-            _facadeMock
-                .Setup(f => f.RealizarPagamento(It.IsAny<CobrancaCurso>(), It.IsAny<Pagamento>()))
-                .Returns(transacao);
+            _facadeMock.Setup(f => f.RealizarPagamento(It.IsAny<CobrancaCurso>(), It.IsAny<Pagamento>()))
+                       .Returns(transacao);
 
             // Act
             var resultado = await _service.RealizarPagamentoPedido(input);
 
             // Assert
             Assert.Equal(StatusTransacao.Recusado, resultado.StatusTransacao);
-
             _repositoryMock.Verify(r => r.Adicionar(It.IsAny<Pagamento>()), Times.Never);
+            _repositoryMock.Verify(r => r.AdicionarTransacao(It.IsAny<Transacao>()), Times.Never);
             _repositoryMock.Verify(r => r.UnitOfWork.Commit(), Times.Never);
         }
-
 
         [Fact(DisplayName = "Erro ao realizar commit deve propagar exceção")]
         [Trait("Pagamento", "Service")]
@@ -131,19 +124,20 @@ namespace EducaMBAXpert.Pagamentos.Test
                 StatusTransacao = StatusTransacao.Pago
             };
 
-            _facadeMock
-                .Setup(f => f.RealizarPagamento(It.IsAny<CobrancaCurso>(), It.IsAny<Pagamento>()))
-                .Returns(transacao);
+            _facadeMock.Setup(f => f.RealizarPagamento(It.IsAny<CobrancaCurso>(), It.IsAny<Pagamento>()))
+                       .Returns(transacao);
 
-            _repositoryMock
-                .Setup(r => r.UnitOfWork.Commit())
-                .ThrowsAsync(new InvalidOperationException("Erro ao commitar"));
+            _repositoryMock.Setup(r => r.UnitOfWork.Commit())
+                           .ThrowsAsync(new InvalidOperationException("Erro ao commitar"));
 
             // Act & Assert
             var ex = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                _service.RealizarPagamentoPedido(input));
+                     _service.RealizarPagamentoPedido(input));
 
             Assert.Equal("Erro ao commitar", ex.Message);
+            _repositoryMock.Verify(r => r.Adicionar(It.IsAny<Pagamento>()), Times.Once);
+            _repositoryMock.Verify(r => r.AdicionarTransacao(transacao), Times.Once);
+            _repositoryMock.Verify(r => r.UnitOfWork.Commit(), Times.Once);
         }
     }
 }

@@ -18,9 +18,7 @@ namespace EducaMBAXpert.Alunos.Test
             _alunoRepositoryMock = new Mock<IAlunoRepository>();
             _mediatrHandlerMock = new Mock<IMediatrHandler>();
 
-            _alunoService = new AlunoService(
-                _mediatrHandlerMock.Object,
-                _alunoRepositoryMock.Object);
+            _alunoService = new AlunoService(_mediatrHandlerMock.Object, _alunoRepositoryMock.Object);
         }
 
         #region Ativar

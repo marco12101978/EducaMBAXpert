@@ -10,8 +10,14 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Modulo", "Service")]
         public void CriarModulo_DeveSerValido()
         {
-            var modulo = new Modulo("Módulo 1");
-            Assert.Equal("Módulo 1", modulo.Nome);
+            // Arrange
+            var nome = "Módulo 1";
+
+            // Act
+            var modulo = new Modulo(nome);
+
+            // Assert
+            Assert.Equal(nome, modulo.Nome);
             Assert.Empty(modulo.Aulas);
         }
 
@@ -21,7 +27,10 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Modulo", "Service")]
         public void CriarModulo_NomeInvalido_DeveLancarExcecao(string nome)
         {
+            // Arrange & Act
             var ex = Assert.Throws<DomainException>(() => new Modulo(nome));
+
+            // Assert
             Assert.Equal("O campo Nome não pode ser vazio", ex.Message);
         }
 
@@ -29,11 +38,14 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Modulo", "Service")]
         public void AdicionarAula_Valida_DeveAdicionar()
         {
+            // Arrange
             var modulo = new Modulo("Módulo de Teste");
             var aula = new Aula("Aula 1", "https://url.com/aula1", TimeSpan.FromMinutes(20));
 
+            // Act
             modulo.AdicionarAula(aula);
 
+            // Assert
             Assert.Single(modulo.Aulas);
             Assert.Contains(aula, modulo.Aulas);
         }
@@ -42,10 +54,13 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Modulo", "Service")]
         public void AdicionarAula_Nula_DeveLancarExcecao()
         {
+            // Arrange
             var modulo = new Modulo("Módulo");
 
+            // Act
             var ex = Assert.Throws<ArgumentNullException>(() => modulo.AdicionarAula(null));
 
+            // Assert
             Assert.Equal("aula", ex.ParamName);
         }
     }

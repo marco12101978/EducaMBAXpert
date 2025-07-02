@@ -9,15 +9,27 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Tags", "Service")]
         public void CriarTag_Valida_DeveSerValida()
         {
-            var tag = new Tag("backend");
-            Assert.Equal("backend", tag.Valor);
+            // Arrange
+            var valor = "backend";
+
+            // Act
+            var tag = new Tag(valor);
+
+            // Assert
+            Assert.Equal(valor, tag.Valor);
         }
 
         [Fact(DisplayName = "Criar tag com valor nulo deve lançar exceção")]
         [Trait("Tags", "Service")]
         public void CriarTag_ValorNulo_DeveLancarExcecao()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => new Tag(null));
+            // Arrange
+            string valorNulo = null;
+
+            // Act
+            var ex = Assert.Throws<ArgumentNullException>(() => new Tag(valorNulo));
+
+            // Assert
             Assert.Equal("valor", ex.ParamName);
         }
 
@@ -25,9 +37,14 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Tags", "Service")]
         public void Tags_Iguais_DeveRetornarTrue()
         {
-            var tag1 = new Tag("frontend");
-            var tag2 = new Tag("frontend");
+            // Arrange
+            var valor = "frontend";
 
+            // Act
+            var tag1 = new Tag(valor);
+            var tag2 = new Tag(valor);
+
+            // Assert
             Assert.Equal(tag1, tag2);
         }
 
@@ -35,9 +52,15 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Tags", "Service")]
         public void Tags_Diferentes_DeveRetornarFalse()
         {
-            var tag1 = new Tag("frontend");
-            var tag2 = new Tag("backend");
+            // Arrange
+            var valor1 = "frontend";
+            var valor2 = "backend";
 
+            // Act
+            var tag1 = new Tag(valor1);
+            var tag2 = new Tag(valor2);
+
+            // Assert
             Assert.NotEqual(tag1, tag2);
         }
     }

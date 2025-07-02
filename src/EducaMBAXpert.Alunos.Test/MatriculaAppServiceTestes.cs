@@ -26,11 +26,8 @@ namespace EducaMBAXpert.Alunos.Test
             _mediatrHandlerMock = new Mock<IMediatrHandler>();
             _mapperMock = new Mock<IMapper>();
 
-            _matriculaAppService = new MatriculaAppService(
-                                _matriculaRepositoryMock.Object,
-                                _alunoRepositoryMock.Object,
-                                _mediatrHandlerMock.Object,
-                                _mapperMock.Object);
+            _matriculaAppService = new MatriculaAppService(_matriculaRepositoryMock.Object, _alunoRepositoryMock.Object,
+                                                           _mediatrHandlerMock.Object, _mapperMock.Object);
         }
 
         [Fact(DisplayName = "Concluir aula quando não concluída deve adicionar e commitar")]
@@ -55,8 +52,7 @@ namespace EducaMBAXpert.Alunos.Test
             await _matriculaAppService.ConcluirAula(matriculaId, aulaId);
 
             // Assert
-            _matriculaRepositoryMock.Verify(r =>
-                r.AdicionarAulaConcluida(It.Is<AulaConcluida>(a => a.AulaId == aulaId)), Times.Once);
+            _matriculaRepositoryMock.Verify(r => r.AdicionarAulaConcluida(It.Is<AulaConcluida>(a => a.AulaId == aulaId)), Times.Once);
 
             _matriculaRepositoryMock.Verify(r => r.UnitOfWork.Commit(), Times.Once);
         }
@@ -106,7 +102,7 @@ namespace EducaMBAXpert.Alunos.Test
                                     .ReturnsAsync(matricula);
 
             _mapperMock.Setup(m => m.Map<MatriculaViewModel>(matricula))
-                             .Returns(matriculaVm);
+                       .Returns(matriculaVm);
 
             // Act
             var resultado = await _matriculaAppService.ObterMatricula(matriculaId);

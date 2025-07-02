@@ -9,44 +9,84 @@ namespace EducaMBAXpert.Core.Test
         [Trait("Validacoes", "Core")]
         public void ValidarSeIgual_ObjetosIguais_DeveLancarExcecao()
         {
-            var ex = Assert.Throws<DomainException>(() => Validacoes.ValidarSeIgual(10, 10, "Valores iguais"));
+            // Arrange
+            var a = 10;
+            var b = 10;
+            var mensagem = "Valores iguais";
 
-            Assert.Equal("Valores iguais", ex.Message);
+            // Act
+            var ex = Assert.Throws<DomainException>(() =>
+                Validacoes.ValidarSeIgual(a, b, mensagem));
+
+            // Assert
+            Assert.Equal(mensagem, ex.Message);
         }
 
         [Fact(DisplayName = "Validar se objetos diferentes não deve lançar exceção")]
         [Trait("Validacoes", "Core")]
         public void ValidarSeIgual_ObjetosDiferentes_NaoDeveLancar()
         {
-            Validacoes.ValidarSeIgual(10, 20, "Valores iguais");
+            // Arrange
+            var a = 10;
+            var b = 20;
+            var mensagem = "Valores iguais";
+
+            // Act & Assert
+            var exception = Record.Exception(() =>
+                Validacoes.ValidarSeIgual(a, b, mensagem));
+
+            Assert.Null(exception);
         }
 
         [Fact(DisplayName = "Validar se diferentes deve lançar quando objetos não forem iguais")]
         [Trait("Validacoes", "Core")]
         public void ValidarSeDiferente_ObjetosDiferentes_DeveLancarExcecao()
         {
-            var ex = Assert.Throws<DomainException>(() => Validacoes.ValidarSeDiferente(10, 20, "Valores diferentes"));
+            // Arrange
+            var a = 10;
+            var b = 20;
+            var mensagem = "Valores diferentes";
 
-            Assert.Equal("Valores diferentes", ex.Message);
+            // Act
+            var ex = Assert.Throws<DomainException>(() =>
+                Validacoes.ValidarSeDiferente(a, b, mensagem));
+
+            // Assert
+            Assert.Equal(mensagem, ex.Message);
         }
 
         [Fact(DisplayName = "Validar regex com valor inválido deve lançar exceção")]
         [Trait("Validacoes", "Core")]
         public void ValidarSeDiferente_RegexInvalido_DeveLancarExcecao()
         {
-            var pattern = @"^\d{3}$"; // 3 dígitos
-            var ex = Assert.Throws<DomainException>(() =>  Validacoes.ValidarSeDiferente(pattern, "12", "Formato inválido"));
+            // Arrange
+            var _regex = @"^\d{3}$"; // 3 dígitos
+            var input = "12";
+            var mensagem = "Formato inválido";
 
-            Assert.Equal("Formato inválido", ex.Message);
+            // Act
+            var ex = Assert.Throws<DomainException>(() =>
+                Validacoes.ValidarSeDiferente(_regex, input, mensagem));
+
+            // Assert
+            Assert.Equal(mensagem, ex.Message);
         }
 
         [Fact(DisplayName = "Validar tamanho com valor maior que o permitido deve lançar exceção")]
         [Trait("Validacoes", "Core")]
         public void ValidarTamanho_ValorMaior_DeveLancarExcecao()
         {
-            var ex = Assert.Throws<DomainException>(() =>  Validacoes.ValidarTamanho("123456", 5, "Tamanho inválido"));
+            // Arrange
+            var valor = "123456";
+            var tamanhoMaximo = 5;
+            var mensagem = "Tamanho inválido";
 
-            Assert.Equal("Tamanho inválido", ex.Message);
+            // Act
+            var ex = Assert.Throws<DomainException>(() =>
+                Validacoes.ValidarTamanho(valor, tamanhoMaximo, mensagem));
+
+            // Assert
+            Assert.Equal(mensagem, ex.Message);
         }
     }
 }

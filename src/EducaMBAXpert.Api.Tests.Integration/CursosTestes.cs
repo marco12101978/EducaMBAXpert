@@ -1,10 +1,8 @@
 ﻿using EducaMBAXpert.Api.Tests.Integration.Config;
 using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
 using EducaMBAXpert.CatalagoCursos.Domain.Entities;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;

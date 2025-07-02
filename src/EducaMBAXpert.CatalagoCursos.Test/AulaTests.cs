@@ -10,13 +10,18 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Aula", "Service")]
         public void CriarAula_DeveSerValida()
         {
-            // Arrange & Act
-            var aula = new Aula("Introdução ao C#", "https://video.com/introducao", TimeSpan.FromMinutes(10));
+            // Arrange
+            var titulo = "Introdução ao C#";
+            var url = "https://video.com/introducao";
+            var duracao = TimeSpan.FromMinutes(10);
+
+            // Act
+            var aula = new Aula(titulo, url, duracao);
 
             // Assert
-            Assert.Equal("Introdução ao C#", aula.Titulo);
-            Assert.Equal("https://video.com/introducao", aula.Url);
-            Assert.Equal(TimeSpan.FromMinutes(10), aula.Duracao);
+            Assert.Equal(titulo, aula.Titulo);
+            Assert.Equal(url, aula.Url);
+            Assert.Equal(duracao, aula.Duracao);
         }
 
         [Theory(DisplayName = "Título inválido")]
@@ -25,10 +30,15 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Aula", "Service")]
         public void CriarAula_TituloInvalido_DeveLancarExcecao(string tituloInvalido)
         {
-            // Arrange, Act & Assert
-            var ex = Assert.Throws<DomainException>(() =>
-                new Aula(tituloInvalido, "https://video.com/aula", TimeSpan.FromMinutes(5)));
+            // Arrange
+            var url = "https://video.com/aula";
+            var duracao = TimeSpan.FromMinutes(5);
 
+            // Act
+            var ex = Assert.Throws<DomainException>(() =>
+                     new Aula(tituloInvalido, url, duracao));
+
+            // Assert
             Assert.Equal("O campo Titulo não pode ser vazio", ex.Message);
         }
 
@@ -38,9 +48,15 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Aula", "Service")]
         public void CriarAula_UrlInvalida_DeveLancarExcecao(string urlInvalida)
         {
-            var ex = Assert.Throws<DomainException>(() =>
-                new Aula("Aula válida", urlInvalida, TimeSpan.FromMinutes(5)));
+            // Arrange
+            var titulo = "Aula válida";
+            var duracao = TimeSpan.FromMinutes(5);
 
+            // Act
+            var ex = Assert.Throws<DomainException>(() =>
+                     new Aula(titulo, urlInvalida, duracao));
+
+            // Assert
             Assert.Equal("O campo URL não pode ser vazio", ex.Message);
         }
 
@@ -50,9 +66,16 @@ namespace EducaMBAXpert.CatalagoCursos.Test
         [Trait("Aula", "Service")]
         public void CriarAula_DuracaoInvalida_DeveLancarExcecao(int minutos)
         {
-            var ex = Assert.Throws<DomainException>(() =>
-                new Aula("Aula válida", "https://video.com/aula", TimeSpan.FromMinutes(minutos)));
+            // Arrange
+            var titulo = "Aula válida";
+            var url = "https://video.com/aula";
+            var duracao = TimeSpan.FromMinutes(minutos);
 
+            // Act
+            var ex = Assert.Throws<DomainException>(() =>
+                new Aula(titulo, url, duracao));
+
+            // Assert
             Assert.Equal("O Campo Duracao nao pode ser menor ou igual a 0 minutos", ex.Message);
         }
     }
