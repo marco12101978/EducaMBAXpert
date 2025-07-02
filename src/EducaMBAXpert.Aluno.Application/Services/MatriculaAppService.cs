@@ -152,6 +152,13 @@ namespace EducaMBAXpert.Alunos.Application.Services
             if (aulasConcluidas > 0 && totalAulasCurso > 0)
             {
                 decimal percentual = (decimal)aulasConcluidas / totalAulasCurso * 100;
+
+                if (percentual >= 100)
+                {
+                    percentual = 100;
+                    matricula.DefinirDataConclusao(DateTime.Now);
+                }
+
                 matricula.DefinirPercentualConclusao(Math.Round(percentual, 2));
                 _alunoRepository.AtualizarMatricula(matricula);
                 await _alunoRepository.UnitOfWork.Commit();

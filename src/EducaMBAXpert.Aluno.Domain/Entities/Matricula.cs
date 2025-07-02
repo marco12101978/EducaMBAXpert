@@ -61,6 +61,11 @@ namespace EducaMBAXpert.Alunos.Domain.Entities
             PercentualConclusao = percentual;
         }
 
+        public void DefinirDataConclusao(DateTime date)
+        {
+            DataDeConclusao = date;
+        }
+
         public virtual Int32 ObterTotalAlunasConcluidas()
         {
            return _aulasConcluidas.Select(a => a.AulaId).Distinct().Count();
