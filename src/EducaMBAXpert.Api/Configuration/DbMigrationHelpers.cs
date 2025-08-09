@@ -1,16 +1,11 @@
-﻿using EducaMBAXpert.Api.Context;
-using EducaMBAXpert.CatalagoCursos.Application.ViewModels;
+﻿using EducaMBAXpert.Alunos.Data.Context;
+using EducaMBAXpert.Alunos.Domain.Entities;
+using EducaMBAXpert.Api.Context;
 using EducaMBAXpert.CatalagoCursos.Data.Context;
 using EducaMBAXpert.CatalagoCursos.Domain.Entities;
 using EducaMBAXpert.Pagamentos.Data.Context;
-using EducaMBAXpert.Usuarios.Application.ViewModels;
-using EducaMBAXpert.Usuarios.Data.Context;
-using EducaMBAXpert.Usuarios.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.Reflection.Metadata;
-using System.Text.Json.Serialization;
 
 namespace EducaMBAXpert.Api.Configuration
 {
@@ -38,29 +33,37 @@ namespace EducaMBAXpert.Api.Configuration
             var contextId = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             var contextCurso = scope.ServiceProvider.GetRequiredService<CursoContext>();
             var contextPagamento = scope.ServiceProvider.GetRequiredService<PagamentoContext>();
-            var contextUsuario = scope.ServiceProvider.GetRequiredService<UsuarioContext>();
+            var contextAluno = scope.ServiceProvider.GetRequiredService<AlunoContext>();
 
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsEnvironment("Test"))
             {
-                await contextId.Database.MigrateAsync();
-                await contextCurso.Database.MigrateAsync();
-                await contextPagamento.Database.MigrateAsync();
-                await contextUsuario.Database.MigrateAsync();
-
-                await EnsureSeedProducts(serviceProvider,contextId, contextUsuario, contextCurso);
+                await MigrarBancosAsync(contextId, contextCurso, contextPagamento, contextAluno);
+                await EnsureSeedProducts(serviceProvider, contextId, contextAluno, contextCurso);
             }
         }
 
+        private static async Task MigrarBancosAsync(DbContext contextId,
+                                                    DbContext contextCurso,
+                                                    DbContext contextPagamento,
+                                                    DbContext contextAluno)
+        {
+            await contextId.Database.MigrateAsync();
+            await contextCurso.Database.MigrateAsync();
+            await contextPagamento.Database.MigrateAsync();
+            await contextAluno.Database.MigrateAsync();
+        }
+
+
         private static async Task EnsureSeedProducts(IServiceProvider serviceProvider,
                                                      ApplicationDbContext contextId,
-                                                     UsuarioContext contextUsuario,
+                                                     AlunoContext contextAluno,
                                                      CursoContext cursoContext)
         {
             if (contextId.Users.Any())
                 return;
 
 
-            #region Usuario Identity
+            #region Aluno Admin Identity
 
             var id = Guid.NewGuid();
 
@@ -111,26 +114,25 @@ namespace EducaMBAXpert.Api.Configuration
 
             #endregion
 
+            #region Aluno
 
-            #region Usuario
+            var aluno = new Aluno(id: Guid.Parse(user.Id), nome: user.UserName, email: user.Email, ativo: true);
 
-            var usuario = new Usuario(id: Guid.Parse(user.Id), nome: user.UserName, email: user.Email);
+            await contextAluno.Alunos.AddAsync(aluno);
 
-            await contextUsuario.Usuarios.AddAsync(usuario);
-
-            await contextUsuario.SaveChangesAsync();
+            await contextAluno.SaveChangesAsync();
 
 
             #endregion
 
             #region Curso
 
-            Curso curso ;
+            Curso curso;
             Modulo modulo;
             Aula aula;
 
             #region Curso 1
-            curso = new Curso("Explorando novas linguagens de programação", "Uma abordagem moderna para desenvolvimento de software, incluindo práticas de programação e metodologias ágeis.",99.99m,CategoriaCurso.Negocios,NivelDificuldade.Avancado);
+            curso = new Curso("Explorando novas linguagens de programação", "Uma abordagem moderna para desenvolvimento de software, incluindo práticas de programação e metodologias ágeis.", 99.99m, CategoriaCurso.Negocios, NivelDificuldade.Avancado);
             curso.Ativar();
 
             modulo = new Modulo("Fundamentos Básicos");
@@ -269,6 +271,7 @@ namespace EducaMBAXpert.Api.Configuration
 
 
             #endregion
+
         }
     }
 

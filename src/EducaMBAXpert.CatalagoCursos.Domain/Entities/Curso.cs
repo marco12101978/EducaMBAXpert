@@ -5,9 +5,8 @@ namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
 {
     public class Curso : Entity, IAggregateRoot
     {
-        public Curso(string titulo, string descricao,decimal valor, CategoriaCurso categoria, NivelDificuldade nivel)
+        public Curso(string titulo, string descricao,decimal valor, CategoriaCurso? categoria, NivelDificuldade? nivel)
         {
-
             Titulo = titulo;
             Descricao = descricao;
             Categoria = categoria;
@@ -25,8 +24,8 @@ namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
 
         public bool Ativo { get; private set; }
 
-        public CategoriaCurso Categoria { get; private set; }
-        public NivelDificuldade Nivel { get; private set; }
+        public CategoriaCurso? Categoria { get; private set; }
+        public NivelDificuldade? Nivel { get; private set; }
         public TimeSpan DuracaoTotal => CalcularDuracaoTotal();
 
         private readonly List<Modulo> _modulos = new();
@@ -53,8 +52,15 @@ namespace EducaMBAXpert.CatalagoCursos.Domain.Entities
 
         public void Validar()
         {
+            Validacoes.ValidarSeNulo(Categoria,"Categoria é obrigatória");
+            Validacoes.ValidarSeNulo(Nivel, "Nível de dificuldade é obrigatório");
+
             Validacoes.ValidarSeVazio(Titulo, "O campo Titulo não pode ser vazio");
+
+            Validacoes.ValidarSeNulo(Descricao, "O campo Descrição não pode ser vazio");
             Validacoes.ValidarSeVazio(Descricao, "O campo Descrição não pode ser vazio");
+
+            Validacoes.ValidarSeMenorQue(Valor,0.01m, "O valor do curso deve ser maior que zero");
         }
     }
 }

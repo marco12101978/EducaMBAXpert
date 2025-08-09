@@ -55,7 +55,7 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Categoria")
+                    b.Property<int?>("Categoria")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Descricao")
@@ -63,7 +63,7 @@ namespace EducaMBAXpert.CatalagoCursos.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<int>("Nivel")
+                    b.Property<int?>("Nivel")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Titulo")

@@ -43,7 +43,9 @@ namespace EducaMBAXpert.Api
 
             app.MapControllers();
 
+
             app.UseDbMigrationHelper();
+
 
             app.Run();
         }

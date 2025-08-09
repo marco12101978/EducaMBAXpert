@@ -19,7 +19,7 @@ namespace EducaMBAXpert.Pagamentos.Business.Events
             var pagamentoPedido = new PagamentoCurso
             {
                 CursoId = message.PedidoId,
-                ClienteId = message.UsuarioId,
+                ClienteId = message.AlunoId,
                 Total = message.Total,
                 NomeCartao = message.NomeCartao,
                 NumeroCartao = message.NumeroCartao,

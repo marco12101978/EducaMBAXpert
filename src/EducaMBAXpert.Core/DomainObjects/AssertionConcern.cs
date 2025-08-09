@@ -57,7 +57,7 @@ namespace EducaMBAXpert.Core.DomainObjects
             }
         }
 
-        public static void ValidarSeNulo(object object1, string mensagem)
+        public static void ValidarSeNulo(object? object1, string mensagem)
         {
             if (object1 == null)
             {

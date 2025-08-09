@@ -23,6 +23,9 @@ namespace EducaMBAXpert.Pagamentos.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("AlunoId")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("CobrancaCursoId")
                         .HasColumnType("TEXT");
 
@@ -45,9 +48,6 @@ namespace EducaMBAXpert.Pagamentos.Data.Migrations
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
-
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Valor")
                         .HasColumnType("TEXT");

@@ -6,9 +6,6 @@ using EducaMBAXpert.CatalagoCursos.Application.Services;
 using EducaMBAXpert.CatalagoCursos.Data.Repository;
 using EducaMBAXpert.CatalagoCursos.Domain.Interfaces;
 using EducaMBAXpert.CatalagoCursos.Domain.Services;
-using EducaMBAXpert.Certificados.Services;
-using EducaMBAXpert.Contracts.Certificados;
-using EducaMBAXpert.Contracts.Cursos;
 using EducaMBAXpert.Core.Bus;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
 using EducaMBAXpert.Pagamentos.AntiCorruption.Interfaces;
@@ -18,14 +15,15 @@ using EducaMBAXpert.Pagamentos.Application.Services;
 using EducaMBAXpert.Pagamentos.Business.Interfaces;
 using EducaMBAXpert.Pagamentos.Business.Services;
 using EducaMBAXpert.Pagamentos.Data.Repository;
-using EducaMBAXpert.Usuarios.Application.Interfaces;
-using EducaMBAXpert.Usuarios.Application.Services;
-using EducaMBAXpert.Usuarios.Data.Repository;
-using EducaMBAXpert.Usuarios.Domain.Interfaces;
-using EducaMBAXpert.Usuarios.Domain.Services;
+using EducaMBAXpert.Alunos.Application.Interfaces;
+using EducaMBAXpert.Alunos.Application.Services;
+using EducaMBAXpert.Alunos.Data.Repository;
+using EducaMBAXpert.Alunos.Domain.Interfaces;
+using EducaMBAXpert.Alunos.Domain.Services;
 using MediatR;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using EducaMBAXpert.Core.Data;
 
 
 namespace EducaMBAXpert.Api.Configuration
@@ -51,24 +49,19 @@ namespace EducaMBAXpert.Api.Configuration
             services.AddScoped<IAppIdentityUser, AppIdentityUser>();
             services.AddScoped<INotificador, Notificador>();
 
-            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            services.AddScoped<IUsuarioService, UsuarioService>();
-            services.AddScoped<IUsuarioComandoAppService, UsuarioAppService>();
-            services.AddScoped<IUsuarioConsultaAppService, UsuarioAppService>();
+            services.AddScoped<IAlunoRepository, AlunoRepository>();
+            services.AddScoped<IAlunoService, AlunoService>();
+            services.AddScoped<IAlunoComandoAppService, AlunoAppService>();
+            services.AddScoped<IAlunoConsultaAppService, AlunoAppService>();
 
             services.AddScoped<ICursoRepository, CursoRepository>();
             services.AddScoped<ICursoService, CursoService>();
             services.AddScoped<ICursoConsultaAppService, CursoAppService>();
             services.AddScoped<ICursoComandoAppService, CursoAppService>();
 
-            services.AddScoped<ICursoConsultaService, CursoConsultaService>();
-
             services.AddScoped<IMatriculaRepository, MatriculaRepository>();
             services.AddScoped<IMatriculaConsultaAppService, MatriculaAppService>();
             services.AddScoped<IMatriculaComandoAppService, MatriculaAppService>();
-
-            services.AddScoped<ICertificadoConsultaAppService, CertificadoAppService>();
-            services.AddScoped<ICertificadoService, CertificadoService>();
 
             services.AddScoped<IPagamentoConsultaAppService, PagamentoAppService>();
             services.AddScoped<IPagamentoComandoAppService, PagamentoAppService>();
@@ -79,8 +72,6 @@ namespace EducaMBAXpert.Api.Configuration
             services.AddScoped<Pagamentos.AntiCorruption.Interfaces.IConfigurationManager, Pagamentos.AntiCorruption.Services.ConfigurationManager>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-
 
             return services;
         }

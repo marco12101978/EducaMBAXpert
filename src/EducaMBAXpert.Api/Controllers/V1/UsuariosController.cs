@@ -2,9 +2,9 @@
 using EducaMBAXpert.Api.Interfaces;
 using EducaMBAXpert.Api.ViewModels.User;
 using EducaMBAXpert.Core.Messages.CommonMessages.Notifications;
-using EducaMBAXpert.Usuarios.Application.Interfaces;
-using EducaMBAXpert.Usuarios.Application.ViewModels;
-using EducaMBAXpert.Usuarios.Domain.Entities;
+using EducaMBAXpert.Alunos.Application.Interfaces;
+using EducaMBAXpert.Alunos.Application.ViewModels;
+using EducaMBAXpert.Alunos.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -22,46 +22,46 @@ namespace EducaMBAXpert.Api.Controllers.V1
     [Authorize]
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/usuarios")]
-    public class UsuariosController : MainController
+    [Route("api/v{version:apiVersion}/alunos")]
+    public class AlunosController : MainController
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JwtSettings _jwtSettings;
-        private readonly IUsuarioConsultaAppService _usuarioConsultaAppService;
-        private readonly IUsuarioComandoAppService _usuarioComandoAppService;
+        private readonly IAlunoConsultaAppService _alunoConsultaAppService;
+        private readonly IAlunoComandoAppService _alunoComandoAppService;
         private readonly IMediator _mediator;
 
 
-        public UsuariosController(SignInManager<IdentityUser> signInManager,
+        public AlunosController(SignInManager<IdentityUser> signInManager,
                                   UserManager<IdentityUser> userManager,
                                   RoleManager<IdentityRole> roleManager,
                                   IOptions<JwtSettings> jwtSettings,
                                   IAppIdentityUser appIdentityUser,
                                   NotificationContext _notificationContext ,
                                   IMediator mediator,
-                                  IUsuarioConsultaAppService usuarioConsultaAppService,
-                                  IUsuarioComandoAppService usuarioComandoAppService) : base(mediator, _notificationContext, appIdentityUser)
+                                  IAlunoConsultaAppService alunoConsultaAppService,
+                                  IAlunoComandoAppService alunoComandoAppService) : base(mediator, _notificationContext, appIdentityUser)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
             _jwtSettings = jwtSettings.Value;
-            _usuarioConsultaAppService = usuarioConsultaAppService;
-            _usuarioComandoAppService = usuarioComandoAppService;   
+            _alunoConsultaAppService = alunoConsultaAppService;
+            _alunoComandoAppService = alunoComandoAppService;   
             _mediator = mediator;
         }
 
         [AllowAnonymous]
         [HttpPost("registrar")]
-        [SwaggerOperation(Summary = "Registra um novo usuário", Description = "Cria um novo usuário e retorna um token JWT.")]
+        [SwaggerOperation(Summary = "Registra um novo usuário", Description = "Cria um novo aluno e retorna um token JWT.")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Registrar(RegisterUserViewModel registerUser)
         {
             if (registerUser == null)
-                return CustomResponse(HttpStatusCode.BadRequest, "Falha ao registrar o usuário");
+                return CustomResponse(HttpStatusCode.BadRequest, "Falha ao registrar o aluno");
 
             if (!ModelState.IsValid) 
                 return ValidationProblem(ModelState);
@@ -78,7 +78,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
             if (!result.Succeeded)
             {
-                NotificarErro("Falha ao registrar o usuário.");
+                NotificarErro("Falha ao registrar o aluno.");
                 return CustomResponse(HttpStatusCode.InternalServerError);
             }
 
@@ -89,8 +89,8 @@ namespace EducaMBAXpert.Api.Controllers.V1
             await _userManager.AddToRoleAsync(user, "USER");
             await _signInManager.SignInAsync(user, false);
 
-            var usuario = new UsuarioInputModel(id: Guid.Parse(user.Id) ,nome: registerUser.Nome, email: user.Email , ativo:true);
-            await _usuarioComandoAppService.Adicionar(usuario);
+            var aluno = new AlunoInputModel(id: Guid.Parse(user.Id) ,nome: registerUser.Nome, email: user.Email , ativo:true);
+            await _alunoComandoAppService.Adicionar(aluno);
 
             return CustomResponse(HttpStatusCode.OK,(await GerarJwt(user.Email)));
 
@@ -98,7 +98,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
         [AllowAnonymous]
         [HttpPost("login")]
-        [SwaggerOperation(Summary = "Autentica o usuário e retorna o token JWT")]
+        [SwaggerOperation(Summary = "Autentica o aluno e retorna o token JWT")]
         [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -111,7 +111,7 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
             if (!result.Succeeded)
             {
-                NotificarErro("Usuário ou senha incorretos.");
+                NotificarErro("Aluno ou senha incorretos.");
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 
@@ -129,60 +129,60 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
 
         [HttpPost("{id:guid}/enderecos")]
-        [SwaggerOperation(Summary = "Adiciona um endereço ao usuário")]
+        [SwaggerOperation(Summary = "Adiciona um endereço ao aluno")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> AdicionarEndereco(Guid id, [FromBody] EnderecoInputModel endereco)
         {
-            var usuario = await ObterUsuario(id);
-            if (usuario == null)
-                return NotFoundResponse("Usuário não encontrado.");
+            var aluno = await ObterAluno(id);
+            if (aluno == null)
+                return NotFoundResponse("Aluno não encontrado.");
 
-            endereco.UsuarioId = id;
+            endereco.AlunoId = id;
 
-            await _usuarioComandoAppService.AdicionarEndereco(endereco);
+            await _alunoComandoAppService.AdicionarEndereco(endereco);
             return CustomResponse(HttpStatusCode.OK);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet("obter_todos")]
-        [SwaggerOperation(Summary = "Lista todos os usuários")]
-        [ProducesResponseType(typeof(IEnumerable<UsuarioViewModel>), StatusCodes.Status200OK)]
+        [SwaggerOperation(Summary = "Lista todos os alunos")]
+        [ProducesResponseType(typeof(IEnumerable<AlunoViewModel>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ObterTodos()
         {
-            var usuarios = await _usuarioConsultaAppService.ObterTodos();
-            return CustomResponse(HttpStatusCode.OK, usuarios);
+            var alunos = await _alunoConsultaAppService.ObterTodos();
+            return CustomResponse(HttpStatusCode.OK, alunos);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet("obter/{id:guid}")]
-        [SwaggerOperation(Summary = "Obtém um usuário por ID")]
-        [ProducesResponseType(typeof(UsuarioViewModel), StatusCodes.Status200OK)]
+        [SwaggerOperation(Summary = "Obtém um aluno por ID")]
+        [ProducesResponseType(typeof(AlunoViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ObterPorId(Guid id)
         {
-            var usuario = await _usuarioConsultaAppService.ObterPorId(id);
-            if (usuario == null)
+            var aluno = await _alunoConsultaAppService.ObterPorId(id);
+            if (aluno == null)
                 return NotFoundResponse("Usuário não encontrado.");
 
-            return CustomResponse(HttpStatusCode.OK, usuario);
+            return CustomResponse(HttpStatusCode.OK, aluno);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id:guid}/inativar")]
-        [SwaggerOperation(Summary = "Inativa um usuário")]
+        [SwaggerOperation(Summary = "Inativa um aluno")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Inativar(Guid id)
         {
-            var usuario = await ObterUsuario(id);
-            if (usuario == null)
-                return NotFoundResponse("Usuário não encontrado.");
+            var aluno = await ObterAluno(id);
+            if (aluno == null)
+                return NotFoundResponse("Aluno não encontrado.");
 
-            var resultado = await _usuarioComandoAppService.Inativar(id);
+            var resultado = await _alunoComandoAppService.Inativar(id);
             if (!resultado)
             {
-                NotificarErro("Não foi possível inativar o usuário.");
+                NotificarErro("Não foi possível inativar o aluno.");
                 return CustomResponse(HttpStatusCode.BadRequest);
             }
 
@@ -191,23 +191,23 @@ namespace EducaMBAXpert.Api.Controllers.V1
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id:guid}/ativar")]
-        [SwaggerOperation(Summary = "Ativa um usuário", Description = "Ativa o usuário informado.")]
+        [SwaggerOperation(Summary = "Ativa um aluno", Description = "Ativa o aluno informado.")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Ativar(Guid id)
         {
-            var usuario = await ObterUsuario(id);
-            if (usuario == null)
+            var aluno = await ObterAluno(id);
+            if (aluno == null)
             {
-                NotificarErro("Usuário não encontrado.");
+                NotificarErro("Aluno não encontrado.");
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 
-            var resultado = await _usuarioComandoAppService.Ativar(id);
+            var resultado = await _alunoComandoAppService.Ativar(id);
             if (!resultado)
             {
-                NotificarErro("Não foi possível ativar o usuário.");
+                NotificarErro("Não foi possível ativar o aluno.");
                 return CustomResponse(HttpStatusCode.NotFound);
             }
 
@@ -250,15 +250,15 @@ namespace EducaMBAXpert.Api.Controllers.V1
             return encodedToken;
         }
 
-        private async Task<UsuarioViewModel?> ObterUsuario(Guid id)
+        private async Task<AlunoViewModel?> ObterAluno(Guid id)
         {
-            UsuarioViewModel usuario = await _usuarioConsultaAppService.ObterPorId(id);
-            if (usuario == null)
+            AlunoViewModel aluno = await _alunoConsultaAppService.ObterPorId(id);
+            if (aluno == null)
             {
                 return null;
             }
 
-            return usuario;
+            return aluno;
         }
 
         private IActionResult NotFoundResponse(string message)

@@ -33,5 +33,10 @@ namespace EducaMBAXpert.Core.Bus
         {
             await _mediator.Publish(notificacao);
         }
+
+        public Task<TResult> EnviarQuery<TQuery, TResult>(TQuery query) where TQuery : IRequest<TResult>
+        {
+            return _mediator.Send(query);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace EducaMBAXpert.Pagamentos.Application.ViewModels
         public Guid MatriculaId { get; set; }
 
         [Required(ErrorMessage = "O Id do cliente é obrigatório.")]
-        public Guid UsuarioId { get; set; }
+        public Guid AlunoId { get; set; }
 
         [Required(ErrorMessage = "O valor total é obrigatório.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "O valor total deve ser maior que zero.")]
@@ -28,6 +28,7 @@ namespace EducaMBAXpert.Pagamentos.Application.ViewModels
 
         [Required(ErrorMessage = "O código de segurança do cartão é obrigatório.")]
         [StringLength(4, MinimumLength = 3, ErrorMessage = "O código de segurança (CVV) deve ter 3 ou 4 dígitos.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "O código de segurança deve conter apenas números.")]
         public string CvvCartao { get; set; }
     }
 }

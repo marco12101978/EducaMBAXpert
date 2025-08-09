@@ -5,7 +5,7 @@ namespace EducaMBAXpert.Pagamentos.Business.Entities
     public class Pagamento : Entity, IAggregateRoot
     {
         public Guid CobrancaCursoId { get; set; }
-        public Guid UsuarioId { get; set; }
+        public Guid AlunoId { get; set; }
         public string Status { get; set; }
         public decimal Valor { get; set; }
 
